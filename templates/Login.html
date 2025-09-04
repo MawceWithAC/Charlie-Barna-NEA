@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+{% block content %}
+    <body class="body">
+    <p> This Is The Login Page <p>
+    {% if loginAttempts != "0" %}
+
+    {% endif %}
+    <div>
+        <form method="POST"
+              action="{{ url_for('CheckLogin') }}">
+            <input type="text"
+                   name="username"
+                   placeholder="Username">
+            <input type="password"
+                   name="password"
+                   placeholder="Password">
+            <button type="submit">submit</button>
+        </form>
+    </div>
+    </body>
+
+{% endblock %}
