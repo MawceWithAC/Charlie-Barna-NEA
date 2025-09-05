@@ -12,7 +12,15 @@
         sed vestibulum purus tempus aenean neque aliquam curae vivamus purus egestas ligula tincidunt nullam.
     </p>
     <p>
+	{% if User == ""%}
     <a href="/login">Login</a>
+	{%elif User == "ADMIN"%}
+	You are an admin
+	{%else%}
+	<a href="/LogOut">LogOut<a>
+	{%endif%}
+	
+	
     </p>
     </body>
 

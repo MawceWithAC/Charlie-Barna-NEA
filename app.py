@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request
 from os import urandom
 from flask_caching import Cache
@@ -8,6 +7,7 @@ app.config["CACHE_TYPE"] = "SimpleCache"
 app.config["CACHE_DEFAULT_TIMEOUT"] = 300000 # timeout in seconds
 user = "John Doe"
 cache = Cache(app)
+
 class User:
     User = ""
     Pass = ""
@@ -61,6 +61,13 @@ def CheckLogin():
                     cache.set("username", i.User)
                     #print("LoggedIn")
                     return app.redirect("/home", 302)
+    return app.redirect("/login",302)
+
+@app.route("/LogOut")
+def LogOut():
+    cache.set("username", None)
     return app.redirect("/home",302)
+
+
 if __name__ == '__main__':
     app.run()
