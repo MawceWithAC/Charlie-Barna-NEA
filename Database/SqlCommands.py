@@ -17,6 +17,6 @@ FindAccountByLogin = Query("SELECT * FROM Account WHERE Username = '{}' AND Pass
 FindAccountByID = Query("SELECT * FROM Account WHERE AccountID = {}"
                         , ["ID"])
 
-AddUserToDatabase = Query("INSERT INTO Account VALUES('{}','{}','{}','{}',0)"
+AddUserToDatabase = Query("INSERT INTO Account VALUES({},'{}','{}','{}',0)"
                           ,["UserID","Name","Username","Password"])
 

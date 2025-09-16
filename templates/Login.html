@@ -2,6 +2,9 @@
 {% block content %}
     <body class="body">
     <p> <large>Login</large><p>
+        {% for mesg in get_flashed_messages() %}
+      <p>{{ mesg }}</p>
+      {% endfor %}
     <div>
         <form method="POST"
               action="{{ url_for('CheckLogin') }}">
@@ -11,8 +14,13 @@
             <input type="password"
                    name="password"
                    placeholder="Password">
-            <button type="submit">submit</button>
+            <large><button type="submit">submit</button></large>
         </form>
+    </div>
+    <br>
+    <br>
+    <div>
+        <p><large> NO ACCOUNT? &nbsp; <a href="/createaccount"> Create account </a></large></p>
     </div>
     </body>
 

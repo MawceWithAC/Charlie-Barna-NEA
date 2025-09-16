@@ -8,11 +8,13 @@ def GetLastUserID():
         return Result
 
 def AddUserToDatabase(Values: list):
-    #In the Format of ID NAME USERNAME(LOWERCASE) PASSWORD
+    #In the Format of NAME USERNAME(LOWERCASE) PASSWORD
     #It adds a new User To The Database
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
+        Values.insert(0,int(GetLastUserID()[0])+1)
         try:
+            print(SqlCommands.AddUserToDatabase.ReturnQuery(Values))
             Cursor.execute(SqlCommands.AddUserToDatabase.ReturnQuery(Values))
             return 201
         except Exception as e:
@@ -81,6 +83,6 @@ def CheckLogin(Username:str, Password: str):
     return 0
 
 
-print(AddUserToDatabase(["3","John","ieatkids","Testing23"]))
-print(DeleteAccount(3))
+#print(AddUserToDatabase(["John","ieatkids","Testing23"]))
+#print(DeleteAccount(3))
 print(GetAllAcounts())

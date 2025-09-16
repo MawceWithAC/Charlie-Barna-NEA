@@ -2,7 +2,8 @@
 {% block content %}
     <body class="body">
     <!-- {{ super() }} -->
-
+      {% for mesg in get_flashed_messages() %}
+      {% endfor %}
 	{%if ID != 0 %}
     <p> <large>Hello {{ User  }} With ID {{ ID }}</large></p>
 	

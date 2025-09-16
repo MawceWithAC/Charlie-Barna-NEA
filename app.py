@@ -1,6 +1,7 @@
+
 from Database import DatabaseHandler
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,flash
 #from os import urandom
 from flask_caching import Cache
 
@@ -36,6 +37,7 @@ def onload():  # put application's code here
     return app.redirect("/home",302)
 @app.route("/home")
 def homepage():
+    flash("Testing")
     userId = cache.get("id")
     UserNameToShow = ""
     if userId is None:
@@ -75,16 +77,30 @@ def CheckLogin():
 def LogOut():
     cache.clear()
     return app.redirect("/home",302)
-@app.route("/CreateAccount")
+@app.route("/createaccount")
 def CreateAccount():
     return render_template("CreateAccount.html")
-
 @app.route("/CreateAccountCheck", methods = ["POST"])
 def CreateAccountCheck():
     if request.method == "POST":
-        User = request.form.get("username")
+        Name = request.form.get("Name").lower()
+        User = request.form.get("username").lower()
         Pass = request.form.get("password")
         Pass2 = request.form.get("password2")
+        if Pass != Pass2:
+            flash("Both Passwords Must Be The Same")
+        else:
+            AddAccount = DatabaseHandler.AddUserToDatabase([Name,User,Pass])
+            if AddAccount == 201:
+                flash("Sucsesfully Created Account")
+                return app.redirect("/login",302)
+            elif AddAccount == 409:
+                flash("UserName Already Taken!")
+
+
+        return app.redirect("/createaccount",302)
+
+    return app.redirect("/createaccount",400)
 
 if __name__ == '__main__':
     app.run()

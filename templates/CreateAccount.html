@@ -2,10 +2,15 @@
 {% block content %}
     <body class="body">
     <p> <large>Create Account</large><p>
-
+        {% for mesg in get_flashed_messages() %}
+      <h1>{{ mesg }}</h1>
+      {% endfor %}
     <div>
         <form method="POST"
               action="{{ url_for('CreateAccountCheck') }}">
+            <input type="text"
+                   name="Name"
+                   placeholder="Name">
             <input type="text"
                    name="username"
                    placeholder="Username">
@@ -14,13 +19,15 @@
                    placeholder="Password">
             <input type="password"
                    name="password2"
-                   placeholder="Please Enter Password AgainPassword">
-            <button type="submit">submit</button>
+                   placeholder="Please Enter Password Again">
+            <large><button type="submit">submit</button></large>
         </form>
     </div>
     <br>
     <br>
-    <p></p>
+    <div>
+        <p><large>Have An Account Already?&nbsp; <a href="/login">Login</a></large></p>
+    </div>
     </body>
 
 {% endblock %}
