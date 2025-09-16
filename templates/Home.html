@@ -3,7 +3,12 @@
     <body class="body">
     <!-- {{ super() }} -->
 
-    <p> Hello {{ User  }}
+	{%if ID != 0 %}
+    <p> Hello {{ User  }} With ID {{ ID }}</p>
+	
+	{%else%}
+	<p> You are not logged in, <a href="/login">Login</a></p>
+	{%endif%}
     <p>Lorem ipsum dolor sit amet adipiscing bibendum sem orci tempus aliquet gravida,
         orci amet iaculis aptent blandit quam accumsan donec in facilisis,
         cursus ante curabitur aliquet condimentum tincidunt facilisis
@@ -14,8 +19,6 @@
     <p>
 	{% if User == ""%}
     <a href="/login">Login</a>
-	{%elif User == "ADMIN"%}
-	You are an admin
 	{%else%}
 	<a href="/LogOut">LogOut<a>
 	{%endif%}

@@ -1,6 +1,9 @@
+from Database import DatabaseHandler
+
 from flask import Flask, render_template, request
 from os import urandom
 from flask_caching import Cache
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "Tesst"
 app.config["CACHE_TYPE"] = "SimpleCache"
@@ -28,16 +31,20 @@ TestUsers = [
 def onload():  # put application's code here
     cache.set("Loaded", True)
 
-    username = cache.get("username")
-    if username is None:
-        cache.set("username", "")
+    UserID = cache.get("id")
+    if UserID is None:
+        cache.set("id", 0)
+    
     return app.redirect("/home",302)
 @app.route("/home")
 def homepage():
-    usernameToShow = cache.get("username")
-    if usernameToShow is None:
-        usernameToShow = ""
-    return render_template("Home.html", User = usernameToShow.title())
+    userId = cache.get("id")
+    UserNameToShow = ""
+    if userId is None:
+        return app.redirect("/",302)
+    if userId != 0:
+        UserNameToShow = DatabaseHandler.GetUserByID(userId)[1]
+    return render_template("Home.html", User = UserNameToShow.title(),ID = userId)
 
 
 @ app.route("/login")
@@ -52,20 +59,25 @@ def loginpage():
 def CheckLogin():
     if request.method == "POST":
         #print(request.args)
-        User = request.form.get("username").lower()
+        User = request.form.get("username")
         Pass = request.form.get("password")
         #print(User,Pass)
-        for i in TestUsers:
-            if User == i.User:
-                if Pass == i.Pass:
-                    cache.set("username", i.User)
-                    #print("LoggedIn")
-                    return app.redirect("/home", 302)
+#         for i in TestUsers:
+#             if User == i.User:
+#                 if Pass == i.Pass:
+#                     cache.set("username", i.User)
+#                     #print("LoggedIn")
+#                     return app.redirect("/home", 302)
+        
+        LogginSucsess, LoginDetails = DatabaseHandler.CheckLogin(User,Pass)
+        if LogginSucsess:
+            cache.set("id", LoginDetails[0])
+            return app.redirect("/home",302)
     return app.redirect("/login",302)
 
 @app.route("/LogOut")
 def LogOut():
-    cache.set("username", None)
+    cache.clear()
     return app.redirect("/home",302)
 
 
