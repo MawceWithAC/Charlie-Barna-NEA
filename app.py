@@ -1,31 +1,29 @@
 from Database import DatabaseHandler
 
 from flask import Flask, render_template, request
-from os import urandom
+#from os import urandom
 from flask_caching import Cache
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "Tesst"
+app.config["SECRET_KEY"] = "mAWCEeLL"
 app.config["CACHE_TYPE"] = "SimpleCache"
 app.config["CACHE_DEFAULT_TIMEOUT"] = 300000 # timeout in seconds
 user = "John Doe"
 cache = Cache(app)
 
-class User:
+class UserClass:
     User = ""
     Pass = ""
-    Preliverages = "User"
+    perliverages = "User"
     def __init__(self, UserName: str = "John Doe", Password: str = "Password"):
         self.User = UserName
         self.Pass = Password
 
 TestUsers = [
-    User("admin","Testing" ),
-    User("user","Testing")
+    UserClass("admin","Testing" ),
+    UserClass("user","Testing")
 
 ]
-
-
 
 @app.route('/')
 def onload():  # put application's code here
@@ -49,8 +47,6 @@ def homepage():
 
 @ app.route("/login")
 def loginpage():
-    if cache.get("loginAttempts") is None:
-        cache.set("loginAttempts", "0")
 
     #cache.set("username", "John Doe")
     return render_template("Login.html")
@@ -79,7 +75,16 @@ def CheckLogin():
 def LogOut():
     cache.clear()
     return app.redirect("/home",302)
+@app.route("/CreateAccount")
+def CreateAccount():
+    return render_template("CreateAccount.html")
 
+@app.route("/CreateAccountCheck", methods = ["POST"])
+def CreateAccountCheck():
+    if request.method == "POST":
+        User = request.form.get("username")
+        Pass = request.form.get("password")
+        Pass2 = request.form.get("password2")
 
 if __name__ == '__main__':
     app.run()

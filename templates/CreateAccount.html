@@ -1,19 +1,26 @@
 {% extends 'index.html' %}
 {% block content %}
     <body class="body">
-    <p> <large>Login</large><p>
+    <p> <large>Create Account</large><p>
+
     <div>
         <form method="POST"
-              action="{{ url_for('CheckLogin') }}">
+              action="{{ url_for('CreateAccountCheck') }}">
             <input type="text"
                    name="username"
                    placeholder="Username">
             <input type="password"
                    name="password"
                    placeholder="Password">
+            <input type="password"
+                   name="password2"
+                   placeholder="Please Enter Password AgainPassword">
             <button type="submit">submit</button>
         </form>
     </div>
+    <br>
+    <br>
+    <p></p>
     </body>
 
 {% endblock %}

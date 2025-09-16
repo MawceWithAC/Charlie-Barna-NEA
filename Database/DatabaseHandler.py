@@ -1,8 +1,36 @@
 import sqlite3
 from Database import SqlCommands
 
+def GetLastUserID():
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        Result = Cursor.execute("SELECT AccountID FROM Account ORDER BY AccountID desc LIMIT 1").fetchone()
+        return Result
 
+def AddUserToDatabase(Values: list):
+    #In the Format of ID NAME USERNAME(LOWERCASE) PASSWORD
+    #It adds a new User To The Database
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        try:
+            Cursor.execute(SqlCommands.AddUserToDatabase.ReturnQuery(Values))
+            return 201
+        except Exception as e:
+            print(e)
+            return 409
+    return 0
 
+def DeleteAccount(UserID: int):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        try:
+            Cursor.execute(f"DELETE FROM Account WHERE AccountID = {UserID}")
+            return 1
+        except Exception as e:
+            print(e)
+            return 0
+def UpdateUserDetails(Colomn:str, Value:any):
+    pass
 
 def GetAllAcounts(): #Returns every single account in the database as a 2D list
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
@@ -52,4 +80,7 @@ def CheckLogin(Username:str, Password: str):
         return Sucsessful, Details
     return 0
 
-print(GetUserByID(CheckUserNameAndPassword("admin","Testing23")))
+
+print(AddUserToDatabase(["3","John","ieatkids","Testing23"]))
+print(DeleteAccount(3))
+print(GetAllAcounts())

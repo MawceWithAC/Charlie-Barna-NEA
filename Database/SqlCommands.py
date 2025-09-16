@@ -11,6 +11,12 @@ class Query():
         else:
             return "ERROR"
         
-FindAccountByLogin = Query("SELECT * FROM Account WHERE Username = '{}' AND Password = '{}'", ["Username","Password"])
-FindAccountByID = Query("SELECT * FROM Account WHERE AccountID = {}", ["ID"])
-#AddUserToDatabase = Query("")
+FindAccountByLogin = Query("SELECT * FROM Account WHERE Username = '{}' AND Password = '{}'"
+                           , ["Username","Password"])
+
+FindAccountByID = Query("SELECT * FROM Account WHERE AccountID = {}"
+                        , ["ID"])
+
+AddUserToDatabase = Query("INSERT INTO Account VALUES('{}','{}','{}','{}',0)"
+                          ,["UserID","Name","Username","Password"])
+
