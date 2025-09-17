@@ -1,6 +1,11 @@
 import sqlite3
 from Database import SqlCommands
-
+def StopSQlnjection(Input: str):
+    if "--" not in Input:
+        return Input
+    else:
+        return None
+    
 def GetLastUserID():
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
@@ -69,20 +74,22 @@ def CheckLogin(Username:str, Password: str):
     #if you cant log in then return Sucsessful = False,
     #Details Contails all the spare details of the program
     #Format Of Details = (1, "Admin's Name", 'admin', 'Testing23', 1)
+    Sucsessful = False
+    Details = []
+    Id = CheckUserNameAndPassword(Username,Password)
+    if Id != 0:
+        Sucsessful = True
+        Details = GetUserByID(Id)
+    return Sucsessful, Details
+    
+
+def GetExcersiseData(ExcersiseID: int):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
-
-        
-        Sucsessful = False
-        Details = []
-        Id = CheckUserNameAndPassword(Username,Password)
-        if Id != 0:
-            Sucsessful = True
-            Details = GetUserByID(Id)
-        return Sucsessful, Details
+        Results = Cursor.execute(SqlCommands.GetExcersiseData.ReturnQuery(ExcersiseID)).fetchone()
+        return Results
     return 0
-
-
+print(GetExcersiseData([1]))
 #print(AddUserToDatabase(["John","ieatkids","Testing23"]))
 #print(DeleteAccount(3))
 print(GetAllAcounts())

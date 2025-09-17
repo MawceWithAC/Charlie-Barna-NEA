@@ -3,7 +3,7 @@
     <body class="body">
     <p> <large>Create Account</large><p>
         {% for mesg in get_flashed_messages() %}
-      <h1>{{ mesg }}</h1>
+      <div class = "ErrorBox">{{ mesg }}</div class = "ErrorBox">
       {% endfor %}
     <div>
         <form method="POST"
