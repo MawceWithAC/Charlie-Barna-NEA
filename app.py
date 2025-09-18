@@ -85,6 +85,18 @@ def LogOut():
 @app.route("/createaccount")
 def CreateAccount():
     return render_template("CreateAccount.html")
+
+@app.route("/users/<user>")
+def ShowUser(user):
+    print(user)
+    return app.redirect("/home",302)
+
+@app.route("/post/<post>")
+def ShowPost(post):
+    print(post)
+    return app.redirect("/home",302)
+
+
 @app.route("/CreateAccountCheck", methods = ["POST"])
 def CreateAccountCheck():
     if request.method == "POST":

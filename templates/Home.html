@@ -20,12 +20,24 @@
     </p>
 	
 	
-	{%for data in HomeData%}
+	{%for data in HomeData%} <!-- ID Data[0] Title Data[1] Like = data[4] Dislike Data5 -->
 	<div class = "post">
-	<a class = "postTitle" href = "/post/{{data[0]}}">{{data[1]}}</a>
+
+    <div class = "title">
+        <a class = "postTitleText" href = "/post/{{data[0]}}">{{data[1]}}</a>
+        <p style="margin-left: auto; margin-top: 0;color: #888888">{{data[9]}} at {{data[8]}}</p>
+    </div>
+    <div>
+        <a class = "postUsername" href = "/users/{{data[7]}}">{{data[7]}}</a>
+    </div>
+    <div>
+
+    <p class="description">{{data[2]}}
+    </p>
+
+    </div>
 	<div class = "likeBar">
-	{{data[4]}} <button class = "likeButton"id="Like:{}">&nbsp👍
-	</button> {{data[5]}}<button class = "likeButton" id="Dislike:{}">&nbsp👎</button>
+	{{data[4]}} <button class = "likeButton" id="Like:{{data[0]}}">&nbsp👍</button> {{data[5]}}<button class = "likeButton" id="Dislike:{{data[0]}}">&nbsp👎</button>
 	</div>
 	</div>
 	{%endfor%}

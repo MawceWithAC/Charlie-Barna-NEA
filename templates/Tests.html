@@ -82,14 +82,14 @@
 		{
 		background-color: #DAAFAF;
 		display:inline-block;
-		
-		width: 30%;
-		height: 5%;
+            font-size: 130%;
+		width: auto;
+		height: 50px;
 		border: 5px groove #C97F7F;
 		font-style: oblique;
-		
-		margin: 1%;
-		font-size: 130%;
+		padding-right: 2% ;
+		margin: 2%;
+
 		}
 		div.post
 		{
@@ -97,11 +97,14 @@
 		display: flex;
 		flex-direction: column;
 		width: 70%;
-		height: 8%;
-		border: 1px solid black;
+            min-height: 1%;
+		height: auto;
+		border: 1px solid #888888;
 		border-radius: 2px;
-		margin: 1%;
-		
+            margin: 1%;
+		    text-overflow: revert;
+            word-break: break-all;
+
 		}
 		div.likeBar
 		{
@@ -109,32 +112,80 @@
 		margin-left: auto;
 		
 		}
-		a.postTitle
+		a.postTitleText
 		{
-		font-size: 20px;
-		text-decoration: underline;
+        width: 70%;
+            font-size: 2.4vmax;
+		text-decoration: none;
 		text-transform: capitalize;
+
+
+            text-underline-style: unset;
+            padding: 0;
+
+
+
 		}
+        a.postUsername
+        {
+            margin-top: 1%;
+            width: 70%;
+            font-size: 14px;
+            text-decoration: underline;
+            text-transform: capitalize;
+
+            color: #9c9c9c;
+            padding: 0;
+
+
+
+        }
 		button.likeButton
 		{
 		padding: 0;
 		border: none;
 		background: none;
 		}
-		div.postBlock
-		{
-			display: block
-		}
+        div.title{		display: flex;
+            flex-direction: row;
+            text-overflow: ellipsis;
+            width: auto;
+
+            margin-bottom: 0;
+
+        }
+        p.description
+        {
+            margin: 3% 1% 2%;
+            color: #9c9c9c;
+            font-size: 1.8vmax;
+        }
     </style>
-	<body> 
-	<div class = "postBlock">
-	
-	<div class = "ErrorBox">	
-		Please Use Valid Inputs
-	</div>
+	<body>
+<div class = "ErrorBox">
+    Please Use Valid Inputs
+</div>
+
+
 	<div class = "post">
-	<a class = "postTitle" href = "/{username}">{title}</a>
+	
+    <div class = "title">
+        <a class = "postTitleText" href = "/{PostID}">{title}</a>
+        <p style="margin-left: auto; margin-top: 0;color: #888888">Time</p>
+    </div>
+    <div>
+        <a class = "postUsername" href = "/{PostID}">{username}</a>
+    </div>
+    <div>
+
+    <p class="description">{description}
+    </p>
+
+    </div>
 	<div class = "likeBar">
-	2000 <button class = "likeButton"id="Like:{}">&nbsp👍</button> 1534<button class = "likeButton" id="Dislike:{}">&nbsp👎</button>
+	2000 <button class = "likeButton" id="Like:{}">&nbsp👍</button> 1534<button class = "likeButton" id="Dislike:{}">&nbsp👎</button>
 	</div>
 	</div>
+
+
+

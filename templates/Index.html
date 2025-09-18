@@ -7,8 +7,8 @@
         {
             font-size: 16px;
             margin: 0;
-			height: 100%;
-			font-family: Helvetica, Arial, sans-serif;
+            height: 100%;
+            font-family: Helvetica, Arial, sans-serif;
 
         }
         head {
@@ -27,8 +27,8 @@
 
             margin: 8% 0 0;
             background-color: #FFFFFF;
-			height: 100%;
-            <!--padding-left: 0.1em; -->
+            height: 100%;
+        <!--padding-left: 0.1em; -->
 
         }
         header {
@@ -52,11 +52,11 @@
         {
 
         }
-		div 
-		{
-		 padding: 0.5% 0.5% 0.5% 0.5%;
-		}
-		
+        div
+        {
+            padding: 0.5% 0.5% 0.5% 0.5%;
+        }
+
         large {font-size: 20px}
         form {
             margin: 2rem;
@@ -77,54 +77,89 @@
         input:focus {transition: background-color 0.2s;
             background-color: #d6dbde;
         ;
-        outline-width: 0;}
-		div.ErrorBox 
-		{
-		background-color: #DAAFAF;
-		display:inline-block;
-		
-		width: 30%;
-		height: 5%;
-		border: 5px groove #C97F7F;
-		font-style: oblique;
-		
-		margin: 1%;
-		font-size: 130%;
-		}
-		div.post
-		{
-		
-		display: flex;
-		flex-direction: column;
-		width: 70%;
-		height: 8%;
-		border: 1px solid black;
-		border-radius: 2px;
-		margin: 1%;
-		
-		}
-		div.likeBar
-		{
-		margin-top: auto;
-		margin-left: auto;
-		
-		}
-		a.postTitle
-		{
-		font-size: 20px;
-		text-decoration: underline;
-		text-transform: capitalize;
-		}
-		button.likeButton
-		{
-		padding: 0;
-		border: none;
-		background: none;
-		}
-		div.postBlock
-		{
-			display: block
-		}
+            outline-width: 0;}
+        div.ErrorBox
+        {
+            background-color: #DAAFAF;
+            display:inline-block;
+            font-size: 130%;
+            width: auto;
+            height: 50px;
+            border: 5px groove #C97F7F;
+            font-style: oblique;
+            padding-right: 2% ;
+            margin: 2%;
+
+        }
+        div.post
+        {
+
+            display: flex;
+            flex-direction: column;
+            width: 70%;
+            min-height: 1%;
+            height: auto;
+            border: 1px solid #888888;
+            border-radius: 2px;
+            margin: 1%;
+            text-overflow: revert;
+            word-break: break-all;
+
+        }
+        div.likeBar
+        {
+            margin-top: auto;
+            margin-left: auto;
+
+        }
+        a.postTitleText
+        {
+            width: 70%;
+            font-size: 2vmax;
+            text-decoration: none;
+            text-transform: capitalize;
+
+
+
+            padding: 0;
+
+
+
+        }
+        a.postUsername
+        {
+            margin-top: 1%;
+            width: 70%;
+            font-size: 14px;
+            text-decoration: underline;
+            text-transform: capitalize;
+
+            color: #9c9c9c;
+            padding: 0;
+
+
+
+        }
+        button.likeButton
+        {
+            padding: 0;
+            border: none;
+            background: none;
+        }
+        div.title{		display: flex;
+            flex-direction: row;
+            text-overflow: ellipsis;
+            width: auto;
+
+            margin-bottom: 0;
+
+        }
+        p.description
+        {
+            margin: 0;
+            color: #9c9c9c;
+            font-size: 1.3vmax;
+        }
     </style>
 
 
