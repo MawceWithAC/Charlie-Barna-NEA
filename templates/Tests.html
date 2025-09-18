@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" >
-    <style>
+        <style>
         html
         {
             font-size: 16px;
             margin: 0;
-			height: 100%;
-			font-family: Helvetica, Arial, sans-serif;
+            height: 100%;
+            font-family: Helvetica, Arial, sans-serif;
 
         }
         head {
@@ -27,8 +27,8 @@
 
             margin: 8% 0 0;
             background-color: #FFFFFF;
-			height: 100%;
-            <!--padding-left: 0.1em; -->
+            height: 100%;
+        <!--padding-left: 0.1em; -->
 
         }
         header {
@@ -52,11 +52,11 @@
         {
 
         }
-		div 
-		{
-		 padding: 0.5% 0.5% 0.5% 0.5%;
-		}
-		
+        div
+        {
+            padding: 0.5% 0.5% 0.5% 0.5%;
+        }
+
         large {font-size: 20px}
         form {
             margin: 2rem;
@@ -77,55 +77,56 @@
         input:focus {transition: background-color 0.2s;
             background-color: #d6dbde;
         ;
-        outline-width: 0;}
-		div.ErrorBox 
-		{
-		background-color: #DAAFAF;
-		display:inline-block;
+            outline-width: 0;}
+        div.ErrorBox
+        {
+            background-color: #DAAFAF;
+            display:inline-block;
             font-size: 130%;
-		width: auto;
-		height: 50px;
-		border: 5px groove #C97F7F;
-		font-style: oblique;
-		padding-right: 2% ;
-		margin: 2%;
+            width: auto;
+            height: 50px;
+            border: 5px groove #C97F7F;
+            font-style: oblique;
+            padding-right: 2% ;
+            margin: 2%;
 
-		}
-		div.post
-		{
-		
-		display: flex;
-		flex-direction: column;
-		width: 70%;
+        }
+        div.post
+        {
+
+            display: flex;
+            flex-direction: column;
+            width: 70%;
             min-height: 1%;
-		height: auto;
-		border: 1px solid #888888;
-		border-radius: 2px;
+            height: auto;
+            border: 1px solid #888888;
+            border-radius: 2px;
             margin: 1%;
-		    text-overflow: revert;
+            text-overflow: revert;
             word-break: break-all;
 
-		}
-		div.likeBar
-		{
-		margin-top: auto;
-		margin-left: auto;
-		
-		}
-		a.postTitleText
-		{
-        width: 70%;
-            font-size: 2.4vmax;
-		text-decoration: none;
-		text-transform: capitalize;
+        }
+        div.likeBar
+        {
+            margin-top: auto;
+            margin-left: auto;
+
+        }
+        a.postTitleText
+        {
+            color: #000000;
+            width: 60%;
+            font-size: 1.8vmax;
+            text-decoration: none;
+            text-transform: capitalize;
 
 
-            text-underline-style: unset;
+
             padding: 0;
 
 
 
-		}
+        }
         a.postUsername
         {
             margin-top: 1%;
@@ -140,12 +141,12 @@
 
 
         }
-		button.likeButton
-		{
-		padding: 0;
-		border: none;
-		background: none;
-		}
+        button.likeButton
+        {
+            padding: 0;
+            border: none;
+            background: none;
+        }
         div.title{		display: flex;
             flex-direction: row;
             text-overflow: ellipsis;
@@ -156,9 +157,9 @@
         }
         p.description
         {
-            margin: 3% 1% 2%;
+            margin: 0;
             color: #9c9c9c;
-            font-size: 1.8vmax;
+            font-size: 1.3vmax;
         }
     </style>
 	<body>
@@ -166,26 +167,28 @@
     Please Use Valid Inputs
 </div>
 
+<div class = "post">
 
-	<div class = "post">
-	
+
     <div class = "title">
-        <a class = "postTitleText" href = "/{PostID}">{title}</a>
-        <p style="margin-left: auto; margin-top: 0;color: #888888">Time</p>
+
+        <a class = "postTitleText" style= "font-size: 2.2vmax; text-decoration: underline" href = "/exercise/{{data[6]}}">{{data[6]}}</a>
+        <p style="margin-left: auto; margin-top: 0;color: #888888">{{data[9]}} at {{data[8]}}</p>
     </div>
+    <a class = "postTitleText" href = "/exercise/{{data[0]}}">{{data[1]}}</a>
     <div>
-        <a class = "postUsername" href = "/{PostID}">{username}</a>
+        <a class = "postUsername" href = "/users/{{data[7]}}">{{data[7]}}</a>
     </div>
     <div>
 
-    <p class="description">{description}
-    </p>
+        <p class="description">{{data[2]}}
+        </p>
 
     </div>
-	<div class = "likeBar">
-	2000 <button class = "likeButton" id="Like:{}">&nbsp👍</button> 1534<button class = "likeButton" id="Dislike:{}">&nbsp👎</button>
-	</div>
-	</div>
+    <div class = "likeBar">
+        {{data[4]}} <button class = "likeButton" id="Like:{{data[0]}}">&nbsp👍</button> {{data[5]}}<button class = "likeButton" id="Dislike:{{data[0]}}">&nbsp👎</button>
+    </div>
+</div>
 
 
 

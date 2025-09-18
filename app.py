@@ -95,7 +95,10 @@ def ShowUser(user):
 def ShowPost(post):
     print(post)
     return app.redirect("/home",302)
-
+@app.route("/exercise/<id>")
+def ShowExersise(id):
+    print(DatabaseHandler.GetExcersiseData(id))
+    return app.redirect("/home",302)
 
 @app.route("/CreateAccountCheck", methods = ["POST"])
 def CreateAccountCheck():
