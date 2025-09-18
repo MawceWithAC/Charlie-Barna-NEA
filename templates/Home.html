@@ -10,6 +10,7 @@
 	{%else%}
     <p> <large>You are not logged in,&nbsp; <a href="/login">Login </large></a></p>
 	{%endif%}
+	<div class = "postBlock">
     <p>Lorem ipsum dolor sit amet adipiscing bibendum sem orci tempus aliquet gravida,
         orci amet iaculis aptent blandit quam accumsan donec in facilisis,
         cursus ante curabitur aliquet condimentum tincidunt facilisis
@@ -17,6 +18,19 @@
         praesent congue ultricies aenean ornare ligula sagittis proin
         sed vestibulum purus tempus aenean neque aliquam curae vivamus purus egestas ligula tincidunt nullam.
     </p>
+	
+	
+	{%for data in HomeData%}
+	<div class = "post">
+	<a class = "postTitle" href = "/post/{{data[0]}}">{{data[1]}}</a>
+	<div class = "likeBar">
+	{{data[4]}} <button class = "likeButton"id="Like:{}">&nbsp👍
+	</button> {{data[5]}}<button class = "likeButton" id="Dislike:{}">&nbsp👎</button>
+	</div>
+	</div>
+	{%endfor%}
+	</div>
+
     <p>
 	{% if User == ""%}
     <a href="/login">Login</a>

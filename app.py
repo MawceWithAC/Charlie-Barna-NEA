@@ -44,7 +44,7 @@ def homepage():
         return app.redirect("/",302)
     if userId != 0:
         UserNameToShow = DatabaseHandler.GetUserByID(userId)[1]
-    return render_template("Home.html", User = UserNameToShow.title(),ID = userId)
+    return render_template("Home.html", User = UserNameToShow.title(),ID = userId, HomeData =DatabaseHandler.GetMostPopularPosts(10))
 
 
 @ app.route("/login")

@@ -8,6 +8,7 @@
             font-size: 16px;
             margin: 0;
 			height: 100%;
+			font-family: Helvetica, Arial, sans-serif;
 
         }
         head {
@@ -24,7 +25,7 @@
         }
         body {
 
-            margin: 4% 0 0;
+            margin: 8% 0 0;
             background-color: #FFFFFF;
 			height: 100%;
             <!--padding-left: 0.1em; -->
@@ -51,6 +52,11 @@
         {
 
         }
+		div 
+		{
+		 padding: 0.5% 0.5% 0.5% 0.5%;
+		}
+		
         large {font-size: 20px}
         form {
             margin: 2rem;
@@ -84,11 +90,51 @@
 		
 		margin: 1%;
 		font-size: 130%;
-
+		}
+		div.post
+		{
+		
+		display: flex;
+		flex-direction: column;
+		width: 70%;
+		height: 8%;
+		border: 1px solid black;
+		border-radius: 2px;
+		margin: 1%;
+		
+		}
+		div.likeBar
+		{
+		margin-top: auto;
+		margin-left: auto;
+		
+		}
+		a.postTitle
+		{
+		font-size: 20px;
+		text-decoration: underline;
+		text-transform: capitalize;
+		}
+		button.likeButton
+		{
+		padding: 0;
+		border: none;
+		background: none;
+		}
+		div.postBlock
+		{
+			display: block
 		}
     </style>
 	<body> 
+	<div class = "postBlock">
+	
 	<div class = "ErrorBox">	
 		Please Use Valid Inputs
 	</div>
-	</body>
+	<div class = "post">
+	<a class = "postTitle" href = "/{username}">{title}</a>
+	<div class = "likeBar">
+	2000 <button class = "likeButton"id="Like:{}">&nbsp👍</button> 1534<button class = "likeButton" id="Dislike:{}">&nbsp👎</button>
+	</div>
+	</div>

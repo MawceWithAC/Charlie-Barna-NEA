@@ -89,7 +89,15 @@ def GetExcersiseData(ExcersiseID: int):
         Results = Cursor.execute(SqlCommands.GetExcersiseData.ReturnQuery(ExcersiseID)).fetchone()
         return Results
     return 0
-print(GetExcersiseData([1]))
+
+def GetMostPopularPosts(Amount: int):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        Results = Cursor.execute(SqlCommands.GetListExcersises.ReturnQuery(Amount)).fetchall()
+        return Results
+    return 0
+#print(GetExcersiseData([1]))
 #print(AddUserToDatabase(["John","ieatkids","Testing23"]))
 #print(DeleteAccount(3))
-print(GetAllAcounts())
+#print(GetAllAcounts())
+print()

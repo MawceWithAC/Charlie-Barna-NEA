@@ -28,8 +28,12 @@ WHERE ExcersiseID == {}""",
                          ["ExcersiseID"])
 
 #Get Posts Based On Time:
-#SELECT p.Title, p.PostContent, p.ExcersiseID, p.Likes, p.Dislikes,e.ExcersiseName,a.Username,p.time,p.date
-#FROM Post p NATURAL JOIN Excersise e
-#INNER JOIN Account a
-#ON p.AccountID == a.AccountID
+GetListExcersises = Query("""
+SELECT p.PostID, p.Title, p.PostContent, p.ExcersiseID, p.Likes, p.Dislikes,e.ExcersiseName,a.Username,p.time,p.date
+FROM Post p NATURAL JOIN Excersise e
+INNER JOIN Account a
+ON p.AccountID == a.AccountID
+ORDER BY p.Likes
+LIMIT {}
+""", ["Amount"])
 #ORDER BY p.date , p.time
