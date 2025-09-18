@@ -27,13 +27,13 @@ GetExcersiseData = Query("""SELECT * FROM Excersise NATURAL JOIN MuscleGroup
 WHERE ExcersiseID == {}""",
                          ["ExcersiseID"])
 
-#Get Posts Based On Time:
+#Get Posts Based On likes:
 GetListExcersises = Query("""
 SELECT p.PostID, p.Title, p.PostContent, p.ExcersiseID, p.Likes, p.Dislikes,e.ExcersiseName,a.Username,p.time,p.date
 FROM Post p NATURAL JOIN Excersise e
 INNER JOIN Account a
 ON p.AccountID == a.AccountID
-ORDER BY p.Likes
+ORDER BY p.Likes desc ,p.date desc ,p.time desc 
 LIMIT {}
 """, ["Amount"])
 #ORDER BY p.date , p.time
