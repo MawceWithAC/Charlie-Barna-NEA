@@ -16,6 +16,8 @@ def GetUsernameFromID(ID: int ):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
         Result = Cursor.execute(SqlCommands.GetUsernameFromID.ReturnQuery(ID)).fetchone()
+        if Result is not None:
+            return Result[0]
         return Result
     
 def GetLastUserID():
