@@ -15,32 +15,36 @@
         }
         header {
             position: fixed;
+			padding-top: 0;
             top: 0;
             min-height: 5%;
             background-color: #adbdbd ;
+			
             display: flex;
-            justify-content: left;
+            justify-content: space-between;
+			
             width: 100%;
             margin: 0 auto 0 auto;
         }
         body {
 
-            margin: 8% 0 0;
+            margin: 65px 0 0%;
             background-color: #FFFFFF;
             height: 100%;
         <!--padding-left: 0.1em; -->
 
         }
-        header {
-            padding-top: 0;
-            display: flex;
-        }
 
         h1 {
             margin: 0.5rem;
-
+			display: flex;
             color: #000000;
         }
+		h2 
+		{
+			text-decoration: underline;
+			margin: 0.5rem;
+		}
 
         p {
 
@@ -116,7 +120,8 @@
         {
             color: #000000;
             width: 60%;
-            font-size: 1.8vmax;
+            font-size: min(1.8vmax,16px);
+			
             text-decoration: none;
             text-transform: capitalize;
 
@@ -159,8 +164,22 @@
         {
             margin: 0;
             color: #9c9c9c;
-            font-size: 1.3vmax;
+            font-size: min(1.3vmax,15px);
         }
+		a.LoginButon
+		{
+		display: block;
+            padding: 0;
+            border: none;
+            background: none;
+			color: #000000;
+			<!--margin-left: auto;
+			width: auto; -->
+			text-decoration: underline;
+			
+			font-size: 18px;
+			margin-top: 0.5em;
+		}
     </style>
 
 
@@ -790,7 +809,15 @@ AAAAAAAAAAAAAAAAAAAAAADwAH////4AD/AAf////gAP8AB////+AA/wAH////4AD/gAf////gAf
     <h1> <a href="/home" style=" color: #000000; text-decoration: none;  ">
         GymSy
     </a>
+	</h1>
+	<h1>
+	{%if ID == 0%}
+	<a class = "LoginButon" href="/login">Login</a>
+	{%elif ID != 0%}
+	<a class = "LoginButon" href="/user/{{Username}}">Account</a>
+	{%endif%}
     </h1> <!-- for example -->
+	
 </header>
 <body class="body">
 {% block content %}

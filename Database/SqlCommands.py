@@ -4,7 +4,7 @@ class Query():
     def __init__(self, content: str, additions: list):
         self.Query = content
         self.Additions = additions
-    def ReturnQuery(self,NewContent: list):
+    def ReturnQuery(self,NewContent: list = []):
         #print(self.Query.format(*NewContent))
         if type(NewContent) != list:
             NewContent = [NewContent]
@@ -36,4 +36,11 @@ ON p.AccountID == a.AccountID
 ORDER BY p.Likes desc ,p.date desc ,p.time desc 
 LIMIT {}
 """, ["Amount"])
-#ORDER BY p.date , p.time
+GetUsernameFromID = Query("""Select Username FROM Account WHERE AccountID = {}""",["ID"])
+GetPostsFromExcersiseID = Query("""
+SELECT p.PostID, p.Title, p.PostContent, p.ExcersiseID, p.Likes, p.Dislikes,e.ExcersiseName,a.Username,p.time,p.date
+FROM Post p NATURAL JOIN Excersise e
+INNER JOIN Account a
+ON p.AccountID == a.AccountID
+WHERE p.ExcersiseID = {}
+ORDER BY p.Likes desc ,p.date desc ,p.time desc """,["ID"])

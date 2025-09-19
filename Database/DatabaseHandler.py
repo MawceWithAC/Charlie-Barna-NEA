@@ -5,6 +5,18 @@ def StopSQlnjection(Input: str):
         return Input
     else:
         return None
+def GetPostsFromExcersise(ID: int):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        Result = Cursor.execute(SqlCommands.GetPostsFromExcersiseID.ReturnQuery(ID)).fetchall()
+        return Result
+    
+    
+def GetUsernameFromID(ID: int ):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        Result = Cursor.execute(SqlCommands.GetUsernameFromID.ReturnQuery(ID)).fetchone()
+        return Result
     
 def GetLastUserID():
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
@@ -42,7 +54,7 @@ def UpdateUserDetails(Colomn:str, Value:any):
 def GetAllAcounts(): #Returns every single account in the database as a 2D list
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
-        Result = Cursor.execute(SqlCommands.GetAllAccounts)
+        Result = Cursor.execute(SqlCommands.GetAllAccounts.returnQuery())
         return Result.fetchall()
     return 0
 
@@ -100,4 +112,4 @@ def GetMostPopularPosts(Amount: int):
 #print(AddUserToDatabase(["John","ieatkids","Testing23"]))
 #print(DeleteAccount(3))
 #print(GetAllAcounts())
-print()
+#print()

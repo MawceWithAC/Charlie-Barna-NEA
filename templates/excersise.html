@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+{% block content %}
+<div style = "display:flex;flex-direction = column;width = 100%;justify-content: space-between;">
+<h2>
+{{Data[0][6]}}
+</h2>
+<h2>
+Test
+</h2>
+</div>
+
+	{%for data in Data%} <!-- ID Data[0] Title Data[1] Like = data[4] Dislike Data5 -->
+<div class = "post">
+
+
+    <div class = "title">
+
+        <a class = "postTitleText" style= "font-size: min(2.2vmax,22px); text-decoration: underline" href = "/exercise/{{data[3]}}">{{data[6]}}</a>
+        <p style="margin-left: auto; margin-top: 0;color: #888888">{{data[9]}} at {{data[8]}}</p>
+    </div>
+    <a class = "postTitleText" href = "/post/{{data[0]}}">{{data[1]}}</a>
+    <div>
+        <a class = "postUsername" href = "/users/{{data[7]}}">{{data[7]}}</a>
+    </div>
+	{% if data[2]|length > 40 %}
+    <div>
+
+        <p class="description">{{data[2]}}
+        </p>
+	</div>
+	{%endif%}
+
+    
+    <div class = "likeBar">
+        {{data[4]}} <button class = "likeButton" id="Like:{{data[0]}}">&nbsp👍</button> {{data[5]}}<button class = "likeButton" id="Dislike:{{data[0]}}">&nbsp👎</button>
+    </div>
+</div>
+	{%endfor%}
+	</div>
+    </body>
+
+
+{% endblock %}

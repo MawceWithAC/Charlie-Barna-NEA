@@ -44,14 +44,18 @@ def homepage():
         return app.redirect("/",302)
     if userId != 0:
         UserNameToShow = DatabaseHandler.GetUserByID(userId)[1]
-    return render_template("Home.html", User = UserNameToShow.title(),ID = userId, HomeData =DatabaseHandler.GetMostPopularPosts(10))
+    return render_template("Home.html",
+                           User = UserNameToShow.title(),
+                           ID = userId,
+                           Username = DatabaseHandler.GetUsernameFromID(userId),
+                           HomeData =DatabaseHandler.GetMostPopularPosts(10))
 
 
 @ app.route("/login")
 def loginpage():
-
+    
     #cache.set("username", "John Doe")
-    return render_template("Login.html")
+    return render_template("Login.html",ID = 0, )
 
 @ app.route("/CheckLogin", methods=["POST"])
 def CheckLogin():
@@ -84,7 +88,7 @@ def LogOut():
     return app.redirect("/home",302)
 @app.route("/createaccount")
 def CreateAccount():
-    return render_template("CreateAccount.html")
+    return render_template("CreateAccount.html",ID = 0)
 
 @app.route("/users/<user>")
 def ShowUser(user):
@@ -95,10 +99,17 @@ def ShowUser(user):
 def ShowPost(post):
     print(post)
     return app.redirect("/home",302)
-@app.route("/exercise/<id>")
-def ShowExersise(id):
-    print(DatabaseHandler.GetExcersiseData(id))
-    return app.redirect("/home",302)
+@app.route("/exercise/<ExId>")
+def ShowExersise(ExId):
+    #print(DatabaseHandler.GetExcersiseData(id))
+    Id = cache.get("id")
+    if Id == None:
+        Id = 0
+        cache.set("id",0)
+    return render_template("excersise.html",ID = Id,
+                           Username = DatabaseHandler.GetUsernameFromID(Id),
+                           Data = DatabaseHandler.GetPostsFromExcersise(ExId)
+                           )
 
 @app.route("/CreateAccountCheck", methods = ["POST"])
 def CreateAccountCheck():
