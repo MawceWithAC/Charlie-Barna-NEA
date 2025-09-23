@@ -23,7 +23,9 @@ function SwapBar()
         SideBar.animate(CloseSideBar, Forwards);
         //SideBar.style.setProperty('--Display', 'None');
         setTimeout(() => {
-            SideBar.style.setProperty('--Display', 'None');
+            if (!IsBarOpen) {
+                SideBar.style.setProperty('--Display', 'None');
+            }
         }, Forwards.duration-10);
         IsBarOpen = false;
     }

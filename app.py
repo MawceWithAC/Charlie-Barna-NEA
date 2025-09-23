@@ -1,11 +1,14 @@
 
 from Database import DatabaseHandler
 
-from flask import Flask, render_template, request,flash
-#from os import urandom
+from flask import Flask, render_template, request,flash,Blueprint
+import os
 from flask_caching import Cache
 
-app = Flask(__name__)
+
+#print(TEMPLATE_DIR,":",STATIC_DIR)
+app = Flask(__name__, template_folder="templates", static_folder="templates/static")
+#app.register_blueprint(core, url_prefix='')
 app.config["SECRET_KEY"] = "mAWCEeLL"
 app.config["CACHE_TYPE"] = "SimpleCache"
 app.config["CACHE_DEFAULT_TIMEOUT"] = 300000 # timeout in seconds

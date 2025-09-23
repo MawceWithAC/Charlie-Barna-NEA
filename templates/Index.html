@@ -2,185 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" >
-        <style>
-        html
-        {
-            font-size: 16px;
-            margin: 0;
-            height: 100%;
-            font-family: Helvetica, Arial, sans-serif;
-
-        }
-        head {
-        }
-        header {
-            position: fixed;
-			padding-top: 0;
-            top: 0;
-            min-height: 5%;
-            background-color: #adbdbd ;
-			
-            display: flex;
-            justify-content: space-between;
-			
-            width: 100%;
-            margin: 0 auto 0 auto;
-        }
-        body {
-
-            margin: 65px 0 0%;
-            background-color: #FFFFFF;
-            height: 100%;
-        <!--padding-left: 0.1em; -->
-
-        }
-
-        h1 {
-            margin: 0.5rem;
-			display: flex;
-            color: #000000;
-        }
-		h2 
-		{
-			text-decoration: underline;
-			margin: 0.5rem;
-		}
-
-        p {
-
-            margin: 1rem;
-            color: #000000;
-            display: flex;
-        }
-        a
-        {
-
-        }
-        div
-        {
-            padding: 0.5% 0.5% 0.5% 0.5%;
-        }
-
-        large {font-size: 20px}
-        form {
-            margin: 2rem;
-            color: #000000;
-            display: block;}
-        button {background-color: #d8bdd3}
-        input {
-
-            font-size: 20px;
-            display: block;
-            margin: 0.5rem 0.5rem 0.5rem 0;
-            width: 40%;
-            height: 3rem;
-            outline: None;
-            border-color: #d8bdd3;
-            color: #000000;
-        }
-        input:focus {transition: background-color 0.2s;
-            background-color: #d6dbde;
-        ;
-            outline-width: 0;}
-        div.ErrorBox
-        {
-            background-color: #DAAFAF;
-            display:inline-block;
-            font-size: 130%;
-            width: auto;
-            height: 50px;
-            border: 5px groove #C97F7F;
-            font-style: oblique;
-            padding-right: 2% ;
-            margin: 2%;
-
-        }
-        div.post
-        {
-
-            display: flex;
-            flex-direction: column;
-            width: 70%;
-            min-height: 1%;
-            height: auto;
-            border: 1px solid #888888;
-            border-radius: 2px;
-            margin: 1%;
-            text-overflow: revert;
-            word-break: break-all;
-
-        }
-        div.likeBar
-        {
-            margin-top: auto;
-            margin-left: auto;
-
-        }
-        a.postTitleText
-        {
-            color: #000000;
-            width: 60%;
-            font-size: min(1.8vmax,16px);
-			
-            text-decoration: none;
-            text-transform: capitalize;
-
-
-
-            padding: 0;
-
-
-
-        }
-        a.postUsername
-        {
-            margin-top: 1%;
-            width: 70%;
-            font-size: 14px;
-            text-decoration: underline;
-            text-transform: capitalize;
-
-            color: #9c9c9c;
-            padding: 0;
-
-
-
-        }
-        button.likeButton
-        {
-            padding: 0;
-            border: none;
-            background: none;
-        }
-        div.title{		display: flex;
-            flex-direction: row;
-            text-overflow: ellipsis;
-            width: auto;
-
-            margin-bottom: 0;
-
-        }
-        p.description
-        {
-            margin: 0;
-            color: #9c9c9c;
-            font-size: min(1.3vmax,15px);
-        }
-		a.LoginButon
-		{
-		display: block;
-            padding: 0;
-            border: none;
-            background: none;
-			color: #000000;
-			<!--margin-left: auto;
-			width: auto; -->
-			text-decoration: underline;
-			
-			font-size: 18px;
-			margin-top: 0.5em;
-		}
-    </style>
+    <link rel="stylesheet" href="/static/styles/Style.css" />
 
 
 
@@ -811,17 +633,30 @@ AAAAAAAAAAAAAAAAAAAAAADwAH////4AD/AAf////gAP8AB////+AA/wAH////4AD/gAf////gAf
     </a>
 	</h1>
 	<h1>
+        <!--
 	{%if ID == 0%}
 	<a class = "LoginButon" href="/login">Login</a>
 	{%elif ID != 0%}
 	<a class = "LoginButon" href="/accountsettings">Account</a>
 	{%endif%}
+	-->
+        <button class = "cornerButton" onclick="SwapBar()">
+            <large>=</large>
+        </button>
     </h1> <!-- for example -->
 	
 </header>
 <body class="body">
+<main>
 {% block content %}
     <p> Hello World <p>
 {% endblock %}
+</main>
+<div class="sidebar" id = "SideBar">
+    <Sidebar>
+        Testing
+    </Sidebar>
+</div>
+<script src = "static/Scripts/SideBar.js"> </script>
 </body>
 </html>
