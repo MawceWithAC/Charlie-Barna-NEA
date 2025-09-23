@@ -33,7 +33,9 @@
             margin: 65px 0 0%;
             background-color: #FFFFFF;
             height: 100%;
-        <!--padding-left: 0.1em; -->
+			display: flex;
+			<!--flex-direction: column;
+        padding-left: 0.1em; -->
 
         }
 
@@ -182,6 +184,11 @@
 			font-size: 18px;
 			margin-top: 0.5em;
 		}
+		main {
+			display: flex;
+			flex-direction: column;
+			width:100%;
+		}
     </style>
 <header>
     <h1> <a href="/home" style=" color: #000000; text-decoration: none;  ">
@@ -193,8 +200,16 @@
     </h1> <!-- for example -->
 	
 </header>
-
+	
+	
+	
+	
 	<body>
+	<main id = "Main">
+	
+	
+	
+	
 <div style = "display:flex;flex-direction = column;width = 100%;justify-content: space-between;">
 <h2>
 {{data[6]}}
@@ -234,6 +249,9 @@ Test
     </div>
 </div>
 	</div>
+	</main>
+	</body>
+	
 
 
 
