@@ -2,17 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" >
-<head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" >
         <link rel="stylesheet" href="Style.css">
-    </link>
+
+    <title>Test</title>
+</head>
 <header>
     <h1> <a href="/home" style=" color: #000000; text-decoration: none;  ">
         GymSy
     </a>
+
 	</h1>
 	<h1>
+        <!-- Login Button
 	<a class = "LoginButon" href="/user/{{Username}}">Account</a>
+	-->
+    <button class = "cornerButton" onclick="SwapBar()">
+        <large>=</large>
+    </button>
+
     </h1> <!-- for example -->
 	
 </header>
@@ -22,11 +29,11 @@
 	
 	<body>
 	<main id = "Main">
+
 	
 	
 	
-	
-<div style = "display:flex;flex-direction = column;width = 100%;justify-content: space-between;">
+<div style = "display:flex; flex-direction: column;width: 100%;justify-content: space-between;">
 <h2>
 {{data[6]}}
 </h2>
@@ -64,10 +71,20 @@ Test
         {{data[4]}} <button class = "likeButton" id="Like:{{data[0]}}">&nbsp👍</button> {{data[5]}}<button class = "likeButton" id="Dislike:{{data[0]}}">&nbsp👎</button>
     </div>
 </div>
-	</div>
+
+
+
+
+
 	</main>
+    <div class="sidebar" id = "SideBar">
+        <Sidebar>
+            Testing
+        </Sidebar>
+    </div>
 	<script src = "SideBar.js"> </script>
 	</body>
+
 	
 
 
