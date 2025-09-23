@@ -12,6 +12,19 @@ app.config["CACHE_DEFAULT_TIMEOUT"] = 300000 # timeout in seconds
 user = "John Doe"
 cache = Cache(app)
 
+
+
+
+# Ensure responses aren't cached
+@app.after_request
+def after_request(response):
+    
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate,public, max-age=0"
+    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+    response.cache_control.max_age = 0
+    return response
+
+
 class UserClass:
     User = ""
     Pass = ""
@@ -110,7 +123,17 @@ def ShowExersise(ExId):
                            Username = DatabaseHandler.GetUsernameFromID(Id),
                            Data = DatabaseHandler.GetPostsFromExcersise(ExId)
                            )
-
+@app.route("/accountsettings")
+def GetSettings():
+    #response.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
+    Id = cache.get("id")
+    if Id is None or Id == 0:
+        return app.redirect("/login", 302)
+    else:
+        return render_template("accountsettings.html",
+                               ID = Id,
+                           )
+        
 @app.route("/CreateAccountCheck", methods = ["POST"])
 def CreateAccountCheck():
     if request.method == "POST":
