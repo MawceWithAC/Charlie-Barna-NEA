@@ -15,9 +15,9 @@
 	<h1>
         <!--
 	{%if ID == 0%}
-	<a class = "LoginButon" href="/login">Login</a>
+	<a class = "sideBarButton" href="/login">Login</a>
 	{%elif ID != 0%}
-	<a class = "LoginButon" href="/accountsettings">Account</a>
+	<a class = "sideBarButton" href="/accountsettings">Account</a>
 	{%endif%}
 	-->
         <button class = "cornerButton" onclick="SwapBar()">
@@ -27,14 +27,28 @@
 	
 </header>
 <body class="body">
-<main>
+<main id = "Main">
 {% block content %}
     <p> Hello World <p>
 {% endblock %}
 </main>
 <div class="sidebar" id = "SideBar">
+
     <Sidebar>
-        Testing
+		<h1>
+	<a class = "sideBarButton" href="/home">Home</a>
+	</h1>
+	<h1>
+	{%if ID == 0%}
+	<a class = "sideBarButton" href="/login">Login</a>
+	{%elif ID != 0%}
+	<a class = "sideBarButton" href="/accountsettings">Account</a>
+	{%endif%}
+	</h1>
+
+	<h1>
+	And Another
+	</h1>
     </Sidebar>
 </div>
 <script src = "{{url_for('static', filename='scripts/SideBar.js')}}"> </script>

@@ -19,18 +19,21 @@ Backwards.direction = "reverse";
 function SwapBar()
 {
     const SideBar = document.querySelector(".sidebar");
+	const Main = document.getElementById("Main");
     if (IsBarOpen) {
         SideBar.animate(CloseSideBar, Forwards);
         //SideBar.style.setProperty('--Display', 'None');
         setTimeout(() => {
             if (!IsBarOpen) {
                 SideBar.style.setProperty('--Display', 'None');
+				Main.style.width = "100%"
             }
         }, Forwards.duration-10);
         IsBarOpen = false;
     }
     else if (!IsBarOpen) {
         SideBar.style.setProperty('--Display', 'block')
+		Main.style.width = "93%"
         SideBar.animate(CloseSideBar, Backwards);
         //SideBar.style.setProperty('--Display', 'None');
         IsBarOpen = true;

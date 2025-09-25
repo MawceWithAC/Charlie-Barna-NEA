@@ -1,5 +1,5 @@
 import sqlite3
-from Database import SqlCommands
+from Database import SqlCommands, TimeFormatter
 def StopSQlnjection(Input: str):
     if "--" not in Input:
         return Input
@@ -23,7 +23,7 @@ def GetUsernameFromID(ID: int ):
 def GetLastUserID():
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
-        Result = Cursor.execute("SELECT AccountID FROM Account ORDER BY AccountID desc LIMIT 1").fetchone()
+        Result = Cursor.execute("SELECT Max(AccountID) FROM Account").fetchone()
         return Result
 
 def AddUserToDatabase(Values: list):
@@ -104,12 +104,32 @@ def GetExcersiseData(ExcersiseID: int):
         return Results
     return 0
 
+def CreatePost(Values: list): # [Content:str, ExcersiseID:int,AccountID:int,Title:str]
+   with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        LastPost = Cursor.execute(SqlCommands.GetLastPostId.ReturnQuery()).fetchone()
+        Values.insert(0,int(LastPost[0])+1) 
+        Values.insert(4,0)
+        Values.insert(5,0)
+        Values.insert(7,TimeFormatter.GetDate())
+        Values.insert(8,TimeFormatter.GetTime())
+        try:
+            print(SqlCommands.CreatePost.ReturnQuery(Values))
+            Cursor.execute(SqlCommands.CreatePost.ReturnQuery(Values))
+            return 201
+        except Exception as e:
+            print(e)
+            return 409
+
+
 def GetMostPopularPosts(Amount: int):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
         Results = Cursor.execute(SqlCommands.GetListExcersises.ReturnQuery(Amount)).fetchall()
         return Results
     return 0
+
+#CreatePost(["This Is A Test2",1,2,"JustTestingThePostFunction"])
 #print(GetExcersiseData([1]))
 #print(AddUserToDatabase(["John","ieatkids","Testing23"]))
 #print(DeleteAccount(3))

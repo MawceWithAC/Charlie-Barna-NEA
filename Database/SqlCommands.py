@@ -1,7 +1,7 @@
 GetAllAccounts = "SELECT * FROM Account"
 
 class Query():
-    def __init__(self, content: str, additions: list):
+    def __init__(self, content: str, additions: list = []):
         self.Query = content
         self.Additions = additions
     def ReturnQuery(self,NewContent: list = []):
@@ -37,6 +37,22 @@ ORDER BY p.Likes desc ,p.date desc ,p.time desc
 LIMIT {}
 """, ["Amount"])
 GetUsernameFromID = Query("""Select Username FROM Account WHERE AccountID = {}""",["ID"])
+GetLastPostId = Query("SELECT Max(PostID) FROM Post")
+
+CreatePost = Query("""
+INSERT INTO Post
+VALUES({},'{}',{},{},{},{},'{}','{}','{}')
+""",["PostID",
+    "PostContent",
+     "ExcersiseID",
+     "AccountID",
+     "Likes",
+     "Dislikes",
+     "Title",
+     "Date",
+     "Time"
+    ])
+
 GetPostsFromExcersiseID = Query("""
 SELECT p.PostID, p.Title, p.PostContent, p.ExcersiseID, p.Likes, p.Dislikes,e.ExcersiseName,a.Username,p.time,p.date
 FROM Post p NATURAL JOIN Excersise e

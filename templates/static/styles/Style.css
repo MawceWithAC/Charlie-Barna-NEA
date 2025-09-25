@@ -58,8 +58,7 @@
         main {
             display: flex;
             flex-direction: column;
-            width: var(--MainWidth ,95%);
-        <!--margin-right: auto; -->
+            width: 93%;
             margin: 65px 0 0;
         }
 
@@ -201,7 +200,7 @@
             color: #9c9c9c;
             font-size: min(1.3vmax,15px);
         }
-		a.LoginButon
+		a.sideBarButton
 		{
 		display: block;
             padding: 0;
@@ -212,7 +211,7 @@
 			width: auto; -->
 			text-decoration: underline;
 			
-			font-size: 18px;
+			font-size: min(20px,1.1vmax);
 			margin-top: 0.5em;
 		}
 
