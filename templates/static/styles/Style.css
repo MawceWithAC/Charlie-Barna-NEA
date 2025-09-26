@@ -199,6 +199,11 @@
             margin: 0;
             color: #9c9c9c;
             font-size: min(1.3vmax,15px);
+			display: -webkit-box;
+			max-width: 99%;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
         }
 		a.sideBarButton
 		{

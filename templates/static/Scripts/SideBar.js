@@ -28,7 +28,7 @@ function SwapBar()
                 SideBar.style.setProperty('--Display', 'None');
 				Main.style.width = "100%"
             }
-        }, Forwards.duration-10);
+        }, Forwards.duration-50);
         IsBarOpen = false;
     }
     else if (!IsBarOpen) {

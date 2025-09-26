@@ -6,7 +6,7 @@ def GetTime():
     return Time
 
 def GetDate():
-    Date = time.strftime("%d-%m-%y", time.gmtime())
+    Date =time.strftime("%d-%m-%y", time.gmtime())
     return Date
 
 

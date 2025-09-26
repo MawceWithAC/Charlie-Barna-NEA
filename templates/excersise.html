@@ -8,7 +8,7 @@
 Test
 </h2>
 </div>
-
+<div>
 	{%for data in Data%} <!-- ID Data[0] Title Data[1] Like = data[4] Dislike Data5 -->
 <div class = "post">
 
@@ -22,21 +22,21 @@ Test
     <div>
         <a class = "postUsername" href = "/users/{{data[7]}}">{{data[7]}}</a>
     </div>
-	{% if data[2]|length > 40 %}
+	{% if data[2]|length > 0 %}
     <div>
 
         <p class="description">{{data[2]}}
         </p>
 	</div>
-	
 	{%endif%}
 
-   
+    
     <div class = "likeBar">
         {{data[4]}} <button class = "likeButton" id="Like:{{data[0]}}">&nbsp👍</button> {{data[5]}}<button class = "likeButton" id="Dislike:{{data[0]}}">&nbsp👎</button>
     </div>
-	</div>
+</div>
 	{%endfor%}
+	
 	</div>
 
 
