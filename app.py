@@ -77,8 +77,8 @@ def loginpage():
 def CheckLogin():
     if request.method == "POST":
         #print(request.args)
-        User = DatabaseHandler.StopSQlnjection(request.form.get("username"))
-        Pass = DatabaseHandler.StopSQlnjection(request.form.get("password"))
+        User = DatabaseHandler.VerifyLogin(request.form.get("username"))
+        Pass = DatabaseHandler.VerifyLogin(request.form.get("password"))
         
         #print(User,Pass)
 #         for i in TestUsers:
@@ -88,7 +88,7 @@ def CheckLogin():
 #                     #print("LoggedIn")
 #                     return app.redirect("/home", 302)
         if User is None or Pass is None:
-            flash("Please Use Valid Inputs")
+            flash("Please Use Alphabetic Symbols or Symbols")
         else:
             LogginSucsess, LoginDetails = DatabaseHandler.CheckLogin(User,Pass)
             if LogginSucsess:
@@ -140,12 +140,12 @@ def GetSettings():
 @app.route("/CreateAccountCheck", methods = ["POST"])
 def CreateAccountCheck():
     if request.method == "POST":
-        Name = DatabaseHandler.StopSQlnjection(request.form.get("Name").lower())
-        User = DatabaseHandler.StopSQlnjection(request.form.get("username").lower())
-        Pass = DatabaseHandler.StopSQlnjection(request.form.get("password"))
+        Name = DatabaseHandler.CheckName(request.form.get("Name").lower())
+        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower())
+        Pass = DatabaseHandler.VerifyLogin(request.form.get("password"))
         Pass2 = request.form.get("password2")
         if Name is None or User is None or Pass is None:
-            flash("Please Do Not Use The Character -")
+            flash("Please Use Alphabetic Symbols or Symbols")
         else:
             if Pass != Pass2:
                 flash("Both Passwords Must Be The Same")

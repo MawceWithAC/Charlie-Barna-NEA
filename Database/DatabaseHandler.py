@@ -1,10 +1,17 @@
 import sqlite3
 from Database import SqlCommands, TimeFormatter
-def StopSQlnjection(Input: str):
-    if "--" not in Input:
-        return Input
-    else:
+def VerifyLogin(Input: str):
+    for i in ["--"," "]:
+        if i in Input:
+            return None
+    return Input
+def CheckName(Input:str):
+    if "--" in Input:
         return None
+    else:
+        return Input
+
+
 def GetPostsFromExcersise(ID: int):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
