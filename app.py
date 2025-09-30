@@ -77,8 +77,8 @@ def loginpage():
 def CheckLogin():
     if request.method == "POST":
         #print(request.args)
-        User = DatabaseHandler.VerifyLogin(request.form.get("username"))
-        Pass = DatabaseHandler.VerifyLogin(request.form.get("password"))
+        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
+        Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
         
         #print(User,Pass)
 #         for i in TestUsers:
@@ -140,10 +140,10 @@ def GetSettings():
 @app.route("/CreateAccountCheck", methods = ["POST"])
 def CreateAccountCheck():
     if request.method == "POST":
-        Name = DatabaseHandler.CheckName(request.form.get("Name").lower())
-        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower())
-        Pass = DatabaseHandler.VerifyLogin(request.form.get("password"))
-        Pass2 = request.form.get("password2")
+        Name = DatabaseHandler.CheckName(request.form.get("Name").lower().strip())
+        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
+        Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
+        Pass2 = request.form.get("password2").strip()
         if Name is None or User is None or Pass is None:
             flash("Please Use Alphabetic Symbols or Symbols")
         else:

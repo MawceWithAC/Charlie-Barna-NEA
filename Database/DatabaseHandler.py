@@ -73,7 +73,7 @@ def CheckUserNameAndPassword(Username:str, Password:str):
     #and returns the ID that uses both of them
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
-        CheckResult = Cursor.execute(SqlCommands.FindAccountByLogin.ReturnQuery([Username.lower(),Password])).fetchall()
+        CheckResult = Cursor.execute(SqlCommands.FindAccountByLogin.ReturnQuery([Username,Password])).fetchall()
         if CheckResult != []:
             return CheckResult[0][0]
         return 0

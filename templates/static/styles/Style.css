@@ -100,7 +100,12 @@
             margin: 2rem;
             color: #000000;
             display: block;}
-        button {background-color: #d8bdd3}
+        button.field {background-color: #adbdbd;
+			border-radius: 9px;
+			width: 40%;
+			height: 25%;
+			font-size: 130%;
+			font-weight: bold;}
         input {
 
             font-size: 20px;
