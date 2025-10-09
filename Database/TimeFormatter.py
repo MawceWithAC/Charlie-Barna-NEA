@@ -10,5 +10,5 @@ def GetDate():
     return Date
 
 
-print(GetDate())
-print(GetTime())
+print(f"DATE: {GetDate()}")
+print(f"TIME: {GetTime()}")

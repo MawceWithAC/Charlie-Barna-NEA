@@ -52,7 +52,9 @@ VALUES({},'{}',{},{},{},{},'{}','{}','{}')
      "Date",
      "Time"
     ])
-
+DeleteAccountFromID = Query("""DELETE FROM Account
+WHERE AccountID = {};
+""", ["ID"])
 GetPostsFromExcersiseID = Query("""
 SELECT p.PostID, p.Title, p.PostContent, p.ExcersiseID, p.Likes, p.Dislikes,e.ExcersiseName,a.Username,p.time,p.date
 FROM Post p NATURAL JOIN Excersise e

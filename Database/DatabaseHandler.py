@@ -32,7 +32,6 @@ def GetLastUserID():
         Cursor = Connection.cursor()
         Result = Cursor.execute("SELECT Max(AccountID) FROM Account").fetchone()
         return Result
-
 def AddUserToDatabase(Values: list):
     #In the Format of NAME USERNAME(LOWERCASE) PASSWORD
     #It adds a new User To The Database
@@ -52,7 +51,7 @@ def DeleteAccount(UserID: int):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
         try:
-            Cursor.execute(f"DELETE FROM Account WHERE AccountID = {UserID}")
+            Cursor.execute(SqlCommands.DeleteAccountFromID.ReturnQuery(UserID))
             return 1
         except Exception as e:
             print(e)
@@ -63,7 +62,7 @@ def UpdateUserDetails(Colomn:str, Value:any):
 def GetAllAcounts(): #Returns every single account in the database as a 2D list
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
-        Result = Cursor.execute(SqlCommands.GetAllAccounts.returnQuery())
+        Result = Cursor.execute(SqlCommands.GetAllAccounts.ReturnQuery())
         return Result.fetchall()
     return 0
 
@@ -138,7 +137,7 @@ def GetMostPopularPosts(Amount: int):
 
 #CreatePost(["This Is A Test2",1,2,"JustTestingThePostFunction"])
 #print(GetExcersiseData([1]))
-#print(AddUserToDatabase(["John","ieatkids","Testing23"]))
-#print(DeleteAccount(3))
+#print(AddUserToDatabase(["iwonder","whereillbe","Testing23"]))
+#print(DeleteAccount(4))
 #print(GetAllAcounts())
 #print()

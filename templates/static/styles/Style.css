@@ -123,15 +123,16 @@
             outline-width: 0;}
         div.ErrorBox
         {
-            background-color: #DAAFAF;
+            background-color: #cddada;
             display:inline-block;
             font-size: 130%;
             width: auto;
             height: 50px;
-            border: 5px groove #C97F7F;
+            border: 5px groove #adbdbd;
             font-style: oblique;
             padding-right: 2% ;
             margin: 2%;
+			border-radius: 4px;
 
         }
         div.post
