@@ -15,10 +15,10 @@ Test
 
     <div class = "title">
 
-        <a class = "postTitleText" style= "font-size: min(2.2vmax,22px); text-decoration: underline" href = "/exercise/{{data[3]}}">{{data[6]}}</a>
+        <a class = "PostTitle" href = "/post/{{data[0]}}">{{data[1]}}</a>
         <p style="margin-left: auto; margin-top: 0;color: #888888">{{data[9]}} at {{data[8]}}</p>
     </div>
-    <a class = "postTitleText" href = "/post/{{data[0]}}">{{data[1]}}</a>
+    <a class = "ExcersiseTitleText" href = "/exercise/{{data[3]}}">{{data[6]}}</a>
     <div>
         <a class = "postUsername" href = "/users/{{data[7]}}">{{data[7]}}</a>
     </div>
@@ -30,14 +30,18 @@ Test
 	</div>
 	{%endif%}
 
-    
+
     <div class = "likeBar">
-        {{data[4]}} <button class = "likeButton" id="Like:{{data[0]}}">&nbsp👍</button> {{data[5]}}<button class = "likeButton" id="Dislike:{{data[0]}}">&nbsp👎</button>
+        {{data[4]}} <button class = "likeButton" id="Like:{{data[0]}}"
+                            onclick= {%if ID == 0 %} "OpenPopUp('popUp')" {%else%} "" {%endif%} >
+        &nbsp👍</button> {{data[5]}}
+        <button class = "likeButton" id="Dislike:{{data[0]}}"
+                onclick= {%if ID == 0 %} "OpenPopUp('popUp')" {%else%} "" {%endif%} >&nbsp👎</button>
     </div>
 </div>
 	{%endfor%}
 	
 	</div>
 
-
+<script src = "{{url_for('static', filename='scripts/SendRequests.js')}}"> </script>
 {% endblock %}

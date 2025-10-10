@@ -136,7 +136,19 @@ def GetSettings():
         return render_template("accountsettings.html",
                                ID = Id,
                            )
-        
+@app.route("/likepost", methods = ["POST"])
+def LikePost():
+    if request.method == "POST":
+        try:
+            User = request.json
+            print(User)
+        except Exception as e:
+            print(e)
+        return {'status': 'success', "code": 202}
+
+
+
+
 @app.route("/CreateAccountCheck", methods = ["POST"])
 def CreateAccountCheck():
     if request.method == "POST":

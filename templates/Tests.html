@@ -23,15 +23,56 @@
     </h1> <!-- for example -->
 	
 </header>
-	
-	
-	
-	
-	<body>
+
+
+
+
+
+
+
+<div class = "loginPopUp" id = 'popUp'>
+
+    <span class = "loginBackground">
+        <button class = "cornerButton" style="background-color: transparent;
+        display: block;
+        margin-left: auto; margin-right: 2px; margin-top: 2px"  onclick="OpenPopUp('popUp')">X</button>
+        <a class = "LoginText">
+        Please Log In To Continue
+            </a>
+            <div style="align-content: center">
+        <form method="POST" style="margin: 0; padding: 5% 25% 5% 25%"
+              action="{{ url_for('CheckLogin') }}">
+            <input type="text"
+                   name="username"
+                   placeholder="Username"
+            style="width: 90%">
+            <input type="password"
+                   name="password"
+                   placeholder="Password"
+                   style="width: 90%;">
+            <button class = "field", type="submit"
+                    style="width: 90%;
+            background-color: #eceded;
+            height: 2em">
+                Login
+            </button>
+        </form>
+    </div>
+    <div>
+        <p><large> NO ACCOUNT? &nbsp; <a href="/createaccount"> Create account </a></large></p>
+    </div>
+    </span>
+
+</div>
+
+
+
+	<body style="height: 10000px">
+
 	<main id = "Main">
 
 	<div class="ErrorBox">{{ mesg }}</div>
-	
+
 	
 <div style = "display:flex; flex-direction: column;width: 100%;justify-content: space-between;">
 <h2>
@@ -41,7 +82,7 @@
 Test
 </h2>
 </div>
-	
+
 	
 	
 
@@ -68,21 +109,10 @@ Test
 
     
     <div class = "likeBar">
-        {{data[4]}} <button class = "likeButton" id="Like:{{data[0]}}">&nbsp👍</button> {{data[5]}}<button class = "likeButton" id="Dislike:{{data[0]}}">&nbsp👎</button>
+        {{data[4]}} <button class = "likeButton" id="Like:{{data[0]}}" onclick= "OpenPopUp('popUp')" >&nbsp👍</button> {{data[5]}}<button class = "likeButton" id="Dislike:{{data[0]}}">&nbsp👎</button>
     </div>
 	
 </div>
-        <form method="POST"
-              action="">
-            <input type="text"
-                   name="username"
-                   placeholder="Username">
-            <input type="password"
-                   name="password"
-                   placeholder="Password">
-            <button class = "field", type="submit"
-			">submit</button>
-        </form>
 
 
 
@@ -95,10 +125,11 @@ Test
 			</h1>
         </Sidebar>
     </div>
-	
+
 
 	
 	<script src = "static/Scripts/SideBar.js"> </script>
+    <script src = "static/Scripts/PopUp.js"> </script>
 	</body>
 
 	

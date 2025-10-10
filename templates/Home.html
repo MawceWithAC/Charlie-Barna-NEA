@@ -7,7 +7,7 @@
     <p> <large>Hello {{ User  }} With ID {{ ID }}</large></p>
 	
 	{%else%}
-    <p> <large>You are not logged in,&nbsp; <a href="/login">Login </large></a></p>
+    <p> <large>You are not logged in,&nbsp; <a href="/login">Login  </a></large></p>
 	{%endif%}
 	<div class = "postBlock">
     <p>Lorem ipsum dolor sit amet adipiscing bibendum sem orci tempus aliquet gravida,
@@ -25,10 +25,10 @@
 
     <div class = "title">
 
-        <a class = "excersiseTitle" href = "/exercise/{{data[3]}}">{{data[6]}}</a>
+        <a class = "PostTitle" href = "/post/{{data[0]}}">{{data[1]}}</a>
         <p style="margin-left: auto; margin-top: 0;color: #888888">{{data[9]}} at {{data[8]}}</p>
     </div>
-    <a class = "postTitleText" href = "/post/{{data[0]}}">{{data[1]}}</a>
+    <a class = "ExcersiseTitleText" href = "/exercise/{{data[3]}}">{{data[6]}}</a>
     <div>
         <a class = "postUsername" href = "/users/{{data[7]}}">{{data[7]}}</a>
     </div>
@@ -42,7 +42,11 @@
 
     
     <div class = "likeBar">
-        {{data[4]}} <button class = "likeButton" id="Like:{{data[0]}}">&nbsp👍</button> {{data[5]}}<button class = "likeButton" id="Dislike:{{data[0]}}">&nbsp👎</button>
+         <button class = "likeButton" id="Like:{{data[0]}}"
+                            onclick= {%if ID == 0 %} "OpenPopUp('popUp')" {%else%} "SendLike({{ID}}, 1,{{data[0]}})" {%endif%} >
+        {{data[4]}}&nbsp👍</button>
+        <button class = "likeButton" id="Dislike:{{data[0]}}"
+                onclick= {%if ID == 0 %} "OpenPopUp('popUp')" {%else%} "SendLike({{ID}}, -1,{{data[0]}})" {%endif%} >{{data[5]}}&nbsp👎</button>
     </div>
 </div>
 	{%endfor%}
@@ -62,5 +66,5 @@
 	-->
 
 
-
+<script src = "{{url_for('static', filename='scripts/SendRequests.js')}}"> </script>
 {% endblock %}

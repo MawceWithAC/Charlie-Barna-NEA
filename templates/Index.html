@@ -27,6 +27,44 @@
     </h1> <!-- for example -->
 	
 </header>
+
+<div class = "loginPopUp" id = 'popUp'>
+
+    <span class = "loginBackground">
+        <button class = "cornerButton" style="background-color: transparent;
+        display: block;
+        margin-left: auto; margin-right: 2px; margin-top: 2px"  onclick="OpenPopUp('popUp')">X</button>
+        <a class = "LoginText">
+        Please Log In To Continue
+            </a>
+            <div style="align-content: center">
+        <form method="POST" style="margin: 0; padding: 5% 25% 5% 25%"
+              action="{{ url_for('CheckLogin') }}">
+            <input type="text"
+                   name="username"
+                   placeholder="Username"
+                   style="width: 90%">
+            <input type="password"
+                   name="password"
+                   placeholder="Password"
+                   style="width: 90%;">
+            <button class = "field", type="submit"
+                    style="width: 90%;
+            background-color: #eceded;
+            height: 2em">
+                Login
+            </button>
+        </form>
+    </div>
+    <div>
+        <p><large> NO ACCOUNT? &nbsp; <a href="/createaccount"> Create account </a></large></p>
+    </div>
+    </span>
+
+</div>
+
+
+
 <body class="body">
 <main id = "Main">
 {% block content %}
@@ -51,5 +89,6 @@
     </Sidebar>
 </div>
 <script src = "{{url_for('static', filename='scripts/SideBar.js')}}"> </script>
+<script src = "{{url_for('static', filename='scripts/PopUp.js')}}"> </script>
 </body>
 </html>
