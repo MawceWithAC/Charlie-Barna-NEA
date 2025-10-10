@@ -28,13 +28,38 @@ WHERE ExcersiseID == {}""",
                          ["ExcersiseID"])
 
 #Get Posts Based On likes:
-GetListExcersises = Query("""
-SELECT p.PostID, p.Title, p.PostContent, p.ExcersiseID, p.Likes, p.Dislikes,e.ExcersiseName,a.Username,p.time,p.date
-FROM Post p NATURAL JOIN Excersise e
-INNER JOIN Account a
-ON p.AccountID == a.AccountID
-ORDER BY p.Likes desc ,p.date desc ,p.time desc 
-LIMIT {}
+GetHomeExcersises = Query("""
+SELECT p.PostID,
+        p.Title,
+        p.PostContent,
+        p.ExcersiseID,
+        COUNT(CASE l.LikeValue WHEN "1" then 1 end) AS Likes,
+        COUNT(CASE l.LikeValue WHEN "-1" then -1 end) AS DisLikes,
+        e.ExcersiseName,
+        a.Username,
+        p.Time,
+        p.Date,
+        sum(l.LikeValue) as LikeSum
+FROM Post p, Likes l,Excersise e,Account a
+WHERE p.PostID = l.PostID AND e.ExcersiseID = p.ExcersiseID AND a.AccountID = p.AccountID AND p.Parent = 0
+GROUP BY p.PostID
+UNION
+SELECT  p.PostID,
+        p.Title,
+        p.PostContent,
+        p.ExcersiseID,
+        0 AS Likes,
+        0 AS Dislikes,
+        e.ExcersiseName,
+        a.Username,
+        p.Time,
+        p.Date,
+        0 as LikeSum
+FROM Post p, Excersise e, Account a
+LEFT JOIN Likes l ON p.PostID = l.PostID
+WHERE l.LikeValue IS NULL AND e.ExcersiseID = p.ExcersiseID AND a.AccountID = p.AccountID AND p.Parent = 0
+ORDER BY LikeSum desc,p.date desc ,p.time desc
+limit {}
 """, ["Amount"])
 GetUsernameFromID = Query("""Select Username FROM Account WHERE AccountID = {}""",["ID"])
 GetLastPostId = Query("SELECT Max(PostID) FROM Post")
@@ -56,9 +81,34 @@ DeleteAccountFromID = Query("""DELETE FROM Account
 WHERE AccountID = {};
 """, ["ID"])
 GetPostsFromExcersiseID = Query("""
-SELECT p.PostID, p.Title, p.PostContent, p.ExcersiseID, p.Likes, p.Dislikes,e.ExcersiseName,a.Username,p.time,p.date
-FROM Post p NATURAL JOIN Excersise e
-INNER JOIN Account a
-ON p.AccountID == a.AccountID
-WHERE p.ExcersiseID = {}
-ORDER BY p.Likes desc ,p.date desc ,p.time desc """,["ID"])
+SELECT p.PostID,
+        p.Title,
+        p.PostContent,
+        p.ExcersiseID,
+        COUNT(CASE l.LikeValue WHEN "1" then 1 end) AS Likes,
+        COUNT(CASE l.LikeValue WHEN "-1" then -1 end) AS DisLikes,
+        e.ExcersiseName,
+        a.Username,
+        p.Time,
+        p.Date,
+        sum(l.LikeValue) as LikeSum
+FROM Post p, Likes l,Excersise e,Account a
+WHERE p.PostID = l.PostID AND e.ExcersiseID = p.ExcersiseID AND a.AccountID = p.AccountID And e.ExcersiseID = {} AND p.Parent = 0
+GROUP BY p.PostID
+UNION
+SELECT  p.PostID,
+        p.Title,
+        p.PostContent,
+        p.ExcersiseID,
+        0 AS Likes,
+        0 AS Dislikes,
+        e.ExcersiseName,
+        a.Username,
+        p.Time,
+        p.Date,
+        0 as LikeSum
+FROM Post p, Excersise e, Account a
+LEFT JOIN Likes l ON p.PostID = l.PostID
+WHERE l.LikeValue IS NULL AND e.ExcersiseID = p.ExcersiseID AND a.AccountID = p.AccountID AND e.ExcersiseID = {} AND p.Parent = 0
+ORDER BY LikeSum desc,p.date desc ,p.time desc
+""",["ID","ID"])

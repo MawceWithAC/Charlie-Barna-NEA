@@ -15,7 +15,7 @@ def CheckName(Input:str):
 def GetPostsFromExcersise(ID: int):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
-        Result = Cursor.execute(SqlCommands.GetPostsFromExcersiseID.ReturnQuery(ID)).fetchall()
+        Result = Cursor.execute(SqlCommands.GetPostsFromExcersiseID.ReturnQuery([ID,ID])).fetchall()
         return Result
     
     
@@ -131,7 +131,7 @@ def CreatePost(Values: list): # [Content:str, ExcersiseID:int,AccountID:int,Titl
 def GetMostPopularPosts(Amount: int):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
-        Results = Cursor.execute(SqlCommands.GetListExcersises.ReturnQuery(Amount)).fetchall()
+        Results = Cursor.execute(SqlCommands.GetHomeExcersises.ReturnQuery(Amount)).fetchall()
         return Results
     return 0
 
