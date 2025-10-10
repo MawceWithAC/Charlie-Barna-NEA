@@ -150,6 +150,12 @@
             word-break: break-all;
 
         }
+		div.post:hover
+		{
+			background-color: #e9eceb;
+			
+			
+		}
         div.likeBar
         {
             margin-top: auto;
@@ -159,19 +165,37 @@
         a.postTitleText
         {
             color: #000000;
-            width: 60%;
+            width: auto;
             font-size: min(1.8vmax,16px);
 			
-            text-decoration: none;
+            text-decoration: underline;
             text-transform: capitalize;
 
 
 
-            padding: 0;
-
-
-
+            padding: 0.1em;
         }
+				a.postTitleText:hover
+		{
+			background-color: #DDE1E0;
+			
+		}
+		a.excersiseTitle
+		{
+			color: #000000;
+            width: auto;
+            text-decoration: none;
+            text-transform: capitalize;
+			font-size: min(2.2vmax,22px); 
+			text-decoration: underline;
+			padding: 0.1em;
+			
+		}
+		a.excersiseTitle:hover
+		{
+			background-color: #DDE1E0;
+		}
+
         a.postUsername
         {
             margin-top: 1%;
@@ -181,11 +205,16 @@
             text-transform: capitalize;
 
             color: #9c9c9c;
-            padding: 0;
+            padding: 0.1em;
 
 
 
         }
+		a.postUsername:hover
+		{
+			background-color: #DDE1E0;
+			
+		}
         button.likeButton
         {
             padding: 0;
@@ -200,6 +229,7 @@
             margin-bottom: 0;
 
         }
+		
         p.description
         {
             margin: 0;
@@ -218,11 +248,16 @@
             border: none;
             background: none;
 			color: #000000;
-			<!--margin-left: auto;
-			width: auto; -->
-			text-decoration: underline;
+			/*margin-left: auto;
+			width: auto;*/
+			text-decoration: none;
 			
 			font-size: min(20px,1.1vmax);
 			margin-top: 0.5em;
+		}
+		a.sideBarButton:hover
+		{
+			text-decoration: underline;
+			
 		}
 
