@@ -1,3 +1,4 @@
+from selenium.webdriver.common.devtools.v137.autofill import Address
 
 from Database import DatabaseHandler
 
@@ -67,19 +68,34 @@ def homepage():
                            HomeData =DatabaseHandler.GetMostPopularPosts(10))
 
 
-@ app.route("/login")
-def loginpage():
-    
-    #cache.set("username", "John Doe")
-    return render_template("Login.html",ID = 0, )
 
-@ app.route("/CheckLogin", methods=["POST"])
-def CheckLogin():
+@ app.route("/login/")
+def loginpageNoFollow():
+    #cache.set("username", "John Doe")
+
+    return render_template("Login.html",ID = 0,Follow = "home" )
+
+@ app.route("/login/<FollowAddress>")
+def loginPageWithFollow(FollowAddress):
+    #cache.set("username", "John Doe")
+    print(FollowAddress)
+    return render_template("Login.html",ID = 0,Follow = FollowAddress )
+
+@ app.route("/login/<FollowAddress>/<Follow2>")
+def loginPageWithDoubleFollow(FollowAddress,Follow2):
+    #cache.set("username", "John Doe")
+    print(FollowAddress)
+    return render_template("Login.html",ID = 0,Follow = f"{FollowAddress}/{Follow2}" )
+
+@ app.route("/CheckLogin/<FollowAddress>", methods=["POST"])
+def CheckLoginWithOneLink(FollowAddress):
+    print(FollowAddress)
     if request.method == "POST":
         #print(request.args)
         User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
         Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
-        
+        return CheckLogin(User, Pass,FollowAddress)
+    return app.redirect(f"/login/{FollowAddress}", 302)
         #print(User,Pass)
 #         for i in TestUsers:
 #             if User == i.User:
@@ -87,24 +103,40 @@ def CheckLogin():
 #                     cache.set("username", i.User)
 #                     #print("LoggedIn")
 #                     return app.redirect("/home", 302)
-        if User is None or Pass is None:
-            flash("Please Use Alphabetic Symbols or Symbols")
-        else:
-            LogginSucsess, LoginDetails = DatabaseHandler.CheckLogin(User,Pass)
-            if LogginSucsess:
-                cache.set("id", LoginDetails[0])
-                return app.redirect("/home",302)
-            else:
-                flash("Wrong Username Or Password")
-    return app.redirect("/login",302)
 
+@ app.route("/CheckLogin/<FollowAddress>/<Address2>", methods=["POST"])
+def CheckLoginWithTwoLink(FollowAddress,Address2):
+    if request.method == "POST":
+        #print(request.args)
+        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
+        Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
+        return CheckLogin(User, Pass,f"{FollowAddress}/{Address2}")
+    return app.redirect("/login", 302)
+
+def CheckLogin(User, Pass,FollowAddress):
+    if User is None or Pass is None:
+            flash("Please Use Alphabetic Symbols or Symbols")
+    else:
+        LogginSucsess, LoginDetails = DatabaseHandler.CheckLogin(User,Pass)
+        if LogginSucsess:
+            cache.set("id", LoginDetails[0])
+            return app.redirect("/"+FollowAddress,302)
+        else:
+            flash("Wrong Username Or Password")
+    return app.redirect(f"/login/{FollowAddress}", 302)
 @app.route("/LogOut")
 def LogOut():
     cache.clear()
     return app.redirect("/home",302)
-@app.route("/createaccount")
-def CreateAccount():
+@app.route("/createaccount/")
+def CreateAccountNoFollow():
     return render_template("CreateAccount.html",ID = 0)
+@app.route("/createaccount/<Follow1>")
+def CreateAccountOneFollow(Follow1):
+    return render_template("CreateAccount.html",ID = 0, Follow = Follow1)
+@app.route("/createaccount/<Follow1>/<Follow2>")
+def CreateAccountTwoFollow(Follow1,Follow2):
+    return render_template("CreateAccount.html",ID = 0, Follow = f"{Follow1}/{Follow2}")
 
 @app.route("/users/<user>")
 def ShowUser(user):
@@ -162,6 +194,32 @@ def CreateAccountCheck():
         User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
         Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
         Pass2 = request.form.get("password2").strip()
+        return CreateAccount(Name,User,Pass,Pass2,"home")
+        #return app.redirect("/createaccount", 400)
+
+
+
+@app.route("/CreateAccountCheck/<Follow1>", methods = ["POST"])
+def CreateAccountCheckOneFollow(Follow1):
+    if request.method == "POST":
+        Name = DatabaseHandler.CheckName(request.form.get("Name").lower().strip())
+        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
+        Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
+        Pass2 = request.form.get("password2").strip()
+        return CreateAccount(Name,User,Pass,Pass2,Follow1)
+        #return app.redirect(f"/createaccount/{Follow1}", 400)
+
+@app.route("/CreateAccountCheck/<Follow1>/<Follow2>", methods = ["POST"])
+def CreateAccountCheckTwoFollow(Follow1,Follow2):
+    if request.method == "POST":
+        Name = DatabaseHandler.CheckName(request.form.get("Name").lower().strip())
+        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
+        Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
+        Pass2 = request.form.get("password2").strip()
+        return CreateAccount(Name,User,Pass,Pass2,f"{Follow1}/{Follow2}")
+
+
+def CreateAccount(Name,User,Pass,Pass2,Follow):
         if Name is None or User is None or Pass is None:
             flash("Please Use Alphabetic Symbols or Symbols")
         else:
@@ -171,14 +229,15 @@ def CreateAccountCheck():
                 AddAccount = DatabaseHandler.AddUserToDatabase([Name,User,Pass])
                 if AddAccount == 201:
                     flash("Sucsesfully Created Account")
-                    return app.redirect("/login",302)
+                    return app.redirect(f"/login/{Follow}",302)
                 elif AddAccount == 409:
                     flash("UserName Already Taken!")
 
 
-        return app.redirect("/createaccount",302)
+        return app.redirect(f"/createaccount/{Follow}",302)
+    #return app.redirect(f"/createaccount/{Follow1}/{Follow2}", 400)
 
-    return app.redirect("/createaccount",400)
+
 
 if __name__ == '__main__':
     app.run(host = "0.0.0.0")

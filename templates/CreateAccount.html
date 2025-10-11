@@ -6,10 +6,10 @@
       {% endfor %}
     <div>
         <form method="POST"
-              action="{{ url_for('CreateAccountCheck') }}">
+              action="/CreateAccountCheck/{{Follow}}">
             <input type="text"
-                   name="First Name"
-                   placeholder="Name">
+                   name="Name"
+                   placeholder="FirstName">
             <input type="text"
                    name="username"
                    placeholder="Username">

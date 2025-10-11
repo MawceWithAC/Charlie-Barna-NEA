@@ -6,7 +6,7 @@
       {% endfor %}
     <div>
         <form method="POST"
-              action="{{ url_for('CheckLogin') }}">
+              action="/CheckLogin/{{Follow}}">
             <input type="text"
                    name="username"
                    placeholder="Username">
@@ -19,7 +19,7 @@
     <br>
     <br>
     <div>
-        <p><large> NO ACCOUNT? &nbsp; <a href="/createaccount"> Create account </a></large></p>
+        <p><large> NO ACCOUNT? &nbsp; <a href="/createaccount/{{Follow}}"> Create account </a></large></p>
     </div>
 
 {% endblock %}

@@ -41,7 +41,7 @@
             </a>
             <div style="align-content: center">
         <form method="POST" style="margin: 0; padding: 5% 25% 5% 25%"
-              action="{{ url_for('CheckLogin') }}">
+              action="{{request.scheme}}://{{ request.host }}/CheckLogin/{{request.path}}">
             <input type="text"
                    name="username"
                    placeholder="Username"
@@ -59,7 +59,7 @@
         </form>
     </div>
     <div>
-        <p><large> NO ACCOUNT? &nbsp; <a href="/createaccount"> Create account </a></large></p>
+        <p><large> NO ACCOUNT? &nbsp; <a href="{{request.scheme}}://{{ request.host }}/createaccount/{{request.path}}"> Create account </a></large></p>
     </div>
     </span>
 
