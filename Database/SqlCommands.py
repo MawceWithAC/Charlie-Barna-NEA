@@ -112,3 +112,14 @@ LEFT JOIN Likes l ON p.PostID = l.PostID
 WHERE l.LikeValue IS NULL AND e.ExcersiseID = p.ExcersiseID AND a.AccountID = p.AccountID AND e.ExcersiseID = {} AND p.Parent = 0
 ORDER BY LikeSum desc,p.date desc ,p.time desc
 """,["ID","ID"])
+
+CheckLike = Query("SELECT LikeID,LikeValue FROM Likes WHERE AccountID = {} AND PostID = {}",["AccountID","PostID"])
+AddLike = Query("INSERT INTO Likes VALUES({},{},{},{})",["LikeID","PostID","AccountID","LikeValue"])
+GetLastLikeId = Query("SELECT Max(LikeID) FROM Likes")
+UpdateLike = Query("UPDATE Likes SET LikeValue = {} WHERE LikeID = {}",["LikeValue","LikeID"])
+GetLikes = Query("""SELECT PostID,  COUNT(CASE LikeValue WHEN "1" then 1 end) AS Likes,
+        COUNT(CASE LikeValue WHEN "-1" then -1 end) AS DisLikes
+    FROM Likes
+    WHERE PostID = {}
+group by PostID""",["PostID"])
+DeleteLike = Query("DELETE FROM Likes WHERE LikeID = {}",["LikeID"])

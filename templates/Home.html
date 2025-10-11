@@ -43,10 +43,11 @@
     
     <div class = "likeBar">
          <button class = "likeButton" id="Like:{{data[0]}}"
-                            onclick= {%if ID == 0 %} "OpenPopUp('popUp')" {%else%} "SendLike({{ID}}, 1,{{data[0]}})" {%endif%} >
+                            onclick={%if ID == 0 %} "OpenPopUp('popUp')" {%else%} "SendLike({{ID}}, 1,{{data[0]}});updateLikes('{{data[0]}}')" {%endif%} >
         {{data[4]}}&nbsp👍</button>
         <button class = "likeButton" id="Dislike:{{data[0]}}"
-                onclick= {%if ID == 0 %} "OpenPopUp('popUp')" {%else%} "SendLike({{ID}}, -1,{{data[0]}})" {%endif%} >{{data[5]}}&nbsp👎</button>
+                onclick= {%if ID == 0 %} "OpenPopUp('popUp')" {%else%} "SendLike({{ID}}, -1,{{data[0]}}); updateLikes('{{data[0]}}')" {%endif%} >
+        {{data[5]}}&nbsp👎</button>
     </div>
 </div>
 	{%endfor%}

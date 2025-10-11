@@ -140,14 +140,20 @@ def GetSettings():
 def LikePost():
     if request.method == "POST":
         try:
-            User = request.json
-            print(User)
+            Request = request.json
+            print(Request)
+            DatabaseHandler.AddLike(Request['UserId'],Request['PostId'],Request['LikeValue'])
         except Exception as e:
-            print(e)
+            #print(e)
+            print(f"ERROR: {e}")
         return {'status': 'success', "code": 202}
-
-
-
+@app.route("/getLikes", methods = ["GET"])
+def GetLikes():
+    if request.method == "GET":
+        Id = request.args.get('ID')
+        print(Id)
+        Likes = DatabaseHandler.GetLikes(int(Id))
+        return {"code": 200, "Likes":Likes[0], "Dislikes":Likes[1]}
 
 @app.route("/CreateAccountCheck", methods = ["POST"])
 def CreateAccountCheck():

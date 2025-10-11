@@ -15,6 +15,7 @@ def CheckName(Input:str):
 def GetPostsFromExcersise(ID: int):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
+        print(SqlCommands.GetPostsFromExcersiseID.ReturnQuery([ID,ID]))
         Result = Cursor.execute(SqlCommands.GetPostsFromExcersiseID.ReturnQuery([ID,ID])).fetchall()
         return Result
     
@@ -127,17 +128,40 @@ def CreatePost(Values: list): # [Content:str, ExcersiseID:int,AccountID:int,Titl
             print(e)
             return 409
 
+def AddLike(AccountID,PostID,Value):
+    print(AccountID,PostID,Value)
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        CheckLike = Cursor.execute(SqlCommands.CheckLike.ReturnQuery([AccountID,PostID])).fetchone()
+        print(CheckLike)
+        if CheckLike is None:
+            LastLike = Cursor.execute(SqlCommands.GetLastLikeId.ReturnQuery()).fetchone()[0]
+            Cursor.execute(SqlCommands.AddLike.ReturnQuery([LastLike+1,PostID,AccountID,Value]))
+        elif Value != CheckLike[1]:
+            print(SqlCommands.UpdateLike.ReturnQuery([Value,CheckLike[0]]))
+            Cursor.execute(SqlCommands.UpdateLike.ReturnQuery([Value,CheckLike[0]]))
+        else:
+            Cursor.execute(SqlCommands.DeleteLike.ReturnQuery([CheckLike[0]]))
+
 
 def GetMostPopularPosts(Amount: int):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
         Results = Cursor.execute(SqlCommands.GetHomeExcersises.ReturnQuery(Amount)).fetchall()
         return Results
-    return 0
 
+def GetLikes(PostID: int):
+    print(PostID)
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        CheckLike = Cursor.execute(SqlCommands.GetLikes.ReturnQuery([PostID])).fetchone()
+        if CheckLike is None:
+            return 0,0
+        return CheckLike[1],CheckLike[2]
 #CreatePost(["This Is A Test2",1,2,"JustTestingThePostFunction"])
 #print(GetExcersiseData([1]))
 #print(AddUserToDatabase(["iwonder","whereillbe","Testing23"]))
 #print(DeleteAccount(4))
 #print(GetAllAcounts())
 #print()
+#AddLike(10,10,-1)
