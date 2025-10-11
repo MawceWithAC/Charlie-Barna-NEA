@@ -1,28 +1,18 @@
 {% extends 'index.html' %}
 {% block content %}
-<div style = "display:flex;flex-direction: row;width: 100%;justify-content: space-between;">
-<h2 style="width: 40%">
-{{ExcersiseData[2]}}
-</h2>
-    <div style="width: 90%;height: 80%;padding-left:40% ">
-        <form action = "/exercise/{{ExcersiseData[0]}}/search" style="display: inline-flex;width:90%;height: 80%;background-color: #FFFFFF; flex-direction: row" class = "searchBar" >
-            <label for="Search" style="width: 20px">
-                <img draggable="false" style="width: 100%;padding-top: 20%;"
+    <!--<div>
+        <form action = "/search" style="display: inline-flex;width:75%; flex-direction: row" class = "searchBar" >
+            <label for="Search" style="width: 39px">
+                <img draggable="false" style="width: 100%;padding-top: 35%;"
                      class="Search"
-                     src = "{{url_for('static', filename='images/search_icon.png')}}" alt=""
+                     src = "static/images/search_icon.png" alt=""
                 >
             </label>
-            <input class="Search"
-                   type="text"
-                   id="Search" name="Search"
-                   placeholder="Search {{ExcersiseData[2]}}"
-                   VALUE="{{ExSearchInput | default('')}}"
-            >
+            <input class="Search" type="text"  id="Search" name="Search" placeholder="Search">
         </form>
-    </div>
-</div>
-<div>
-	{%for data in Data%} <!-- ID Data[0] Title Data[1] Like = data[4] Dislike Data5 -->
+    </div> -->
+<div class = "postBlock">
+    {%for data in Data%} <!-- ID Data[0] Title Data[1] Like = data[4] Dislike Data5 -->
     <div class = "post">
 
 
@@ -53,9 +43,8 @@
             {{data[5]}}&nbsp👎</button>
         </div>
     </div>
-	{%endfor%}
-	
-	</div>
+    {%endfor%}
 
+</div>
 <script src = "{{url_for('static', filename='scripts/SendRequests.js')}}"> </script>
 {% endblock %}

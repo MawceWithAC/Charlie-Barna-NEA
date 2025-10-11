@@ -19,7 +19,8 @@ def GetPostsFromExcersise(ID: int):
         Result = Cursor.execute(SqlCommands.GetPostsFromExcersiseID.ReturnQuery([ID,ID])).fetchall()
         return Result
     
-    
+
+    pass
 def GetUsernameFromID(ID: int ):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
@@ -158,6 +159,14 @@ def GetLikes(PostID: int):
         if CheckLike is None:
             return 0,0
         return CheckLike[1],CheckLike[2]
+
+def SearchPosts(SearchValue = "",ExcersiseID: int = -1):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        print(SqlCommands.Search.ReturnQuery(SearchValue,ExcersiseID))
+        SearchResults = Cursor.execute(SqlCommands.Search.ReturnQuery(SearchValue,ExcersiseID)).fetchall()
+        #print(SearchResults)
+        return SearchResults
 #CreatePost(["This Is A Test2",1,2,"JustTestingThePostFunction"])
 #print(GetExcersiseData([1]))
 #print(AddUserToDatabase(["iwonder","whereillbe","Testing23"]))

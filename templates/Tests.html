@@ -12,6 +12,17 @@
     </a>
 
 	</h1>
+    <div style="width: 90%;height: 80%;padding-left:40% ">
+        <form action = "/search" style="display: inline-flex;width:90%;height: 80%;background-color: #FFFFFF; flex-direction: row" class = "searchBar" >
+            <label for="Search" style="width: 20px">
+                <img draggable="false" style="width: 100%;padding-top: 35%;"
+                     class="Search"
+                     src = "static/images/search_icon.png" alt=""
+                >
+            </label>
+            <input class="Search" type="text"  id="Search" name="Search" placeholder="Search">
+        </form>
+    </div>
 	<h1>
         <!-- Login Button
 	<a class = "LoginButon" href="/user/{{Username}}">Account</a>
@@ -69,11 +80,12 @@
 
 	<body style="height: 10000px">
 
+    </div>
 	<main id = "Main">
 
 	<div class="ErrorBox">{{ mesg }}</div>
 
-	
+
 <div style = "display:flex; flex-direction: column;width: 100%;justify-content: space-between;">
 <h2>
 {{data[6]}}

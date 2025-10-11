@@ -1,3 +1,4 @@
+import flask
 from selenium.webdriver.common.devtools.v137.autofill import Address
 
 from Database import DatabaseHandler
@@ -155,9 +156,26 @@ def ShowExersise(ExId):
         Id = 0
         cache.set("id",0)
     return render_template("excersise.html",ID = Id,
-                           Username = DatabaseHandler.GetUsernameFromID(Id),
+                           ExcersiseData= DatabaseHandler.GetExcersiseData(ExId),
                            Data = DatabaseHandler.GetPostsFromExcersise(ExId)
                            )
+@app.route("/exercise/<ExId>/search", methods = ["GET"])
+def ExcersiseSearch(ExId):
+    SearchInput = request.args.get('Search')
+    Id = cache.get("id")
+    if SearchInput is None or SearchInput == "":
+        SearchDefault = ""
+        return flask.redirect(f"/exercise/{ExId}",302)
+    else:
+        SearchData = DatabaseHandler.SearchPosts(SearchInput,ExId)
+        SearchDefault = str(SearchInput)
+    #print(Data)
+    return render_template("excersise.html",ID = Id,
+                           ExcersiseData= DatabaseHandler.GetExcersiseData(ExId),
+                           ExSearchInput = SearchDefault,
+                           Data = SearchData)
+
+
 @app.route("/accountsettings")
 def GetSettings():
     #response.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
@@ -217,6 +235,20 @@ def CreateAccountCheckTwoFollow(Follow1,Follow2):
         Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
         Pass2 = request.form.get("password2").strip()
         return CreateAccount(Name,User,Pass,Pass2,f"{Follow1}/{Follow2}")
+
+@app.route("/search", methods = ["GET"])
+def SearchPage():
+    SearchInput = request.args.get('Search')
+    Id = cache.get("id")
+    if SearchInput is None or SearchInput == "":
+        SearchDefault = ""
+        return flask.redirect("/home",302)
+    else:
+        SearchData = DatabaseHandler.SearchPosts(SearchInput)
+        SearchDefault = str(SearchInput)
+    #print(Data)
+    return render_template("Search.html",ID = Id,SearchInput = SearchDefault,Data = SearchData
+                           )
 
 
 def CreateAccount(Name,User,Pass,Pass2,Follow):

@@ -15,6 +15,22 @@
         GymSy
     </a>
 	</h1>
+    <div style="width: 90%;height: 80%;padding-left:40% ">
+        <form action = "/search" style="display: inline-flex;width:90%;height: 80%;background-color: #FFFFFF; flex-direction: row" class = "searchBar" >
+            <label for="Search" style="width: 20px">
+                <img draggable="false" style="width: 100%;padding-top: 35%;"
+                     class="Search"
+                     src = "{{url_for('static', filename='images/search_icon.png')}}" alt=""
+                >
+            </label>
+            <input class="Search"
+                   type="text"
+                   id="Search" name="Search"
+                   placeholder="Search"
+                   VALUE="{{SearchInput | default('')}}"
+            >
+        </form>
+    </div>
 	<h1>
         <!--
 	{%if ID == 0%}
@@ -80,9 +96,9 @@
 	<a class = "sideBarButton" href="/home">Home</a>
 	</h1>
 	<h1>
-	{%if ID == 0%}
+	{%if ID| default(0) == 0%}
 	<a class = "sideBarButton" href="/login">Login</a>
-	{%elif ID != 0%}
+	{%elif ID| default(0) != 0%}
 	<a class = "sideBarButton" href="/accountsettings">Account</a>
 	{%endif%}
 	</h1>

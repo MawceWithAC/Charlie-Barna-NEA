@@ -14,7 +14,7 @@
             top: 0;
             min-height: 5%;
             background-color: #adbdbd ;
-			
+            height: 54px;
             display: flex;
             justify-content: space-between;
 			
@@ -91,7 +91,7 @@
         {
             width: 40px;
             background-color: #adbdbd;
-            border: 1px solid #000000;
+            border: thin solid #000000;
             border-radius: 3px;
         }
 
@@ -125,7 +125,7 @@
         div.ErrorBox
         {
             background-color: #cddada;
-            display:inline-block;
+            display:block;
             font-size: 130%;
             width: auto;
             height: 50px;
@@ -144,8 +144,8 @@
             width: 70%;
             min-height: 1%;
             height: auto;
-            border: 1px solid #888888;
-            border-radius: 2px;
+            border: thin solid #888888;
+            border-radius: 6px;
             margin: 1%;
             text-overflow: revert;
             word-break: break-all;
@@ -304,3 +304,14 @@
             to {opacity: 1}
             100% {display: none}
         }
+        input.Search{width: 88%; border: none; display:inline-block; margin: 0;font-size: 16px;height: 65%; padding-top: 1%;}
+        input.Search:focus {background-color: transparent}
+        img{  user-drag: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-drag: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;}
+        form.searchBar{border-color: #000000; border-style: solid; border-radius: 6px; border-width: thin; margin: 0.25%; }
+        form.searchBar:focus-within{transition: background-color 0.2s;
+            background-color: #d6dbde;}
