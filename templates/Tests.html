@@ -99,19 +99,19 @@ Test
 	
 
 
-<div class = "post">
+<div class = "post" onclick="RedirectTo('/post/{{data[0]}}')">
 
 
     <div class = "title">
 
-        <a class = "postTitleText" style= "font-size: min(2.2vmax,22px); text-decoration: underline" href = "/exercise/{{data[3]}}">{{data[6]}}</a>
+        <a class = "PostTitle" href = "/post/{{data[0]}}">{{data[1]}}</a>
         <p style="margin-left: auto; margin-top: 0;color: #888888">{{data[9]}} at {{data[8]}}</p>
     </div>
-    <a class = "postTitleText" href = "/post/{{data[0]}}">{{data[1]}}</a>
+    <a class = "ExcersiseTitleText" href = "/exercise/{{data[3]}}">{{data[6]}}</a>
     <div>
         <a class = "postUsername" href = "/users/{{data[7]}}">{{data[7]}}</a>
     </div>
-	{% if data[2]|length > 40 %}
+	{% if data[2]|length > 0 %}
     <div>
 
         <p class="description">{{data[2]}}
@@ -121,11 +121,14 @@ Test
 
     
     <div class = "likeBar">
-        {{data[4]}} <button class = "likeButton" id="Like:{{data[0]}}" onclick= "OpenPopUp('popUp')" >&nbsp👍</button> {{data[5]}}<button class = "likeButton" id="Dislike:{{data[0]}}">&nbsp👎</button>
+         <button class = "likeButton" id="Like:{{data[0]}}"
+                            onclick={%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendLike({{ID}}, 1,{{data[0]}});updateLikes('{{data[0]}}');ChildClicked();" {%endif%} >
+        {{data[4]}}&nbsp👍</button>
+        <button class = "likeButton" id="Dislike:{{data[0]}}"
+                onclick= {%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendLike({{ID}}, -1,{{data[0]}}); updateLikes('{{data[0]}}');ChildClicked();" {%endif%} >
+        {{data[5]}}&nbsp👎</button>
     </div>
-	
 </div>
-
 
 
 
@@ -142,6 +145,7 @@ Test
 	
 	<script src = "static/Scripts/SideBar.js"> </script>
     <script src = "static/Scripts/PopUp.js"> </script>
+<script src = "static/Scripts/Redirect.js"> </script>
 	</body>
 
 	

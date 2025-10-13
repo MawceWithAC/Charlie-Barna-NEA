@@ -1,5 +1,4 @@
 import flask
-from selenium.webdriver.common.devtools.v137.autofill import Address
 
 from Database import DatabaseHandler
 

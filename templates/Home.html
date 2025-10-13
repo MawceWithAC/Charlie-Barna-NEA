@@ -20,7 +20,7 @@
 	
 	
 	{%for data in HomeData%} <!-- ID Data[0] Title Data[1] Like = data[4] Dislike Data5 -->
-<div class = "post">
+<div class = "post" onclick="RedirectTo('/post/{{data[0]}}')">
 
 
     <div class = "title">
@@ -43,10 +43,10 @@
     
     <div class = "likeBar">
          <button class = "likeButton" id="Like:{{data[0]}}"
-                            onclick={%if ID == 0 %} "OpenPopUp('popUp')" {%else%} "SendLike({{ID}}, 1,{{data[0]}});updateLikes('{{data[0]}}')" {%endif%} >
+                            onclick={%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendLike({{ID}}, 1,{{data[0]}});updateLikes('{{data[0]}}');ChildClicked();" {%endif%} >
         {{data[4]}}&nbsp👍</button>
         <button class = "likeButton" id="Dislike:{{data[0]}}"
-                onclick= {%if ID == 0 %} "OpenPopUp('popUp')" {%else%} "SendLike({{ID}}, -1,{{data[0]}}); updateLikes('{{data[0]}}')" {%endif%} >
+                onclick= {%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendLike({{ID}}, -1,{{data[0]}}); updateLikes('{{data[0]}}');ChildClicked();" {%endif%} >
         {{data[5]}}&nbsp👎</button>
     </div>
 </div>
@@ -68,4 +68,5 @@
 
 
 <script src = "{{url_for('static', filename='scripts/SendRequests.js')}}"> </script>
+<script src = "{{url_for('static', filename='scripts/Redirect.js')}}"> </script>
 {% endblock %}
