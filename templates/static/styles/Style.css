@@ -304,7 +304,7 @@
             to {opacity: 1}
             100% {display: none}
         }
-        input.Search{width: 88%; border: none; display:inline-block; margin: 0;font-size: 16px;height: 65%; padding-top: 1%;}
+        input.Search{width: 88%; border: none; display:inline-block; margin: 0;font-size: 16px;height: 65%;}
         input.Search:focus {background-color: transparent}
         img{  user-drag: none;
             user-select: none;
@@ -312,6 +312,10 @@
             -webkit-user-drag: none;
             -webkit-user-select: none;
             -ms-user-select: none;}
-        form.searchBar{border-color: #000000; border-style: solid; border-radius: 6px; border-width: thin; margin: 0.25%; }
+        form.searchBar{border-color: #000000; 
+		border-style: solid; 
+		border-radius: 6px; 
+		border-width: thin; 
+		margin: 0.25%; }
         form.searchBar:focus-within{transition: background-color 0.2s;
             background-color: #d6dbde;}

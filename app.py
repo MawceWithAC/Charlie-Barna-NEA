@@ -6,6 +6,7 @@ from flask import Flask, render_template, request,flash,Blueprint
 import os
 from flask_caching import Cache
 
+#[sublist[1] for sublist in newList] Get Every Second in a 2d array
 
 #print(TEMPLATE_DIR,":",STATIC_DIR)
 app = Flask(__name__, template_folder="templates", static_folder="templates/static")
@@ -271,4 +272,5 @@ def CreateAccount(Name,User,Pass,Pass2,Follow):
 
 
 if __name__ == '__main__':
-    app.run(host = "0.0.0.0")
+    #app.run(host = "0.0.0.0")
+    app.run()
