@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+{% block content %}
+<PostMain>
+    <div class = "title" style = "Padding: 0;">
+
+        <p class = "PostTitle">{{data[1]}}</p>
+        <p style="margin-left: auto; margin-top: 0;color: #888888">{{data[9]}} at {{data[8]}}</p>
+    </div>
+    <a class = "PostExcersiseTitleText" href = "/exercise/{{data[3]}}">{{data[6]}}</a>
+    <a class = "MainpostUsername" href = "/users/{{data[7]}}">{{data[7]}}</a>
+    <div style = "margin: 1rem;">
+		<a class = "PostDescription">
+        {{data[2]}}
+        </a>
+	</div>
+
+    
+    <div class = "likeBar">
+         <button class = "likeButton" id="Like:{{data[0]}}"
+                            onclick={%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendLike({{ID}}, 1,{{data[0]}});updateLikes('{{data[0]}}');ChildClicked();" {%endif%} >
+        {{data[4]}}&nbsp👍</button>
+        <button class = "likeButton" id="Dislike:{{data[0]}}"
+                onclick= {%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendLike({{ID}}, -1,{{data[0]}}); updateLikes('{{data[0]}}');ChildClicked();" {%endif%} >
+        {{data[5]}}&nbsp👎</button>
+    </div>
+</PostMain>
+<script src = "{{url_for('static', filename='scripts/SendRequests.js')}}"> </script>
+<script src = "{{url_for('static', filename='scripts/Redirect.js')}}"> </script>
+{% endblock %}

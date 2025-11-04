@@ -10,12 +10,16 @@ def CheckName(Input:str):
         return None
     else:
         return Input
-
+def GetPost(ID: int):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        Result = Cursor.execute(SqlCommands.GetPostsFromPostID.ReturnQuery([ID])).fetchone()
+        return Result
 
 def GetPostsFromExcersise(ID: int):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
-        print(SqlCommands.GetPostsFromExcersiseID.ReturnQuery([ID,ID]))
+        #print(SqlCommands.GetPostsFromExcersiseID.ReturnQuery([ID,ID]))
         Result = Cursor.execute(SqlCommands.GetPostsFromExcersiseID.ReturnQuery([ID,ID])).fetchall()
         return Result
     
@@ -113,6 +117,9 @@ def GetExcersiseData(ExcersiseID: int):
     return 0
 
 def CreatePost(Values: list): # [Content:str, ExcersiseID:int,AccountID:int,Title:str]
+    # Needs To Be Updated To New Post Format
+    #
+    ##
    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
         LastPost = Cursor.execute(SqlCommands.GetLastPostId.ReturnQuery()).fetchone()

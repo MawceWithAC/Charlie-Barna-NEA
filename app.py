@@ -141,13 +141,31 @@ def CreateAccountTwoFollow(Follow1,Follow2):
 
 @app.route("/users/<user>")
 def ShowUser(user):
+    Id = cache.get("id")
     print(user)
+    testdata = [[2,"TitleName","Tester",1,0,1,"Bench Press",user,"3:00","10-9-25",-1]]
+    return render_template("User.html",ID = Id,
+                           data = testdata
+                           )
+@app.errorhandler(404)
+def Error404(error):
     return app.redirect("/home",302)
+
+
 
 @app.route("/post/<post>")
 def ShowPost(post):
     print(post)
-    return app.redirect("/home",302)
+    PostData = DatabaseHandler.GetPost(int(post))
+    if PostData is None:
+        return app.redirect("/home",302)
+    Id = cache.get("id")
+    return render_template("Post.html",ID = Id,
+                           data = PostData
+                           )
+
+
+
 @app.route("/exercise/<ExId>")
 def ShowExersise(ExId):
     #print(DatabaseHandler.GetExcersiseData(id))
