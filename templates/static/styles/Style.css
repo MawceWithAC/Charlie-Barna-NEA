@@ -4,7 +4,7 @@
             margin: 0;
             height: 100%;
             font-family: Helvetica, Arial, sans-serif;
-
+			 overflow-x:hidden; 
         }
         head {
         }
@@ -22,7 +22,7 @@
             margin: 0 auto 0 auto;
         }
         body {
-
+			 overflow-x:hidden; 
             margin: 0;
             background-color: #FFFFFF;
             height: 100%;
