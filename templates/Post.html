@@ -24,6 +24,29 @@
         {{data[5]}}&nbsp👎</button>
     </div>
 </PostMain>
+<p>Comments:</p>
+<div>
+	{%for post in Comments%} <!--0:ID 1:Username 2:Description 3:Likes 4:Dislikes 5:Date 6:Time  -->
+<div class = "comment" style = "">
+<div class = "title">
+        <a class = "MainpostUsername" href = "/users/{{post[1]}}" style = "margin: 0">{{post[1]}}</a> <!--Username -->
+	<p style="margin-left: auto; margin-top: 0;color: #888888">{{post[5]}} at {{post[6]}}</p> <!-- Time-->
+	</div>
+        <p class="PostDescription" style = "font-size: min(1.3vmax,15px);" >{{post[2]}}</p>
+
+    
+    <div class = "likeBar"> <!--Likes-->
+         <button class = "likeButton" id="Like:{{post[0]}}"
+                            onclick={%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendLike({{ID}}, 1,{{post[0]}});updateLikes('{{post[0]}}');ChildClicked();" {%endif%} >
+        {{post[3]}}&nbsp👍</button>
+        <button class = "likeButton" id="Dislike:{{post[0]}}"
+                onclick= {%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendLike({{ID}}, -1,{{post[0]}}); updateLikes('{{post[0]}}');ChildClicked();" {%endif%} >
+        {{post[4]}}&nbsp👎</button>
+    </div>
+</div>
+	{%endfor%}
+
+</div>
 <script src = "{{url_for('static', filename='scripts/SendRequests.js')}}"> </script>
 <script src = "{{url_for('static', filename='scripts/Redirect.js')}}"> </script>
 {% endblock %}

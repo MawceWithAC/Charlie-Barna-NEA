@@ -157,11 +157,14 @@ def Error404(error):
 def ShowPost(post):
     print(post)
     PostData = DatabaseHandler.GetPost(int(post))
+    CommentData = DatabaseHandler.GetComments(int(post))
+    #print(CommentData)
     if PostData is None:
         return app.redirect("/home",302)
     Id = cache.get("id")
     return render_template("Post.html",ID = Id,
-                           data = PostData
+                           data = PostData,
+                           Comments = CommentData
                            )
 
 

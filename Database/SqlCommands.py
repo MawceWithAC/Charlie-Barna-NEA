@@ -51,7 +51,36 @@ GetExcersiseData = Query("""SELECT * FROM Excersise NATURAL JOIN MuscleGroup
 --ON Excersise.MuscleID = MuscleGroup.MuscleID
 WHERE ExcersiseID == {}""",
                          ["ExcersiseID"])
+#Get Comments Of A Post
+GetPostComments = Query("""
+SELECT p.PostID,
+		a.Username,
+        p.PostContent,
+        COUNT(CASE l.LikeValue WHEN "1" then 1 end) AS Likes,
+        COUNT(CASE l.LikeValue WHEN "-1" then -1 end) AS DisLikes,
+        p.Date,
+        p.Time,
+        sum(l.LikeValue) as LikeSum,
+		p.Parent
+FROM Post p, Likes l,Excersise e,Account a
+WHERE p.PostID = l.PostID  AND a.AccountID = p.AccountID AND p.Parent = {}
+GROUP BY p.PostID
+UNION
+SELECT  p.PostID,
+        a.Username,
+        p.PostContent,
+        0 AS Likes,
+        0 AS Dislikes,
+        p.Date,
+        p.Time,
+        0 as LikeSum,
+		p.Parent
+FROM Post p, Excersise e, Account a
+LEFT JOIN Likes l ON p.PostID = l.PostID
+WHERE l.LikeValue IS NULL AND a.AccountID = p.AccountID AND p.Parent = {}
+ORDER BY LikeSum desc,p.date desc ,p.time desc
 
+""",["ParentID","ParentID"])
 #Get Posts Based On likes:
 GetHomeExcersises = Query("""
 SELECT p.PostID,

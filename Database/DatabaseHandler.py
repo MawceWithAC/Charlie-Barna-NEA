@@ -71,7 +71,12 @@ def GetAllAcounts(): #Returns every single account in the database as a 2D list
         Result = Cursor.execute(SqlCommands.GetAllAccounts.ReturnQuery())
         return Result.fetchall()
     return 0
-
+def GetComments(ParentID: int):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        Result = Cursor.execute(SqlCommands.GetPostComments.ReturnQuery([ParentID,ParentID]))
+        return Result.fetchall()
+    return 0
     
 def CheckUserNameAndPassword(Username:str, Password:str):
     #Takes in a Username and Password for a user

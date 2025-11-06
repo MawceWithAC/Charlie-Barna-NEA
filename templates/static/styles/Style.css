@@ -157,6 +157,21 @@
 			
 			
 		}
+		div.comment
+        {
+
+            display: flex;
+            flex-direction: column;
+            width: 70%;
+            min-height: 1%;
+            height: auto;
+            border: thin solid #888888;
+            border-radius: 6px;
+            margin: 1%;
+            text-overflow: revert;
+            word-break: break-all;
+
+        }
         div.likeBar
         {
             margin-top: auto;
