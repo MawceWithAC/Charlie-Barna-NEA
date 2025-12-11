@@ -1,15 +1,15 @@
-import flask
-
+from asyncio import run as ARun
+import quart
 from Database import DatabaseHandler
-
-from flask import Flask, render_template, request,flash,Blueprint
-import os
 from flask_caching import Cache
+from quart import Quart, render_template, request,flash,Blueprint
+import os
+
 
 #[sublist[1] for sublist in newList] Get Every Second in a 2d array
 
 #print(TEMPLATE_DIR,":",STATIC_DIR)
-app = Flask(__name__, template_folder="templates", static_folder="templates/static")
+app = Quart(__name__, template_folder="templates", static_folder="templates/static")
 #app.register_blueprint(core, url_prefix='')
 app.config["SECRET_KEY"] = "mAWCEeLL"
 app.config["CACHE_TYPE"] = "SimpleCache"
@@ -45,7 +45,7 @@ TestUsers = [
 ]
 
 @app.route('/')
-def onload():  # put application's code here
+async def onload():  # put application's code here
     cache.set("Loaded", True)
 
     UserID = cache.get("id")
@@ -54,7 +54,7 @@ def onload():  # put application's code here
     
     return app.redirect("/home",302)
 @app.route("/home")
-def homepage():
+async def homepage():
     #flash("Testing")
     userId = cache.get("id")
     UserNameToShow = ""
@@ -62,7 +62,7 @@ def homepage():
         return app.redirect("/",302)
     if userId != 0:
         UserNameToShow = DatabaseHandler.GetUserByID(userId)[1]
-    return render_template("Home.html",
+    return await render_template("Home.html",
                            User = UserNameToShow.title(),
                            ID = userId,
                            Username = DatabaseHandler.GetUsernameFromID(userId),
@@ -71,50 +71,53 @@ def homepage():
 
 
 @ app.route("/login/")
-def loginpageNoFollow():
+async def loginpageNoFollow():
     #cache.set("username", "John Doe")
 
-    return render_template("Login.html",ID = 0,Follow = "home" )
+    return await render_template("Login.html",ID = 0,Follow = "home" )
 
 @ app.route("/login/<FollowAddress>")
-def loginPageWithFollow(FollowAddress):
+async def loginPageWithFollow(FollowAddress):
     #cache.set("username", "John Doe")
     print(FollowAddress)
-    return render_template("Login.html",ID = 0,Follow = FollowAddress )
+    return await render_template("Login.html",ID = 0,Follow = FollowAddress )
 
 @ app.route("/login/<FollowAddress>/<Follow2>")
-def loginPageWithDoubleFollow(FollowAddress,Follow2):
+async def loginPageWithDoubleFollow(FollowAddress,Follow2):
     #cache.set("username", "John Doe")
     print(FollowAddress)
-    return render_template("Login.html",ID = 0,Follow = f"{FollowAddress}/{Follow2}" )
+    return await render_template("Login.html",ID = 0,Follow = f"{FollowAddress}/{Follow2}" )
 
 @ app.route("/CheckLogin/<FollowAddress>", methods=["POST"])
 def CheckLoginWithOneLink(FollowAddress):
+    async def GetRequest(Form):
+        x= (await request.form).get(Form)
+        return x
     print(FollowAddress)
+    
     if request.method == "POST":
         #print(request.args)
-        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
-        Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
+        User = DatabaseHandler.VerifyLogin(ARun(GetRequest("username")).lower().strip())
+        Pass = DatabaseHandler.VerifyLogin(ARun(GetRequest("password")).strip())
         return CheckLogin(User, Pass,FollowAddress)
     return app.redirect(f"/login/{FollowAddress}", 302)
-        #print(User,Pass)
-#         for i in TestUsers:
-#             if User == i.User:
-#                 if Pass == i.Pass:
-#                     cache.set("username", i.User)
-#                     #print("LoggedIn")
-#                     return app.redirect("/home", 302)
+
 
 @ app.route("/CheckLogin/<FollowAddress>/<Address2>", methods=["POST"])
-def CheckLoginWithTwoLink(FollowAddress,Address2):
+async def CheckLoginWithTwoLink(FollowAddress,Address2):
+    async def GetRequest(Form):
+        x= (await request.form).get(Form)
+        return x
+    print(FollowAddress)
+    
     if request.method == "POST":
         #print(request.args)
-        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
-        Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
-        return CheckLogin(User, Pass,f"{FollowAddress}/{Address2}")
+        User = DatabaseHandler.VerifyLogin(ARun(GetRequest("username")).lower().strip())
+        Pass = DatabaseHandler.VerifyLogin(ARun(GetRequest("password")).strip())
     return app.redirect("/login", 302)
 
 def CheckLogin(User, Pass,FollowAddress):
+    print("checking",User)
     if User is None or Pass is None:
             flash("Please Use Alphabetic Symbols or Symbols")
     else:
@@ -126,35 +129,35 @@ def CheckLogin(User, Pass,FollowAddress):
             flash("Wrong Username Or Password")
     return app.redirect(f"/login/{FollowAddress}", 302)
 @app.route("/LogOut")
-def LogOut():
+async def LogOut():
     cache.clear()
     return app.redirect("/home",302)
 @app.route("/createaccount/")
-def CreateAccountNoFollow():
-    return render_template("CreateAccount.html",ID = 0)
+async def CreateAccountNoFollow():
+    return await render_template("CreateAccount.html",ID = 0)
 @app.route("/createaccount/<Follow1>")
-def CreateAccountOneFollow(Follow1):
-    return render_template("CreateAccount.html",ID = 0, Follow = Follow1)
+async def CreateAccountOneFollow(Follow1):
+    return await render_template("CreateAccount.html",ID = 0, Follow = Follow1)
 @app.route("/createaccount/<Follow1>/<Follow2>")
-def CreateAccountTwoFollow(Follow1,Follow2):
-    return render_template("CreateAccount.html",ID = 0, Follow = f"{Follow1}/{Follow2}")
+async def CreateAccountTwoFollow(Follow1,Follow2):
+    return await render_template("CreateAccount.html",ID = 0, Follow = f"{Follow1}/{Follow2}")
 
 @app.route("/users/<user>")
-def ShowUser(user):
+async def ShowUser(user):
     Id = cache.get("id")
     print(user)
     testdata = [[2,"TitleName","Tester",1,0,1,"Bench Press",user,"3:00","10-9-25",-1]]
-    return render_template("User.html",ID = Id,
+    return await render_template("User.html",ID = Id,
                            data = testdata
                            )
 @app.errorhandler(404)
-def Error404(error):
+async def Error404(error):
     return app.redirect("/home",302)
 
 
 
 @app.route("/post/<post>")
-def ShowPost(post):
+async def ShowPost(post):
     print(post)
     PostData = DatabaseHandler.GetPost(int(post))
     CommentData = DatabaseHandler.GetComments(int(post))
@@ -162,7 +165,7 @@ def ShowPost(post):
     if PostData is None:
         return app.redirect("/home",302)
     Id = cache.get("id")
-    return render_template("Post.html",ID = Id,
+    return await render_template("Post.html",ID = Id,
                            data = PostData,
                            Comments = CommentData
                            )
@@ -170,45 +173,45 @@ def ShowPost(post):
 
 
 @app.route("/exercise/<ExId>")
-def ShowExersise(ExId):
+async def ShowExersise(ExId):
     #print(DatabaseHandler.GetExcersiseData(id))
     Id = cache.get("id")
     if Id == None:
         Id = 0
         cache.set("id",0)
-    return render_template("excersise.html",ID = Id,
+    return await render_template("excersise.html",ID = Id,
                            ExcersiseData= DatabaseHandler.GetExcersiseData(ExId),
                            Data = DatabaseHandler.GetPostsFromExcersise(ExId)
                            )
 @app.route("/exercise/<ExId>/search", methods = ["GET"])
-def ExcersiseSearch(ExId):
+async def ExcersiseSearch(ExId):
     SearchInput = request.args.get('Search')
     Id = cache.get("id")
     if SearchInput is None or SearchInput == "":
         SearchDefault = ""
-        return flask.redirect(f"/exercise/{ExId}",302)
+        return await quart.redirect(f"/exercise/{ExId}",302)
     else:
         SearchData = DatabaseHandler.SearchPosts(SearchInput,ExId)
         SearchDefault = str(SearchInput)
     #print(Data)
-    return render_template("excersise.html",ID = Id,
+    return await render_template("excersise.html",ID = Id,
                            ExcersiseData= DatabaseHandler.GetExcersiseData(ExId),
                            ExSearchInput = SearchDefault,
                            Data = SearchData)
 
 
 @app.route("/accountsettings")
-def GetSettings():
+async def GetSettings():
     #response.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
     Id = cache.get("id")
     if Id is None or Id == 0:
         return app.redirect("/login", 302)
     else:
-        return render_template("accountsettings.html",
+        return await render_template("accountsettings.html",
                                ID = Id,
                            )
 @app.route("/likepost", methods = ["POST"])
-def LikePost():
+async def LikePost():
     if request.method == "POST":
         try:
             Request = request.json
@@ -219,7 +222,7 @@ def LikePost():
             print(f"ERROR: {e}")
         return {'status': 'success', "code": 202}
 @app.route("/getLikes", methods = ["GET"])
-def GetLikes():
+async def GetLikes():
     if request.method == "GET":
         Id = request.args.get('ID')
         print(Id)
@@ -228,51 +231,60 @@ def GetLikes():
 
 @app.route("/CreateAccountCheck", methods = ["POST"])
 def CreateAccountCheck():
+    async def GetRequest(Form):
+        x= (await request.form).get(Form)
+        return x
     if request.method == "POST":
-        Name = DatabaseHandler.CheckName(request.form.get("Name").lower().strip())
-        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
-        Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
-        Pass2 = request.form.get("password2").strip()
+        Name = DatabaseHandler.CheckName(ARun(GetRequest("Name")).lower().strip())
+        User = DatabaseHandler.VerifyLogin(ARun(GetRequest("username")).lower().strip())
+        Pass = DatabaseHandler.VerifyLogin(ARun(GetRequest("password")).strip())
+        Pass2 = ARun(GetRequest("password2")).strip()
         return CreateAccount(Name,User,Pass,Pass2,"home")
         #return app.redirect("/createaccount", 400)
 
 
 
 @app.route("/CreateAccountCheck/<Follow1>", methods = ["POST"])
-def CreateAccountCheckOneFollow(Follow1):
+async def CreateAccountCheckOneFollow(Follow1):
+    async def GetRequest(Form):
+        x= (await request.form).get(Form)
+        return x
     if request.method == "POST":
-        Name = DatabaseHandler.CheckName(request.form.get("Name").lower().strip())
-        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
-        Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
-        Pass2 = request.form.get("password2").strip()
+        Name = DatabaseHandler.CheckName(ARun(GetRequest("Name")).lower().strip())
+        User = DatabaseHandler.VerifyLogin(ARun(GetRequest("username")).lower().strip())
+        Pass = DatabaseHandler.VerifyLogin(ARun(GetRequest("password")).strip())
+        Pass2 = ARun(GetRequest("password2")).strip()
         return CreateAccount(Name,User,Pass,Pass2,Follow1)
         #return app.redirect(f"/createaccount/{Follow1}", 400)
 
 @app.route("/CreateAccountCheck/<Follow1>/<Follow2>", methods = ["POST"])
-def CreateAccountCheckTwoFollow(Follow1,Follow2):
+async def CreateAccountCheckTwoFollow(Follow1,Follow2):
+    async def GetRequest(Form):
+        x= (await request.form).get(Form)
+        return x
     if request.method == "POST":
-        Name = DatabaseHandler.CheckName(request.form.get("Name").lower().strip())
-        User = DatabaseHandler.VerifyLogin(request.form.get("username").lower().strip())
-        Pass = DatabaseHandler.VerifyLogin(request.form.get("password").strip())
-        Pass2 = request.form.get("password2").strip()
+        Name = DatabaseHandler.CheckName(ARun(GetRequest("Name")).lower().strip())
+        User = DatabaseHandler.VerifyLogin(ARun(GetRequest("username")).lower().strip())
+        Pass = DatabaseHandler.VerifyLogin(ARun(GetRequest("password")).strip())
+        Pass2 = ARun(GetRequest("password2")).strip()
         return CreateAccount(Name,User,Pass,Pass2,f"{Follow1}/{Follow2}")
 
 @app.route("/search", methods = ["GET"])
-def SearchPage():
+async def SearchPage():
     SearchInput = request.args.get('Search')
     Id = cache.get("id")
     if SearchInput is None or SearchInput == "":
         SearchDefault = ""
-        return flask.redirect("/home",302)
+        return await quart.redirect("/home",302)
     else:
         SearchData = DatabaseHandler.SearchPosts(SearchInput)
         SearchDefault = str(SearchInput)
     #print(Data)
-    return render_template("Search.html",ID = Id,SearchInput = SearchDefault,Data = SearchData
+    return await render_template("Search.html",ID = Id,SearchInput = SearchDefault,Data = SearchData
                            )
 
 
-def CreateAccount(Name,User,Pass,Pass2,Follow):
+async def CreateAccount(Name,User,Pass,Pass2,Follow):
         if Name is None or User is None or Pass is None:
             flash("Please Use Alphabetic Symbols or Symbols")
         else:
