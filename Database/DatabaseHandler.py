@@ -1,5 +1,9 @@
-import sqlite3
-from Database import SqlCommands, TimeFormatter
+import aiosqlite as sqlite3
+from asyncio import run as ARun
+try:
+    from Database import SqlCommands, TimeFormatter
+except:
+    import SqlCommands, TimeFormatter
 def VerifyLogin(Input: str):
     for i in ["--"," "]:
         if i in Input:
@@ -114,20 +118,24 @@ def CheckLogin(Username:str, Password: str):
     return Sucsessful, Details
     
 
-def GetExcersiseData(ExcersiseID: int):
-    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
-        Cursor = Connection.cursor()
-        Results = Cursor.execute(SqlCommands.GetExcersiseData.ReturnQuery(ExcersiseID)).fetchone()
+async def GetExcersiseData(ExcersiseID: int):
+    async with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        print("test")
+        #Cursor = await Connection.cursor()
+        Results = await Connection.execute(SqlCommands.GetExcersiseData.ReturnQuery(ExcersiseID))
+        Results = await Results.fetchone()
+        #Results = await (await Cursor.execute(SqlCommands.GetExcersiseData.ReturnQuery(ExcersiseID))).fetchone()
         return Results
     return 0
 
-def CreatePost(Values: list): # [Content:str, ExcersiseID:int,AccountID:int,Title:str]
+async def CreatePost(Values: list): # [Content:str, ExcersiseID:int,AccountID:int,Title:str]
     # Needs To Be Updated To New Post Format
     #
     ##
-   with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
-        Cursor = Connection.cursor()
-        LastPost = Cursor.execute(SqlCommands.GetLastPostId.ReturnQuery()).fetchone()
+   async with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        #Cursor = Connection.cursor()
+        LastPost = await Connection.execute(SqlCommands.GetLastPostId.ReturnQuery())
+        LastPost = await LastPost.fetchone()
         Values.insert(0,int(LastPost[0])+1) 
         Values.insert(4,0)
         Values.insert(5,0)
@@ -135,7 +143,7 @@ def CreatePost(Values: list): # [Content:str, ExcersiseID:int,AccountID:int,Titl
         Values.insert(8,TimeFormatter.GetTime())
         try:
             print(SqlCommands.CreatePost.ReturnQuery(Values))
-            Cursor.execute(SqlCommands.CreatePost.ReturnQuery(Values))
+            await Connection.execute(SqlCommands.CreatePost.ReturnQuery(Values))
             return 201
         except Exception as e:
             print(e)
@@ -179,8 +187,8 @@ def SearchPosts(SearchValue = "",ExcersiseID: int = -1):
         SearchResults = Cursor.execute(SqlCommands.Search.ReturnQuery(SearchValue,ExcersiseID)).fetchall()
         #print(SearchResults)
         return SearchResults
-#CreatePost(["This Is A Test2",1,2,"JustTestingThePostFunction"])
-#print(GetExcersiseData([1]))
+#ARun(CreatePost(["This Is A Test2",1,2,"JustTestingThePostFunction"]))
+#print(ARun(GetExcersiseData(1)))
 #print(AddUserToDatabase(["iwonder","whereillbe","Testing23"]))
 #print(DeleteAccount(4))
 #print(GetAllAcounts())
