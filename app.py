@@ -17,8 +17,7 @@ app.config["CACHE_DEFAULT_TIMEOUT"] = 300000 # timeout in seconds
 user = "John Doe"
 cache = Cache(app)
 
-async def FlashUser(Message: str = ""):
-    await flash(Message)
+
 
 
 # Ensure responses aren't cached
@@ -56,7 +55,7 @@ async def onload():  # put application's code here
     return app.redirect("/home",302)
 @app.route("/home")
 async def homepage():
-    #ARun(FlashUser("Testing"))
+    #flash("Testing")
     userId = cache.get("id")
     UserNameToShow = ""
     if userId is None:
@@ -120,14 +119,14 @@ async def CheckLoginWithTwoLink(FollowAddress,Address2):
 def CheckLogin(User, Pass,FollowAddress):
     print("checking",User)
     if User is None or Pass is None:
-            ARun(FlashUser("Please Use Alphabetic Symbols or Symbols"))
+            flash("Please Use Alphabetic Symbols or Symbols")
     else:
         LogginSucsess, LoginDetails = DatabaseHandler.CheckLogin(User,Pass)
         if LogginSucsess:
             cache.set("id", LoginDetails[0])
             return app.redirect("/"+FollowAddress,302)
         else:
-            ARun(FlashUser("Wrong Username Or Password"))
+            flash("Wrong Username Or Password")
     return app.redirect(f"/login/{FollowAddress}", 302)
 @app.route("/LogOut")
 async def LogOut():
@@ -235,7 +234,6 @@ def CreateAccountCheck():
     async def GetRequest(Form):
         x= (await request.form).get(Form)
         return x
-    print("Creating" + ARun(GetRequest("Name")))
     if request.method == "POST":
         Name = DatabaseHandler.CheckName(ARun(GetRequest("Name")).lower().strip())
         User = DatabaseHandler.VerifyLogin(ARun(GetRequest("username")).lower().strip())
@@ -247,13 +245,10 @@ def CreateAccountCheck():
 
 
 @app.route("/CreateAccountCheck/<Follow1>", methods = ["POST"])
-def CreateAccountCheckOneFollow(Follow1):
+async def CreateAccountCheckOneFollow(Follow1):
     async def GetRequest(Form):
         x= (await request.form).get(Form)
-        #x = Form
         return x
-    print("Creating" + ARun(GetRequest("Name")))
-    #Name = ARun(GetRequest("Name"))
     if request.method == "POST":
         Name = DatabaseHandler.CheckName(ARun(GetRequest("Name")).lower().strip())
         User = DatabaseHandler.VerifyLogin(ARun(GetRequest("username")).lower().strip())
@@ -263,11 +258,10 @@ def CreateAccountCheckOneFollow(Follow1):
         #return app.redirect(f"/createaccount/{Follow1}", 400)
 
 @app.route("/CreateAccountCheck/<Follow1>/<Follow2>", methods = ["POST"])
-def CreateAccountCheckTwoFollow(Follow1,Follow2):
+async def CreateAccountCheckTwoFollow(Follow1,Follow2):
     async def GetRequest(Form):
         x= (await request.form).get(Form)
         return x
-    print("Creating" + ARun(GetRequest("Name")))
     if request.method == "POST":
         Name = DatabaseHandler.CheckName(ARun(GetRequest("Name")).lower().strip())
         User = DatabaseHandler.VerifyLogin(ARun(GetRequest("username")).lower().strip())
@@ -290,19 +284,19 @@ async def SearchPage():
                            )
 
 
-def CreateAccount(Name,User,Pass,Pass2,Follow):
+async def CreateAccount(Name,User,Pass,Pass2,Follow):
         if Name is None or User is None or Pass is None:
-            ARun(FlashUser("Please Use Alphabetic Symbols or Symbols"))
+            flash("Please Use Alphabetic Symbols or Symbols")
         else:
             if Pass != Pass2:
-                ARun(FlashUser("Both Passwords Must Be The Same"))
+                flash("Both Passwords Must Be The Same")
             else:
                 AddAccount = DatabaseHandler.AddUserToDatabase([Name,User,Pass])
                 if AddAccount == 201:
-                    ARun(FlashUser("Sucsesfully Created Account"))
+                    flash("Sucsesfully Created Account")
                     return app.redirect(f"/login/{Follow}",302)
                 elif AddAccount == 409:
-                    ARun(FlashUser("UserName Already Taken!"))
+                    flash("UserName Already Taken!")
 
 
         return app.redirect(f"/createaccount/{Follow}",302)
