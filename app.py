@@ -162,9 +162,13 @@ def ShowPost(post):
     if PostData is None:
         return app.redirect("/home",302)
     Id = cache.get("id")
+    if Id is None:
+        cache.set("id", 0)
+        Id = 0
     return render_template("Post.html",ID = Id,
                            data = PostData,
-                           Comments = CommentData
+                           Comments = CommentData,
+                           PostID = post
                            )
 
 
@@ -235,7 +239,19 @@ def CreateAccountCheck():
         Pass2 = request.form.get("password2").strip()
         return CreateAccount(Name,User,Pass,Pass2,"home")
         #return app.redirect("/createaccount", 400)
+@app.route("/CommentOnPost", methods = ["POST"])
+def AddComment():
+    if request.method == "POST":
+        try:
+            Request = request.json
+            print(Request)
+            DatabaseHandler.CreateComment([Request['Comment'],Request['User'],Request['ParentID']])
 
+        except Exception as e:
+            #print(e)
+            print(f"ERROR: {e}")
+            return {'status': 'error', "code": 500}
+        return {'status': 'success', "code": 202}
 
 
 @app.route("/CreateAccountCheck/<Follow1>", methods = ["POST"])

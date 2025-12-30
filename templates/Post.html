@@ -25,6 +25,11 @@
     </div>
 </PostMain>
 <p>Comments:</p>
+<div style="display: flex; flex-direction: column;">
+    <textarea style = "" id="CommentID" name="Comment" rows="4" cols="50" placeholder="Comment Your Emotions Away"></textarea>
+    <button style = "" onclick= {%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendComment(document.getElementById('CommentID').value,{{PostID}},'{{ID}}')"{%endif%}>Post</button>
+</div>
+
 <div>
 	{%for post in Comments%} <!--0:ID 1:Username 2:Description 3:Likes 4:Dislikes 5:Date 6:Time  -->
 <div class = "comment" style = "">

@@ -15,6 +15,7 @@ function SendLike(User,Value,PostID)
     }).then(response => response.json())
         .then(data => console.log(data))
 }
+
 function updateLikes(ID)
 {
     //console.log("Updating Like:"+ID)
@@ -33,4 +34,28 @@ function updateLikes(ID)
 
     }
     Request();
+}
+function SendComment(Comment,ParentID,User)
+{
+    if (Comment == "")
+    {
+        return 0;
+    }
+
+    //console.log(User,Value)
+    let data = {
+        "Comment": Comment,
+        "ParentID": ParentID,
+        "User": User
+
+    }
+    fetch("http://"+location.host +"/CommentOnPost", {
+        "method": "POST",
+        "headers": {"Content-Type": "application/json"},
+        "body": JSON.stringify(data),
+    }).then(response => response.json())
+        .then(data => console.log(data))
+    setTimeout(function(){
+        location.reload();
+    }, 500); // Kept Aborting
 }

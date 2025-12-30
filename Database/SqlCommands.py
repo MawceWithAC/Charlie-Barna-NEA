@@ -11,7 +11,8 @@ class Query():
         if len(NewContent) == len(self.Additions):
             return self.Query.format(*NewContent)
         else:
-            return "ERROR"
+            print(NewContent, self.Additions)
+            return "ERROR building Query"
 
 class SearchQuery(Query):
     def __init__(self,content):
@@ -126,12 +127,23 @@ VALUES({},'{}',{},{},{},{},'{}','{}','{}')
     "PostContent",
      "ExcersiseID",
      "AccountID",
-     "Likes",
-     "Dislikes",
      "Title",
      "Date",
      "Time"
     ])
+CreateComment = Query(""" 
+INSERT INTO Post
+VALUES({},'{}',0,{},"Comment",'{}','{}',{})
+""",["PostID",
+    "PostContent",
+     "AccountID",
+     "Date",
+     "Time",
+     "Parent"
+    ])
+
+
+
 #########
 DeleteAccountFromID = Query("""DELETE FROM Account
 WHERE AccountID = {};

@@ -141,6 +141,35 @@ def CreatePost(Values: list): # [Content:str, ExcersiseID:int,AccountID:int,Titl
             print(e)
             return 409
 
+def CreateComment(Values: list): #Values = ["PostContent","AccountID","ParentID"]
+
+    #["PostID",
+   # "PostContent",
+    # "AccountID",
+    # "Date",
+    # "Time"
+    # "Parent"]
+    #
+    # Needs To Be Updated To New Post Format
+    ##
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        inputValue = [int(Cursor.execute(SqlCommands.GetLastPostId.ReturnQuery()).fetchone()[0])+1, #PostID
+        Values[0].strip(),#PostContent
+        Values[1],#AccountID
+
+        TimeFormatter.GetDate(),
+        TimeFormatter.GetTime(),
+        Values[2]] #Parent
+        try:
+            print(SqlCommands.CreateComment.ReturnQuery(inputValue))
+            Cursor.execute(SqlCommands.CreateComment.ReturnQuery(inputValue))
+            return 201
+        except Exception as e:
+            print(e)
+            return 409
+
+
 def AddLike(AccountID,PostID,Value):
     print(AccountID,PostID,Value)
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
