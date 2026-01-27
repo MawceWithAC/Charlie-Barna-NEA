@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>-->
     <!--<script src="https://cdn.jsdelivr.net/npm/dohjs@latest/dist/doh.min.js"></script>-->
-	<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.js"></script>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" >
+    
 	<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{url_for('static', filename='styles/Style.css')}}" /> 
+	<link rel="stylesheet" href="static/styles/Style.css" /> 
 	
     <title>GymSy</title>
     <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
@@ -87,9 +88,22 @@
 
 <body class="body">
 <main id = "Main">
-{% block content %}
+<!-- {% block content %} 
     <p> Hello World <p>
-{% endblock %}
+{% endblock %}-->
+<div style="display: inline-flex;align-items: center;">
+<select id="option" class = "select" placeholder="Select an excersise..." autocomplete="on" style = "width:50%" >
+			<option value="">Select a person...</option>
+			<option value="1">Bench Press</option>
+			<option value="3">Squat</option>
+			<option value="5">DeadLift</option> <!--PUT JINJA CODE HERE -->
+		</select>
+
+<button class = "CreateExcerise">
+Create New Excersise
+</button>
+
+</div>
 </main>
 <div class="sidebar" id = "SideBar">
 
@@ -98,18 +112,19 @@
 	<a class = "sideBarButton" href="/home">Home</a>
 	</h1>
 	<h1>
-	{%if ID| default(0) == 0%}
 	<a class = "sideBarButton" href="/login">Login</a>
-	{%elif ID| default(0) != 0%}
-	<a class = "sideBarButton" href="/accountsettings">Account</a>
-	{%endif%}
 	</h1>
 
 	
     </Sidebar>
 </div>
-<script src = "{{url_for('static', filename='scripts/SideBar.js')}}"> </script>
-<script src = "{{url_for('static', filename='scripts/PopUp.js')}}"> </script>
-
+<script src = "static/Scripts/SideBar.js"> </script>
+<script src = "static/Scripts/PopUp.js"> </script>
+<script>
+document.querySelectorAll('.select').forEach((el)=>{
+	let settings = {};
+ 	new TomSelect(el,settings);
+});
+</script>
 </body>
 </html>

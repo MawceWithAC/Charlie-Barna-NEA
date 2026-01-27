@@ -29,6 +29,10 @@ def after_request(response):
     response.cache_control.max_age = 0
     return response
 
+@app.errorhandler(404)
+def Error404(error):
+    print("404: "+"Something Not Found")
+    return app.redirect("/home",302)
 
 class UserClass:
     User = ""
@@ -63,10 +67,10 @@ def homepage():
     if userId != 0:
         UserNameToShow = DatabaseHandler.GetUserByID(userId)[1]
     return render_template("Home.html",
-                           User = UserNameToShow.title(),
-                           ID = userId,
-                           Username = DatabaseHandler.GetUsernameFromID(userId),
-                           HomeData =DatabaseHandler.GetMostPopularPosts(10))
+                            User = UserNameToShow.title(),
+                            ID = userId,
+                            Username = DatabaseHandler.GetUsernameFromID(userId),
+                            HomeData =DatabaseHandler.GetMostPopularPosts(10))
 
 
 
@@ -145,11 +149,9 @@ def ShowUser(user):
     print(user)
     testdata = [[2,"TitleName","Tester",1,0,1,"Bench Press",user,"3:00","10-9-25",-1]]
     return render_template("User.html",ID = Id,
-                           data = testdata
-                           )
-@app.errorhandler(404)
-def Error404(error):
-    return app.redirect("/home",302)
+                            data = testdata
+                            )
+
 
 
 
@@ -166,10 +168,10 @@ def ShowPost(post):
         cache.set("id", 0)
         Id = 0
     return render_template("Post.html",ID = Id,
-                           data = PostData,
-                           Comments = CommentData,
-                           PostID = post
-                           )
+                            data = PostData,
+                            Comments = CommentData,
+                            PostID = post
+                            )
 
 
 
@@ -181,9 +183,9 @@ def ShowExersise(ExId):
         Id = 0
         cache.set("id",0)
     return render_template("excersise.html",ID = Id,
-                           ExcersiseData= DatabaseHandler.GetExcersiseData(ExId),
-                           Data = DatabaseHandler.GetPostsFromExcersise(ExId)
-                           )
+                            ExcersiseData= DatabaseHandler.GetExcersiseData(ExId),
+                            Data = DatabaseHandler.GetPostsFromExcersise(ExId)
+                            )
 @app.route("/exercise/<ExId>/search", methods = ["GET"])
 def ExcersiseSearch(ExId):
     SearchInput = request.args.get('Search')
@@ -196,9 +198,9 @@ def ExcersiseSearch(ExId):
         SearchDefault = str(SearchInput)
     #print(Data)
     return render_template("excersise.html",ID = Id,
-                           ExcersiseData= DatabaseHandler.GetExcersiseData(ExId),
-                           ExSearchInput = SearchDefault,
-                           Data = SearchData)
+                            ExcersiseData= DatabaseHandler.GetExcersiseData(ExId),
+                            ExSearchInput = SearchDefault,
+                            Data = SearchData)
 
 
 @app.route("/accountsettings")
@@ -209,8 +211,8 @@ def GetSettings():
         return app.redirect("/login", 302)
     else:
         return render_template("accountsettings.html",
-                               ID = Id,
-                           )
+                                ID = Id,
+                                )
 @app.route("/likepost", methods = ["POST"])
 def LikePost():
     if request.method == "POST":
@@ -285,7 +287,7 @@ def SearchPage():
         SearchDefault = str(SearchInput)
     #print(Data)
     return render_template("Search.html",ID = Id,SearchInput = SearchDefault,Data = SearchData
-                           )
+                            )
 
 
 def CreateAccount(Name,User,Pass,Pass2,Follow):

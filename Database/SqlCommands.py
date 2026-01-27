@@ -46,12 +46,12 @@ FindAccountByID = Query("SELECT * FROM Account WHERE AccountID = {}"
                         , ["ID"])
 
 AddUserToDatabase = Query("INSERT INTO Account VALUES({},'{}','{}','{}',0)"
-                          ,["UserID","Name","Username","Password"])
+                            ,["UserID","Name","Username","Password"])
 
 GetExcersiseData = Query("""SELECT * FROM Excersise NATURAL JOIN MuscleGroup
 --ON Excersise.MuscleID = MuscleGroup.MuscleID
 WHERE ExcersiseID == {}""",
-                         ["ExcersiseID"])
+                        ["ExcersiseID"])
 #Get Comments Of A Post
 GetPostComments = Query("""
 SELECT p.PostID,
@@ -136,10 +136,10 @@ INSERT INTO Post
 VALUES({},'{}',0,{},"Comment",'{}','{}',{})
 """,["PostID",
     "PostContent",
-     "AccountID",
-     "Date",
-     "Time",
-     "Parent"
+    "AccountID",
+    "Date",
+    "Time",
+    "Parent"
     ])
 
 

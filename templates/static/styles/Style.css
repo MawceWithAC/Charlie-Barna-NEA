@@ -106,14 +106,25 @@
 			width: 40%;
 			height: 25%;
 			font-size: 130%;
-			font-weight: bold;}
+			font-weight: bold;
+			cursor: pointer;}
+			
+		button.CreateExcerise {background-color: #adbdbd;
+			border: 1px solid #000000;
+			border-radius: 9px;
+			width:75px;
+			Height:75%;
+			font-size: 12px; 
+			font-weight: normal; 
+			cursor: pointer;}
+		button.CreateExcerise:hover {background-color: #8BA2A2;}
         input {
 
             font-size: 20px;
             display: block;
             margin: 0.5rem 0.5rem 0.5rem 0;
             width: 40%;
-            height: 3rem;
+            /*height: 3rem;*/
             outline: None;
             border-color: #d8bdd3;
             color: #000000;
@@ -379,3 +390,9 @@
 		}
 			
 		a.PostDescription{font-size: 17px;}
+		.ts-control{vertical-align: baseline;
+		align-items: center;
+		display:flex;
+		border-color: black;}
+		
+		
