@@ -111,26 +111,28 @@
 			
 		button.CreateExcerise {background-color: #adbdbd;
 			border: 1px solid #000000;
-			border-radius: 9px;
-			width:75px;
+			border-radius: 5px;
+			width:max(10%,80px);
 			Height:75%;
-			font-size: 12px; 
+			font-size: 0.75rem; 
 			font-weight: normal; 
 			cursor: pointer;}
 		button.CreateExcerise:hover {background-color: #8BA2A2;}
         input {
-
+			border-radius: 3px;
+			border-style: solid;
+			border-width: 1px;
             font-size: 20px;
             display: block;
             margin: 0.5rem 0.5rem 0.5rem 0;
             width: 40%;
             /*height: 3rem;*/
             outline: None;
-            border-color: #d8bdd3;
+            border-color: #000000;
             color: #000000;
         }
-        input:focus {transition: background-color 0.2s;
-            background-color: #d6dbde;
+        input:focus {transition: border-width 0s;
+            border-width: 2px;
         ;
             outline-width: 0;}
         div.ErrorBox
@@ -393,6 +395,9 @@
 		.ts-control{vertical-align: baseline;
 		align-items: center;
 		display:flex;
-		border-color: black;}
+		border-color: black;
+
+		}
+		.item {padding:0}
 		
-		
+		textarea.Commentbox{text-align:start; border-radius:3px;}

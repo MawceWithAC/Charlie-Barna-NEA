@@ -91,20 +91,33 @@
 <!-- {% block content %} 
     <p> Hello World <p>
 {% endblock %}-->
-<div style="display: inline-flex;align-items: center;">
-<select id="option" class = "select" placeholder="Select an excersise..." autocomplete="on" style = "width:50%" >
+<div style="display: inline-flex; align-items: center;">
+<input class = "TitleBox" style = "margin:0.5%", placeholder = "Title"></input>
+<div style = "margin: 0; display: inline-flex; align-items: center; width: 100%;">
+<select id="option" class = "select" placeholder="Select an excersise..." autocomplete="on" style = "width:100%" >
 			<option value="">Select a person...</option>
 			<option value="1">Bench Press</option>
 			<option value="3">Squat</option>
 			<option value="5">DeadLift</option> <!--PUT JINJA CODE HERE -->
 		</select>
-
-<button class = "CreateExcerise">
+<button class = "CreateExcerise" id = "CreateExButton" style = "height:100%; padding:3px">
 Create New Excersise
 </button>
+</div>
+</div>
+<div style = "padding: 1%; padding-top:0; ">
+
+<textarea placeholder = "Description" id = "Description" class = "Commentbox" style = "resize: none; width:75%; font-size:14px" rows="20" cols="50" ></textarea>
 
 </div>
+<div style = "padding:1%; height: 100%; padding-top:0; width: 74%; display:flex; flex-direction:row-reverse">
+<button class = "CreateExcerise" style = "height:10%; width:15%">
+Post
+</button>
+</div>
 </main>
+
+
 <div class="sidebar" id = "SideBar">
 
     <Sidebar>
@@ -118,6 +131,7 @@ Create New Excersise
 	
     </Sidebar>
 </div>
+
 <script src = "static/Scripts/SideBar.js"> </script>
 <script src = "static/Scripts/PopUp.js"> </script>
 <script>
