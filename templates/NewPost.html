@@ -1,144 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>-->
-    <!--<script src="https://cdn.jsdelivr.net/npm/dohjs@latest/dist/doh.min.js"></script>-->
-    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.js"></script>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" >
-    
-	<link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
-	<link rel="stylesheet" href="static/styles/Style.css" /> 
-	
-    <title>GymSy</title>
-    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
-<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico">
-</head>
-<header>
-    <h1> <a href="/home" style=" color: #000000; text-decoration: none;  ">
-        GymSy
-    </a>
-	</h1>
-    <div style="width: 90%;height: 80%;padding-left:40% ">
-        <form action = "/search" style="display: inline-flex; align-items:center;width:90%;height: 80%;background-color: #FFFFFF; flex-direction: row" class = "searchBar" >
-            <label for="Search" style="width: 20px">
-                <img draggable="false" style="width: 100%;"
-                     class="Search"
-                     src = "{{url_for('static', filename='images/search_icon.png')}}" alt=""
-                >
-            </label>
-            <input class="Search"
-                   type="text"
-                   id="Search" name="Search"
-                   placeholder="Search"
-                   VALUE="{{SearchInput | default('')}}"
-            >
-        </form>
-    </div>
-	<h1>
-        <!--
-	{%if ID == 0%}
-	<a class = "sideBarButton" href="/login">Login</a>
-	{%elif ID != 0%}
-	<a class = "sideBarButton" href="/accountsettings">Account</a>
-	{%endif%}
-	-->
-        <button class = "cornerButton" onclick="SwapBar()">
-            <large>=</large>
-        </button>
-    </h1> <!-- for example -->
-	
-</header>
+{% extends 'index.html' %}
+{% block content %}
 
-<div class = "loginPopUp" id = 'popUp'>
-
-    <span class = "loginBackground">
-        <button class = "cornerButton" style="background-color: transparent;
-        display: block;
-        margin-left: auto; margin-right: 2px; margin-top: 2px"  onclick="OpenPopUp('popUp')">X</button>
-        <a class = "LoginText">
-        Please Log In To Continue
-            </a>
-            <div style="align-content: center">
-        <form method="POST" style="margin: 0; padding: 5% 25% 5% 25%"
-              action="{{request.scheme}}://{{ request.host }}/CheckLogin/{{request.path}}">
-            <input type="text"
-                   name="username"
-                   placeholder="Username"
-                   style="width: 90%">
-            <input type="password"
-                   name="password"
-                   placeholder="Password"
-                   style="width: 90%;">
-            <button class = "field", type="submit"
-                    style="width: 90%;
-            background-color: #eceded;
-            height: 2em">
-                Login
-            </button>
-        </form>
-    </div>
-    <div>
-        <p><large> NO ACCOUNT? &nbsp; <a href="{{request.scheme}}://{{ request.host }}/createaccount/{{request.path}}"> Create account </a></large></p>
-    </div>
-    </span>
-
-</div>
+<form style = "margin:0; display: flex; width:100%; flex-direction: column; height: 100%;"
+      method="POST"
+      action="/CreatePost">
 
 
-
-<body class="body">
-<main id = "Main">
-<!-- {% block content %} 
-    <p> Hello World <p>
-{% endblock %}-->
 <div style="display: inline-flex; align-items: center;">
-<input class = "TitleBox" style = "margin:0.5%", placeholder = "Title"></input>
+
+
+<input required class = "TitleBox" style = "margin:0.5%", placeholder = "Title" name = "title"></input>
+
 <div style = "margin: 0; display: inline-flex; align-items: center; width: 100%;">
-<select id="option" class = "select" placeholder="Select an excersise..." autocomplete="on" style = "width:100%" >
-			<option value="">Select a person...</option>
-			<option value="1">Bench Press</option>
-			<option value="3">Squat</option>
-			<option value="5">DeadLift</option> <!--PUT JINJA CODE HERE -->
+
+
+<select required id="option" class = "select" placeholder="Select an excersise..." autocomplete="on" style = "width:100%" name = "excersise">
+			<option value="">Select an excersise...</option>
+    {%for d in Data%}
+        <option value="{{d[0]}}">{{d[1]}}</option>
+    {%endfor%}
 		</select>
-<button class = "CreateExcerise" id = "CreateExButton" style = "height:100%; padding:3px">
+
+
+
+<button onclick="location.href='/newexcersise'" class = "CreateExcerise" id = "CreateExButton" style = "height:100%; padding:3px">
 Create New Excersise
 </button>
+
+
 </div>
 </div>
 <div style = "padding: 1%; padding-top:0; ">
 
-<textarea placeholder = "Description" id = "Description" class = "Commentbox" style = "resize: none; width:75%; font-size:14px" rows="20" cols="50" ></textarea>
+<textarea name = "description"  required placeholder = "Description" id = "Description" class = "Commentbox" style = "resize: none; width:75%; font-size:14px" rows="20" cols="50" ></textarea>
 
 </div>
 <div style = "padding:1%; height: 100%; padding-top:0; width: 74%; display:flex; flex-direction:row-reverse">
-<button class = "CreateExcerise" style = "height:10%; width:15%">
+<button type="submit" class = "CreateExcerise" style = "height:10%; width:15%">
 Post
 </button>
 </div>
-</main>
+</form>
 
 
-<div class="sidebar" id = "SideBar">
-
-    <Sidebar>
-		<h1>
-	<a class = "sideBarButton" href="/home">Home</a>
-	</h1>
-	<h1>
-	<a class = "sideBarButton" href="/login">Login</a>
-	</h1>
-
-	
-    </Sidebar>
-</div>
-
-<script src = "static/Scripts/SideBar.js"> </script>
-<script src = "static/Scripts/PopUp.js"> </script>
 <script>
-document.querySelectorAll('.select').forEach((el)=>{
-	let settings = {};
- 	new TomSelect(el,settings);
-});
+    document.querySelectorAll('.select').forEach((el)=>{
+        let settings = {};
+        Select = new TomSelect(el,settings);
+        {%if Default != 0 %} Select.setValue({{Default}}); console.log({{Default}});  {%endif%}
+    });
+
 </script>
-</body>
-</html>
+{% endblock %}
+
+
+
+

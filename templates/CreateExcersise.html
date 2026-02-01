@@ -1,0 +1,62 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<form style = "margin:0; display: flex; width:100%; flex-direction: column; height: 100%;"
+      method="POST"
+      action="/CreateExcersise">
+
+
+    <div style="display: inline-flex; align-items: center;">
+
+
+        <input required class = "TitleBox" style = "margin:0.5%", placeholder = "Excersise Name" name = "Name" id = "NameBox">
+
+        <div style = "margin: 0; display: inline-flex; align-items: center; width: 100%;">
+
+
+            <select required id="option" class = "select" placeholder="Select a muscle group..." autocomplete="on" style = "width:100%" name = "MuscleID">
+                <option value="">Select a muscle group...</option>MuscleID
+                <option value="1">Chest</option>
+                <option value="2">Triceps</option>
+                <option value="3">Biceps</option>
+                <option value="4">Lats</option>
+                <option value="5">Traps</option>
+                <option value="6">Upper Back</option>
+                <option value="7">Lower Back</option>
+                <option value="8">Forearms</option>
+                <option value="9">Abs</option>
+                <option value="10">Front Delts</option>
+                <option value="11">Back Delts</option>
+                <option value="12">Calves</option>
+                <option value="13">Quads</option>
+                <option value="14">Hamstring</option>
+                <option value="15">Glutes</option>
+
+            </select>
+
+
+        </div>
+    </div>
+    <div style = "padding:1%; height: 40%; padding-top:0; width: 100%; display:flex; justify-content: center; ">
+        <button type="submit" class = "CreateExcerise" style = "height:10%; width:40%">
+            Create
+        </button>
+    </div>
+</form>
+
+
+<script>
+    document.querySelectorAll('.select').forEach((el)=>{
+        let settings = {};
+        Select = new TomSelect(el,settings);
+        {%if Default != 0 %} Select.setValue({{Default}}); console.log({{Default}});  {%endif%}
+    });
+
+</script>
+
+<script>
+    {% if ExInput != None %}document.getElementById("NameBox").value = "{{ExInput}}" {%endif%}
+    console.log({{ExInput}})
+
+</script>
+{% endblock %}

@@ -1,4 +1,5 @@
 import flask
+from pygments.lexer import default
 
 from Database import DatabaseHandler
 
@@ -284,9 +285,16 @@ def SearchPage():
         return flask.redirect("/home",302)
     else:
         SearchData = DatabaseHandler.SearchPosts(SearchInput)
+        Ex = DatabaseHandler.SearchExcersises(SearchInput)
         SearchDefault = str(SearchInput)
+
+
     #print(Data)
-    return render_template("Search.html",ID = Id,SearchInput = SearchDefault,Data = SearchData
+    return render_template("Search.html",
+                           ID = Id,
+                           SearchInput = SearchDefault,
+                           Data = SearchData,
+                           ExData = Ex
                             )
 
 
@@ -308,6 +316,87 @@ def CreateAccount(Name,User,Pass,Pass2,Follow):
         return app.redirect(f"/createaccount/{Follow}",302)
     #return app.redirect(f"/createaccount/{Follow1}/{Follow2}", 400)
 
+@app.route("/newpost/<default>", methods = ["GET"])
+def NewPostPageWithDefault(default):
+    Id = cache.get("id")
+    if Id is None or Id == 0:
+        return app.redirect(f"/login/newpost/{default}")
+    #print(Data)
+    Data = DatabaseHandler.GetAllExcersises()
+    try:
+        newDefault = int(default)
+    except:
+        return app.redirect("/Home")
+    #print(Ex)
+    return render_template("NewPost.html",
+                           ID = Id
+                           ,Data = Data,
+                            Default = default
+                            )
+@app.route("/newpost", methods = ["GET"])
+def NewPostPage():
+    Id = cache.get("id")
+    if Id is None or Id == 0:
+        return app.redirect("/login/newpost")
+    #print(Data)
+    Data = DatabaseHandler.GetAllExcersises()
+
+    #print(Ex)
+    return render_template("NewPost.html",
+                           ID = Id
+                           ,Data = Data,
+                           Default = 0
+                            )
+
+@app.route("/CreatePost", methods = ["POST"])
+def CreatePost():
+    if request.method == "POST":
+        try:
+            Request = request.form
+            #print("Request:",Request)
+            Id = cache.get("id")
+            NewPostID = DatabaseHandler.CreatePost([Request["description"],
+                                        int( Request["excersise"] ),
+                                        int(Id),Request["title"]])
+            if NewPostID is None:
+                return app.redirect("NewPost",302)
+            else:
+                return app.redirect(f"/post/{NewPostID}", 302)
+
+        except:
+            print("ERROR")
+    return app.redirect("/home",302)
+
+@app.route("/CreateExcersise", methods = ["POST"])
+def CreateExcersise():
+    if request.method == "POST":
+        try:
+            Request = request.form
+            print(Request)
+            NewExID = DatabaseHandler.CreateExcerise(int(Request["MuscleID"]),Request["Name"] )
+            if NewExID is None:
+                return app.redirect("NewPost",302)
+            else:
+                return app.redirect(f"/exercise/{NewExID}", 302)
+
+        except Exception as e:
+            print("ERROR:",e)
+    return app.redirect("/home",302)
+
+@app.route("/newexcersise")
+def newExcersise():
+    ExInput = request.args.get('Default')
+    if ExInput == "None" or ExInput == "":
+        data = ""
+    else:
+        data = ExInput
+    Id = cache.get("id")
+    if Id is None or Id == 0:
+        return app.redirect(f"/login/newexcersise?Default={ExInput}")
+    return render_template("CreateExcersise.html",
+                           ID = Id,
+                           ExInput = ExInput
+                            )
 
 
 if __name__ == '__main__':

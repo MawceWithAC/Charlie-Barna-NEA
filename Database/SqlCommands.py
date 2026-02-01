@@ -122,13 +122,13 @@ GetLastPostId = Query("SELECT Max(PostID) FROM Post")
 #This Needs Updating
 CreatePost = Query(""" 
 INSERT INTO Post
-VALUES({},'{}',{},{},{},{},'{}','{}','{}')
+VALUES({},'{}',{},{},'{}','{}','{}',0)
 """,["PostID",
     "PostContent",
      "ExcersiseID",
      "AccountID",
-     "Title",
      "Date",
+    "Title",
      "Time"
     ])
 CreateComment = Query(""" 
@@ -257,3 +257,21 @@ LEFT JOIN Likes l ON p.PostID = l.PostID
 WHERE l.LikeValue IS NULL AND e.ExcersiseID = p.ExcersiseID AND a.AccountID = p.AccountID
 ORDER BY LikeSum desc,p.date desc ,p.time desc)
 """)
+GetAllExcersises = Query("SELECT e.ExcersiseID,e.ExcersiseName FROM Excersise e")
+CreateExcersise = Query(""" 
+INSERT INTO Excersise
+VALUES({},{},'{}')
+""",["ExcersiseID",
+     "MuscleID",
+     "ExcersiseName"
+    ])
+GetNextExcersiseId = Query("SELECT Max(ExcersiseID)+1 FROM Excersise")
+SearchExcersises = Query("""SELECT * FROM Excersise
+WHERE ExcersiseName LIKE "%{}%"
+"""
+                         ,["SearchData"])
+CheckDupeEx = Query("""SELECT * FROM Excersise
+WHERE ExcersiseName = '{}' """,["Name"])
+
+GetExceriseFromName = Query("""SELECT ExcersiseID FROM Excersise
+WHERE ExcersiseName = '{}' """,["name"])

@@ -4,20 +4,26 @@
       {% for mesg in get_flashed_messages() %}
       {% endfor %}
 	{%if ID != 0 %}
-    <p> <large>Hello {{ User  }} With ID {{ ID }}</large></p>
+    <p style = "margin:1%"> <large>Hello {{ User}}</large></p>
 	
 	{%else%}
-    <p> <large>You are not logged in,&nbsp; <a href="/login">Login  </a></large></p>
+    <p style = "margin:1%"> <large>You are not logged in,&nbsp; <a href="/login">Login  </a></large></p>
 	{%endif%}
+
+
 	<div class = "postBlock">
-    <p>Lorem ipsum dolor sit amet adipiscing bibendum sem orci tempus aliquet gravida,
-        orci amet iaculis aptent blandit quam accumsan donec in facilisis,
-        cursus ante curabitur aliquet condimentum tincidunt facilisis
-        non cubilia lorem et pretium aliquam phasellus ipsum metus quisque auctor tristique donec nibh,
-        praesent congue ultricies aenean ornare ligula sagittis proin
-        sed vestibulum purus tempus aenean neque aliquam curae vivamus purus egestas ligula tincidunt nullam.
-    </p>
-	
+        <div style = "display: inline-flex; width: 100%;">
+        <div style = "width: 20%; margin-left: 0.5%;">
+            <button onclick="location.href='/newpost'" style = "width: 100%; height:100%; margin-left: 2%; padding: 7px; font-size: 16px" class = "CreateExcerise">Post</button>
+
+        </div>
+            <div style = "width: 20%; margin-left: 0.5%;">
+                <button onclick="location.href='/newexcersise'" style = "width: 100%; height:100%; margin-left: 2%; padding: 7px; font-size: 16px" class = "CreateExcerise">Create Excersise</button>
+
+            </div>
+
+        </div>
+
 	
 	{%for data in HomeData%} <!-- ID Data[0] Title Data[1] Like = data[4] Dislike Data5 -->
 <div class = "post" onclick="RedirectTo('/post/{{data[0]}}')">

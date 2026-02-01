@@ -122,24 +122,22 @@ def GetExcersiseData(ExcersiseID: int):
     return 0
 
 def CreatePost(Values: list): # [Content:str, ExcersiseID:int,AccountID:int,Title:str]
-    # Needs To Be Updated To New Post Format
-    #
-    ##
    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        #print("Connected")
         Cursor = Connection.cursor()
         LastPost = Cursor.execute(SqlCommands.GetLastPostId.ReturnQuery()).fetchone()
-        Values.insert(0,int(LastPost[0])+1) 
-        Values.insert(4,0)
-        Values.insert(5,0)
-        Values.insert(7,TimeFormatter.GetDate())
-        Values.insert(8,TimeFormatter.GetTime())
+        Data = list(Values)
+        Data.insert(0,int(LastPost[0])+1) #PostID
+        Data.insert(5,str(TimeFormatter.GetDate()))
+        Data.insert(6, str(TimeFormatter.GetTime()))
+        #print(Data)
         try:
-            print(SqlCommands.CreatePost.ReturnQuery(Values))
-            Cursor.execute(SqlCommands.CreatePost.ReturnQuery(Values))
-            return 201
+            print(SqlCommands.CreatePost.ReturnQuery(Data))
+            Cursor.execute(SqlCommands.CreatePost.ReturnQuery(Data))
+            return int(LastPost[0])+1
         except Exception as e:
             print(e)
-            return 409
+            return None
 
 def CreateComment(Values: list): #Values = ["PostContent","AccountID","ParentID"]
 
@@ -208,6 +206,42 @@ def SearchPosts(SearchValue = "",ExcersiseID: int = -1):
         SearchResults = Cursor.execute(SqlCommands.Search.ReturnQuery(SearchValue,ExcersiseID)).fetchall()
         #print(SearchResults)
         return SearchResults
+
+
+def GetAllExcersises():
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        Results = Cursor.execute(SqlCommands.GetAllExcersises.ReturnQuery()).fetchall()
+        return Results
+
+def CreateExcerise(MuscleGroup,Name):
+    #print("Trying TO Connect")
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        #print("Connected")
+        Cursor = Connection.cursor()
+        try:
+            NextEx = Cursor.execute(SqlCommands.GetNextExcersiseId.ReturnQuery()).fetchone()[0]
+            #print("Checking:", Cursor.execute( SqlCommands.CheckDupeEx.ReturnQuery(Name) ).fetchone())
+            if Cursor.execute(SqlCommands.CheckDupeEx.ReturnQuery(Name) ).fetchone()[2] is None:
+                Cursor.execute(SqlCommands.CreateExcersise.ReturnQuery([NextEx,MuscleGroup,Name]))
+                return NextEx
+            else:
+                #print("Else Hit", Name)
+                #print(SqlCommands.GetExceriseFromName.ReturnQuery(Name))
+                #print(  Cursor.execute(SqlCommands.GetExceriseFromName.ReturnQuery(Name)).fetchone())[0]
+                return Cursor.execute(SqlCommands.GetExceriseFromName.ReturnQuery(Name)).fetchone()[0]
+        except Exception as e:
+            print(e)
+            pass
+    return None
+def SearchExcersises(SearchValue):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        SearchResults = Cursor.execute(SqlCommands.SearchExcersises.ReturnQuery(SearchValue)).fetchall()
+        #print(SearchResults)
+        return SearchResults
+
+
 #CreatePost(["This Is A Test2",1,2,"JustTestingThePostFunction"])
 #print(GetExcersiseData([1]))
 #print(AddUserToDatabase(["iwonder","whereillbe","Testing23"]))

@@ -11,7 +11,26 @@
             <input class="Search" type="text"  id="Search" name="Search" placeholder="Search">
         </form>
     </div> -->
+
 <div class = "postBlock">
+    <div style = "display: inline-flex; width: 100%;">
+        {%for data in ExData%}
+        <div style = "width: 20%; margin-left: 0.5%;">
+            <button onclick="location.href='/exercise/{{data[0]}}'" style = "width: 100%; height:100%; margin-left: 2%; padding: 7px; font-size: 16px" class = "CreateExcerise">{{data[2]}}</button>
+
+        </div>
+        {%endfor%}
+        <div style = "width: 20%; margin-left: 0.5%;">
+            <button onclick="location.href='/newexcersise?Default={{SearchInput}}'" style = "width: 100%; height:100%; margin-left: 2%; padding: 7px; font-size: 16px" class = "CreateExcerise">Create Excersise</button>
+
+        </div>
+
+
+    </div>
+
+
+
+
     {%for data in Data%} <!-- ID Data[0] Title Data[1] Like = data[4] Dislike Data5 -->
 <div class = "post" onclick="RedirectTo('/post/{{data[0]}}')">
 
