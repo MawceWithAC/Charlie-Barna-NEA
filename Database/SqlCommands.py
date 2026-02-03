@@ -6,6 +6,7 @@ class Query():
         self.Additions = additions
     def ReturnQuery(self,NewContent: list = []):
         #print(self.Query.format(*NewContent))
+        #print("Building")
         if type(NewContent) != list:
             NewContent = [NewContent]
         if len(NewContent) == len(self.Additions):

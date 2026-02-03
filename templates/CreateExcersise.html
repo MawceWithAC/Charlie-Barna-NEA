@@ -38,7 +38,7 @@
         </div>
     </div>
     <div style = "padding:1%; height: 40%; padding-top:0; width: 100%; display:flex; justify-content: center; ">
-        <button type="submit" class = "CreateExcerise" style = "height:10%; width:40%">
+        <button type="submit" class = "CreateExcerise" style = "height:10%; width:40%" id="Btn" onclick = "DisableButton();">
             Create
         </button>
     </div>
@@ -59,4 +59,19 @@
     console.log({{ExInput}})
 
 </script>
+<script>
+document.getElementById("Btn").disabled=true;
+	setTimeout(() => {
+		document.getElementById("Btn").disabled=false;
+	}, 500); 
+function DisableButton() {
+	setTimeout(() => {
+		document.getElementById("Btn").disabled=true;
+	}, 150);  
+  
+  setTimeout('document.getElementById("btn").disabled=false;',60000);
+  // do your heavy stuff here
+}
+</script>
+
 {% endblock %}
