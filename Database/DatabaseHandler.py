@@ -1,3 +1,4 @@
+#EditForCommit
 import sqlite3
 from Database import SqlCommands, TimeFormatter
 def VerifyLogin(Input: str):
@@ -233,8 +234,10 @@ def CreateExcerise(MuscleGroup,Name):
         Cursor = Connection.cursor()
         try:
             NextEx = Cursor.execute(SqlCommands.GetNextExcersiseId.ReturnQuery()).fetchone()[0]
+            print(NextEx)
             #print("Checking:", Cursor.execute( SqlCommands.CheckDupeEx.ReturnQuery(Name) ).fetchone())
-            if Cursor.execute(SqlCommands.CheckDupeEx.ReturnQuery(Name) ).fetchone()[2] is None:
+            if Cursor.execute(SqlCommands.CheckDupeEx.ReturnQuery(Name)).fetchone() is None:
+                #print("Can Build")
                 Cursor.execute(SqlCommands.CreateExcersise.ReturnQuery([NextEx,MuscleGroup,Name]))
                 return NextEx
             else:

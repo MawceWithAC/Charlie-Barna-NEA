@@ -1,11 +1,18 @@
 import flask
-from pygments.lexer import default
+
 
 from Database import DatabaseHandler
 
 from flask import Flask, render_template, request,flash,Blueprint
 import os
 from flask_caching import Cache
+
+
+
+app = Flask(__name__)
+
+
+
 
 #[sublist[1] for sublist in newList] Get Every Second in a 2d array
 
@@ -344,6 +351,8 @@ def NewPostPageWithDefault(default):
                            ,Data = Data,
                             Default = default
                             )
+
+
 @app.route("/newpost", methods = ["GET"])
 def NewPostPage():
     Id = cache.get("id")
@@ -360,6 +369,7 @@ def NewPostPage():
                             )
 
 @app.route("/CreatePost", methods = ["POST"])
+
 def CreatePost():
     if request.method == "POST":
         try:
@@ -383,8 +393,10 @@ def CreateExcersise():
     if request.method == "POST":
         try:
             Request = request.form
-            print(Request)
-            NewExID = DatabaseHandler.CreateExcerise(int(Request["MuscleID"]),Request["Name"] )
+            #print(Request,int(Request.get("MuscleID")),Request.get("Name"))
+            NewExID = None
+            if request is not None:
+                NewExID = DatabaseHandler.CreateExcerise(int(Request.get("MuscleID")),Request.get("Name") )
             if NewExID is None:
                 return app.redirect("NewPost",302)
             else:

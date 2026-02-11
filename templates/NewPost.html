@@ -36,13 +36,26 @@ Create New Excersise
 
 </div>
 <div style = "padding:1%; height: 100%; padding-top:0; width: 74%; display:flex; flex-direction:row-reverse">
-<button type="submit" class = "CreateExcerise" style = "height:10%; width:15%">
+<button type="submit" class = "CreateExcerise" style = "height:10%; width:15%" id="Btn" onclick = "DisableButton('Btn');">
 Post
 </button>
 </div>
 </form>
 
-
+<script>
+document.getElementById("Btn").disabled=true;
+	setTimeout(() => {
+		document.getElementById("Btn").disabled=false;
+	}, 500); 
+function DisableButton() {
+	setTimeout(() => {
+		document.getElementById("Btn").disabled=true;
+	}, 150);  
+  
+  setTimeout('document.getElementById("btn").disabled=false;',60000);
+  // do your heavy stuff here
+}
+</script>
 <script>
     document.querySelectorAll('.select').forEach((el)=>{
         let settings = {};
