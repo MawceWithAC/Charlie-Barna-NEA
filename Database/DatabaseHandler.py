@@ -23,9 +23,15 @@ def GetPostsFromExcersise(ID: int):
         #print(SqlCommands.GetPostsFromExcersiseID.ReturnQuery([ID,ID]))
         Result = Cursor.execute(SqlCommands.GetPostsFromExcersiseID.ReturnQuery([ID,ID])).fetchall()
         return Result
-    
 
-    pass
+def GetPostsFromUser(Username: str):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        #print(SqlCommands.GetPostsFromExcersiseID.ReturnQuery([ID,ID]))
+        Result = Cursor.execute(SqlCommands.GetPostsFromUserName.ReturnQuery([Username,Username])).fetchall()
+        return Result
+
+
 def GetUsernameFromID(ID: int ):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
@@ -33,7 +39,13 @@ def GetUsernameFromID(ID: int ):
         if Result is not None:
             return Result[0]
         return Result
-    
+def GetIdFromUsername(User:str):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        Result = Cursor.execute(SqlCommands.GetIDFromUserName.ReturnQuery(User)).fetchone()
+        if Result is not None:
+            return Result[0]
+        return Result
 def GetLastUserID():
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()

@@ -78,7 +78,7 @@ def homepage():
                             User = UserNameToShow.title(),
                             ID = userId,
                             Username = DatabaseHandler.GetUsernameFromID(userId),
-                            HomeData =DatabaseHandler.GetMostPopularPosts(10))
+                            HomeData =DatabaseHandler.GetMostPopularPosts(40))
 
 
 
@@ -154,10 +154,21 @@ def CreateAccountTwoFollow(Follow1,Follow2):
 @app.route("/users/<user>")
 def ShowUser(user):
     Id = cache.get("id")
-    print(user)
-    testdata = [[2,"TitleName","Tester",1,0,1,"Bench Press",user,"3:00","10-9-25",-1]]
+    #print(user)
+    userData = DatabaseHandler.GetPostsFromUser(user)
+    userID = DatabaseHandler.GetIdFromUsername(user)
+    if userID is None:
+        return app.redirect("/home",302)
+
+    if userID == Id: #Make Seperate Page For This
+        return render_template("User.html",ID = Id,
+                           UserName = "You",
+                            data = userData
+                            )
+
     return render_template("User.html",ID = Id,
-                            data = testdata
+                           UserName = user,
+                            data = userData
                             )
 
 
