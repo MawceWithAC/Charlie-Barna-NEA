@@ -6,52 +6,51 @@
       {% for mesg in get_flashed_messages() %}
       {% endfor %}
 	  <h1>
-	  {{data[0][7]}}
+	  {{UserName}}
 	  </h1>
-	<div class = "postBlock">
-    <p>Lorem ipsum dolor sit amet adipiscing bibendum sem orci tempus aliquet gravida,
-        orci amet iaculis aptent blandit quam accumsan donec in facilisis,
-        cursus ante curabitur aliquet condimentum tincidunt facilisis
-        non cubilia lorem et pretium aliquam phasellus ipsum metus quisque auctor tristique donec nibh,
-        praesent congue ultricies aenean ornare ligula sagittis proin
-        sed vestibulum purus tempus aenean neque aliquam curae vivamus purus egestas ligula tincidunt nullam.
-    </p>
-	
-	
-	{%for data in HomeData%} <!-- ID Data[0] Title Data[1] Like = data[4] Dislike Data5 -->
-<div class = "post" onclick="RedirectTo('/post/{{data[0]}}')">
+    <div style = "display: flex;align-items: start;flex-direction: row;">
+        <div class = "postBlock" style = "width: 70%;border-radius: 3px;border: 1px solid #000000; margin: 2.5% 2.5% 2.5% 1%;">
+            {{data|length}} Posts:
+            {%for data in data%} <!-- ID Data[0] Title Data[1] Like = data[4] Dislike Data5 -->
+            <div class = "post" onclick="RedirectTo('/post/{{data[0]}}')" style = "width: 95%">
 
 
-    <div class = "title">
+                <div class = "title">
 
-        <a class = "PostTitle" href = "/post/{{data[0]}}">{{data[1]}}</a>
-        <p style="margin-left: auto; margin-top: 0;color: #888888">{{data[9]}} at {{data[8]}}</p>
-    </div>
-    <a class = "ExcersiseTitleText" href = "/exercise/{{data[3]}}">{{data[6]}}</a>
-    <div>
-        <a class = "postUsername" href = "/users/{{data[7]}}">{{data[7]}}</a>
-    </div>
-	{% if data[2]|length > 0 %}
-    <div>
+                    <a class = "PostTitle" href = "/post/{{data[0]}}">{{data[1]}}</a>
+                    <p style="margin-left: auto; margin-top: 0;color: #888888">{{data[9]}} at {{data[8]}}</p>
+                </div>
+                <a class = "ExcersiseTitleText" href = "/exercise/{{data[3]}}">{{data[6]}}</a>
+                <div>
+                    <a class = "postUsername" href = "/users/{{data[7]}}">{{data[7]}}</a>
+                </div>
+                {% if data[2]|length > 0 %}
+                <div>
 
-        <p class="description">{{data[2]}}
-        </p>
-	</div>
-	{%endif%}
+                    <p class="description">{{data[2]}}
+                    </p>
+                </div>
+                {%endif%}
 
-    
-    <div class = "likeBar">
-         <button class = "likeButton" id="Like:{{data[0]}}"
+
+                <div class = "likeBar">
+                    <button class = "likeButton" id="Like:{{data[0]}}"
                             onclick={%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendLike({{ID}}, 1,{{data[0]}});updateLikes('{{data[0]}}');ChildClicked();" {%endif%} >
-        {{data[4]}}&nbsp👍</button>
-        <button class = "likeButton" id="Dislike:{{data[0]}}"
-                onclick= {%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendLike({{ID}}, -1,{{data[0]}}); updateLikes('{{data[0]}}');ChildClicked();" {%endif%} >
-        {{data[5]}}&nbsp👎</button>
+                    {{data[4]}}&nbsp👍</button>
+                    <button class = "likeButton" id="Dislike:{{data[0]}}"
+                            onclick= {%if ID == 0 %} "OpenPopUp('popUp');ChildClicked();" {%else%} "SendLike({{ID}}, -1,{{data[0]}}); updateLikes('{{data[0]}}');ChildClicked();" {%endif%} >
+                    {{data[5]}}&nbsp👎</button>
+                </div>
+            </div>
+            {%endfor%}
+
+        </div>
+        <div style = "width: 25%;border-radius: 3px;border: 1px solid #000000;margin: 2.5% ">
+            This Is Where The Excersise List Will Go
+
+        </div>
+
     </div>
-</div>
-	{%endfor%}
-	
-	</div>
 	<!--
 
     <p>

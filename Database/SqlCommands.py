@@ -117,6 +117,7 @@ ORDER BY LikeSum desc,p.date desc ,p.time desc
 limit {}
 """, ["Amount"])
 GetUsernameFromID = Query("""Select Username FROM Account WHERE AccountID = {}""",["ID"])
+GetIDFromUserName = Query("""Select AccountID FROM Account WHERE Username = '{}'""",["Username"])
 GetLastPostId = Query("SELECT Max(PostID) FROM Post")
 
 #This Needs Updating
@@ -214,6 +215,40 @@ LEFT JOIN Likes l ON p.PostID = l.PostID
 WHERE l.LikeValue IS NULL AND e.ExcersiseID = p.ExcersiseID AND a.AccountID = p.AccountID AND e.ExcersiseID = {} AND p.Parent = 0
 ORDER BY LikeSum desc,p.date desc ,p.time desc
 """,["ID","ID"])
+
+GetPostsFromUserName = Query("""
+SELECT p.PostID,
+        p.Title,
+        p.PostContent,
+        p.ExcersiseID,
+        COUNT(CASE l.LikeValue WHEN "1" then 1 end) AS Likes,
+        COUNT(CASE l.LikeValue WHEN "-1" then -1 end) AS DisLikes,
+        e.ExcersiseName,
+        a.Username,
+        p.Time,
+        p.Date,
+        sum(l.LikeValue) as LikeSum
+FROM Post p, Likes l,Excersise e,Account a
+WHERE p.PostID = l.PostID AND e.ExcersiseID = p.ExcersiseID AND a.AccountID = p.AccountID And a.Username = '{}' AND p.Parent = 0
+GROUP BY p.PostID
+UNION
+SELECT  p.PostID,
+        p.Title,
+        p.PostContent,
+        p.ExcersiseID,
+        0 AS Likes,
+        0 AS Dislikes,
+        e.ExcersiseName,
+        a.Username,
+        p.Time,
+        p.Date,
+        0 as LikeSum
+FROM Post p, Excersise e, Account a
+LEFT JOIN Likes l ON p.PostID = l.PostID
+WHERE l.LikeValue IS NULL AND e.ExcersiseID = p.ExcersiseID AND a.AccountID = p.AccountID AND a.Username = '{}' AND p.Parent = 0
+ORDER BY LikeSum desc,p.date desc ,p.time desc
+""",["Username","Username"])
+
 
 CheckLike = Query("SELECT LikeID,LikeValue FROM Likes WHERE AccountID = {} AND PostID = {}",["AccountID","PostID"])
 AddLike = Query("INSERT INTO Likes VALUES({},{},{},{})",["LikeID","PostID","AccountID","LikeValue"])
