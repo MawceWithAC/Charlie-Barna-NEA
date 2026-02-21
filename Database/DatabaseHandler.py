@@ -35,7 +35,10 @@ def GetPostsFromUser(Username: str):
 def GetUsernameFromID(ID: int ):
     with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
         Cursor = Connection.cursor()
-        Result = Cursor.execute(SqlCommands.GetUsernameFromID.ReturnQuery(ID)).fetchone()
+        try:
+            Result = Cursor.execute(SqlCommands.GetUsernameFromID.ReturnQuery(ID)).fetchone()
+        except:
+            return None
         if Result is not None:
             return Result[0]
         return Result
@@ -256,6 +259,26 @@ def SearchExcersises(SearchValue):
         #print(SearchResults)
         return SearchResults
 
+def CreateList(Request:dict = {}):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        if Request["ID"] != "" and Request["Items"] != {}:
+            #Create List
+            LastList = Cursor.execute(SqlCommands.GetLastExcersiseListID.ReturnQuery()).fetchone()[0]
+            if LastList is None:
+                LastList = 1
+            print(LastList)
+            Cursor.execute(SqlCommands.MakeExcersiseList.ReturnQuery([LastList,Request["ID"],Request["Name"]]))
+            for Index, Value in Request["Items"].items():
+                #Create Items
+                LastItem = Cursor.execute(SqlCommands.GetLastListItemID.ReturnQuery()).fetchone()[0]
+                if LastItem is None:
+                    LastItem = 1
+                print(SqlCommands.AddExcersiseToList.ReturnQuery([LastItem,Value,LastList,Index]))
+                Cursor.execute(SqlCommands.AddExcersiseToList.ReturnQuery([LastItem,Value,LastList,Index]))
+                pass
+
+    pass
 
 #CreatePost(["This Is A Test2",1,2,"JustTestingThePostFunction"])
 #print(GetExcersiseData([1]))

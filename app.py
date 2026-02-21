@@ -163,10 +163,12 @@ def ShowUser(user):
     if userID == Id: #Make Seperate Page For This
         return render_template("User.html",ID = Id,
                            UserName = "You",
+                               Username=DatabaseHandler.GetUsernameFromID(Id),
                             data = userData
                             )
 
     return render_template("User.html",ID = Id,
+                           Username=DatabaseHandler.GetUsernameFromID(Id),
                            UserName = user,
                             data = userData
                             )
@@ -202,6 +204,7 @@ def ShowExersise(ExId):
         Id = 0
         cache.set("id",0)
     return render_template("excersise.html",ID = Id,
+                           Username=DatabaseHandler.GetUsernameFromID(Id),
                             ExcersiseData= DatabaseHandler.GetExcersiseData(ExId),
                             Data = DatabaseHandler.GetPostsFromExcersise(ExId)
                             )
@@ -217,6 +220,7 @@ def ExcersiseSearch(ExId):
         SearchDefault = str(SearchInput)
     #print(Data)
     return render_template("excersise.html",ID = Id,
+                           Username=DatabaseHandler.GetUsernameFromID(Id),
                             ExcersiseData= DatabaseHandler.GetExcersiseData(ExId),
                             ExSearchInput = SearchDefault,
                             Data = SearchData)
@@ -231,6 +235,7 @@ def GetSettings():
     else:
         return render_template("accountsettings.html",
                                 ID = Id,
+                               Username=DatabaseHandler.GetUsernameFromID(Id)
                                 )
 @app.route("/likepost", methods = ["POST"])
 def LikePost():
@@ -312,7 +317,8 @@ def SearchPage():
                            ID = Id,
                            SearchInput = SearchDefault,
                            Data = SearchData,
-                           ExData = Ex
+                           ExData = Ex,
+                           Username=DatabaseHandler.GetUsernameFromID(Id)
                             )
 
 
@@ -347,6 +353,7 @@ def NewPostPageWithDefault(default):
         return app.redirect("/Home")
     #print(Ex)
     return render_template("NewPost.html",
+                           Username=DatabaseHandler.GetUsernameFromID(Id),
                            ID = Id
                            ,Data = Data,
                             Default = default
@@ -365,7 +372,8 @@ def NewPostPage():
     return render_template("NewPost.html",
                            ID = Id
                            ,Data = Data,
-                           Default = 0
+                           Default = 0,
+    Username = DatabaseHandler.GetUsernameFromID(Id)
                             )
 
 @app.route("/CreatePost", methods = ["POST"])
@@ -417,10 +425,35 @@ def newExcersise():
     if Id is None or Id == 0:
         return app.redirect(f"/login/newexcersise?Default={ExInput}")
     return render_template("CreateExcersise.html",
+                           Username=DatabaseHandler.GetUsernameFromID(Id),
                            ID = Id,
                            ExInput = ExInput
                             )
+@app.route("/CreateExcersiseList")
+def excersiseListCreation():
+    Id = cache.get("id")
+    if Id is None or Id == 0:
+        return app.redirect("/login/CreateExcersiseList")
+    #print(Data)
 
+    #print(Ex)
+    return render_template("CreateExcersiseList.html",
+                           ID = Id,
+    Username = DatabaseHandler.GetUsernameFromID(Id),
+                           Data = DatabaseHandler.GetAllExcersises()
+                            )
+@app.route("/CreateExcersiseListServer", methods = ["POST"])
+def CreateExcersiseListOnServer():
+    if request.method == "POST":
+        try:
+            Request = request.json
+            print(Request)
+            DatabaseHandler.CreateList(Request)
+            #print("Request:",Request)
+
+        except Exception as E:
+            print("ERROR:",E)
+    return {'status': 'success', "code": 202}
 
 if __name__ == '__main__':
     #app.run(host = "0.0.0.0")

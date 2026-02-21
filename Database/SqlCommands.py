@@ -311,3 +311,9 @@ WHERE ExcersiseName = '{}' """,["Name"])
 
 GetExceriseFromName = Query("""SELECT ExcersiseID FROM Excersise
 WHERE ExcersiseName = '{}' """,["name"])
+
+GetLastExcersiseListID = Query("SELECT Max(ExcersiseListId)+1 FROM ExcersiseList")
+MakeExcersiseList = Query("""INSERT INTO ExcersiseList VALUES({},{},"{}")""",
+                           ["ListID","AccountID","Name"])
+AddExcersiseToList = Query("""INSERT INTO ListItems VALUES({},{},{},{})""",["ItemID","ExcersiseID","ExcersiseListID","Index"])
+GetLastListItemID = Query("SELECT Max(ItemID)+1 FROM ListItems")

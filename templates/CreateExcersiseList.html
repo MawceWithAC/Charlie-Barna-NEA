@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% block content %}
+<div style = "display:flex; flex-direction:column;">
+    <input type="text" id="name" name="name" placeholder="Name Of The List"> </input>
+<ul id = "Appendable" class = "container"> 
+
+</ul>
+    <div style="display: inline-flex">
+<button type="button" onclick = 'AppendToDiv(data)' class = "but" > Append </button>
+
+<button id = "SubButton" type = "submit" onclick="Submit({{ID}},'{{Username}}');"> submit </button>
+    </div>
+</div>
+
+
+
+<script src = "{{url_for('static', filename='scripts/ExcersiseListConstructor.js')}}"> </script>
+
+
+<script>
+    let data = {"":"Please Choose"{%for d in Data%},{{d[0]}}:"{{d[1]}}" {%endfor%}}
+    console.log(data)
+
+</script>
+{% endblock %}
