@@ -317,3 +317,10 @@ MakeExcersiseList = Query("""INSERT INTO ExcersiseList VALUES({},{},"{}")""",
                            ["ListID","AccountID","Name"])
 AddExcersiseToList = Query("""INSERT INTO ListItems VALUES({},{},{},{})""",["ItemID","ExcersiseID","ExcersiseListID","Index"])
 GetLastListItemID = Query("SELECT Max(ItemID)+1 FROM ListItems")
+GetExcersiseListsFromID = Query("SELECT ExcersiseListID,Name FROM ExcersiseList WHERE AccountID = {}",["AccountID"])
+GetExcersiseListItems = Query("""
+SELECT l.ExcersiseID,e.ExcersiseName
+FROM ListItems l, Excersise e
+WHERE l.ExcersiseID = e.ExcersiseID AND l.ExcersiseListID = 1
+ORDER BY Location
+""",["ListID"])

@@ -12,11 +12,6 @@ Items = {"":"Please Choose", "1":"Bench Press", "2":"Squat",
 */
 
 //var counter = 1;
-
-let DecisionMade = {}
-let IndexCount = 0
-let CanSendData = false
-
 function GenID()
 {
     var randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
@@ -82,7 +77,6 @@ function CreateTS(ID,Items)
     FinalDiv.appendChild(OutterDiv);
     FinalDiv.classList.add("listitem");
     FinalDiv.id = "Outer "+ID;
-
     return FinalDiv;
 }
 function ConstructMoveButtons(ID)
@@ -134,65 +128,5 @@ function MoveElement(evt)
     {container.insertBefore(self.nextElementSibling,self);}
     //console.log(Direction + ID);
     //let AllElements = document.getElementsByClassName("newtom")
-
-}
-
-function Submit(UserID,User)
-{
-    document.getElementById("SubButton").disabled = true
-    NameOfList = document.getElementById("name").value
-    IndexCount = 0
-    DecisionMade = {"ID":UserID,
-                    "Name": NameOfList,
-                    "Items": {}}
-    CanSendData = false
-    const elements = document.querySelectorAll('li');
-    elements.forEach(ItemParser)
-    /*console.log(DecisionMade)*/
-    if ((DecisionMade["Items"] !== {}) && (NameOfList !== "") && CanSendData) {
-        SendData(DecisionMade, User)
-    }
-    else if (NameOfList == "")
-    {
-        document.getElementById("SubButton").disabled = false
-        alert("Please Input A Name For The List")
-    }
-    else if (DecisionMade["Items"] == {})
-    {
-        document.getElementById("SubButton").disabled = false
-        alert("List Cannot Be Empty")
-    }
-    else if (!CanSendData)
-    {
-        document.getElementById("SubButton").disabled = false
-        alert("List Cannot Be Empty")
-
-    }
-}
-function ItemParser(Item,Index)
-{
-    /*console.log(Item.children[0].children[0].value) */
-    let Value = Item.children[0].children[0].value
-    if (Value !== "") {
-        DecisionMade["Items"][IndexCount] = Value
-        IndexCount++
-        CanSendData = true
-    }
-
-}
-
-
-function SendData(data,User)
-{
-
-    fetch("http://"+location.host +"/CreateExcersiseListServer", {
-        "method": "POST",
-        "headers": {"Content-Type": "application/json"},
-        "body": JSON.stringify(data),
-    }).then(response => response.json())
-        .then(data => console.log(data))
-    setTimeout(function(){
-        location.href = "http://"+location.host +"/users/" + User;
-    }, 500);
 
 }

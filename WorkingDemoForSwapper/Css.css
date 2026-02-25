@@ -1,0 +1,40 @@
+div.container{ display:flex; flex-direction: column; list-style: none;}
+ 
+div.movediv{display:flex; flex-direction:column;}
+.newtom { align-items: center; padding: 5px; display:flex; flex-direction: row; }
+
+
+
+.ts-inner {width:75%}
+button.but{
+	width:50%;
+}
+button.deletebutton {
+	width:max(4%,50px);
+	height: 35px;
+	background-color: #FF2A00;
+	cursor: pointer;
+	margin-left:5px;
+	
+}
+li.listitem 
+{
+	background: #FFFFFF;
+	border:#898989 solid 1px;
+	margin:5px; 
+	list-style-type: none;
+	padding: 1px;
+}
+        li.listitem:hover {
+            background: #EEEEEE;
+			border:#000000 solid 1px;
+        }
+button.deletebutton:hover{background-color: #D92500;}
+
+ 
+.test {border: 1px solid #000000;}
+
+        .over {
+            border: 2px dashed #ff8c42;
+            background: #fff3e0;
+        }

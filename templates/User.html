@@ -45,11 +45,31 @@
             {%endfor%}
 
         </div>
+        {%if exList is not none%}
         <div style = "width: 25%;border-radius: 3px;border: 1px solid #000000;margin: 2.5% ">
-            This Is Where The Excersise List Will Go
+            <u style="font-size: 20px">Routines:</u>
+            {%for List in exList%}
+            <div style="border-radius: 3px;border: 1px solid #000000; display: flex;flex-direction: column;margin-top:5px ">
+            {{List["Name"]}}
+                <ol style = "list-style-position:inside; padding-left:15px">
+
+
+
+            {%for Data in List["Excersises"]%}
+                    <li class="ExcersiseItem" onclick="RedirectTo('/exercise/{{Data[0]}}')">
+                {{Data[1]}}
+                    </li>
+                {%endfor%}
+
+
+                </div>
+            </ol>
+
+            {%endfor%}
+            <!--This Is Where The Excersise List Will Go -->
 
         </div>
-
+        {%endif%}
     </div>
 	<!--
 

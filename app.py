@@ -157,20 +157,17 @@ def ShowUser(user):
     #print(user)
     userData = DatabaseHandler.GetPostsFromUser(user)
     userID = DatabaseHandler.GetIdFromUsername(user)
+    ExcersiseLists = DatabaseHandler.GetExcersiseLists(int(userID))
+    #
+
     if userID is None:
         return app.redirect("/home",302)
-
-    if userID == Id: #Make Seperate Page For This
-        return render_template("User.html",ID = Id,
-                           UserName = "You",
-                               Username=DatabaseHandler.GetUsernameFromID(Id),
-                            data = userData
-                            )
 
     return render_template("User.html",ID = Id,
                            Username=DatabaseHandler.GetUsernameFromID(Id),
                            UserName = user,
-                            data = userData
+                            data = userData,
+                           exList=ExcersiseLists
                             )
 
 

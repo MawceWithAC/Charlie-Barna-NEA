@@ -279,7 +279,23 @@ def CreateList(Request:dict = {}):
                 pass
 
     pass
+def GetExcersiseLists(UserID:int):
+    with sqlite3.connect("Database/GymsyDatabase.db") as Connection:
+        Cursor = Connection.cursor()
+        AllLists = Cursor.execute(SqlCommands.GetExcersiseListsFromID.ReturnQuery([UserID])).fetchall()
+        if AllLists != []:
+            Data = []
+            for iLists in AllLists:
+                #print(iLists[0])
+                ListData = {"Name":iLists[1],"Excersises": []}
+                for i in Cursor.execute(SqlCommands.GetExcersiseListItems.ReturnQuery([iLists[0]])).fetchall():
+                    ListData["Excersises"].append(i)
+                Data.append(ListData)
+            return Data
+        return None
 
+
+#print(GetExcersiseLists(1))
 #CreatePost(["This Is A Test2",1,2,"JustTestingThePostFunction"])
 #print(GetExcersiseData([1]))
 #print(AddUserToDatabase(["iwonder","whereillbe","Testing23"]))

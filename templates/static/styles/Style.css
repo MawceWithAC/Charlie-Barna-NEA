@@ -445,3 +445,11 @@
             border: 2px dashed #ff8c42;
             background: #fff3e0;
         }
+        li.ExcersiseItem {border-radius: 1px;border: 1px solid #444444; margin: 4px}
+        li.ExcersiseItem:hover
+        {
+            background-color: #e9eceb;
+            cursor: pointer;
+
+
+        }
