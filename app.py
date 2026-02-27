@@ -3,13 +3,13 @@ import flask
 
 from Database import DatabaseHandler
 
-from flask import Flask, render_template, request,flash,Blueprint
+from flask import Flask, render_template, request,flash,session
 import os
-from flask_caching import Cache
+#from flask_caching import Cache
 
 
 
-app = Flask(__name__)
+#app = Flask(__name__)
 
 
 
@@ -21,21 +21,21 @@ app = Flask(__name__, template_folder="templates", static_folder="templates/stat
 #app.register_blueprint(core, url_prefix='')
 app.config["SECRET_KEY"] = "mAWCEeLL"
 app.config["CACHE_TYPE"] = "SimpleCache"
-app.config["CACHE_DEFAULT_TIMEOUT"] = 300000 # timeout in seconds
+#app.config["CACHE_DEFAULT_TIMEOUT"] = 300000 # timeout in seconds
 user = "John Doe"
-cache = Cache(app)
+#cache = Cache(app)
 
 
 
 
 # Ensure responses aren't cached
-@app.after_request
-def after_request(response):
+#@app.after_request
+#def after_request(response):
     
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate,public, max-age=0"
-    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
-    response.cache_control.max_age = 0
-    return response
+    #response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate,public, max-age=0"
+    #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+    #response.cache_control.max_age = 0
+    #return response
 
 @app.errorhandler(404)
 def Error404(error):
@@ -58,20 +58,23 @@ TestUsers = [
 
 @app.route('/')
 def onload():  # put application's code here
-    cache.set("Loaded", True)
+   
 
-    UserID = cache.get("id")
+
+    UserID = request.cookies.get('id')
     if UserID is None:
-        cache.set("id", 0)
+        session["id"] = 0
     
     return app.redirect("/home",302)
 @app.route("/home")
 def homepage():
     #flash("Testing")
-    userId = cache.get("id")
+    userId = session["id"]
+    print(userId)
     UserNameToShow = ""
     if userId is None:
-        return app.redirect("/",302)
+        flask.redirect("/",302)
+
     if userId != 0:
         UserNameToShow = DatabaseHandler.GetUserByID(userId)[1]
     return render_template("Home.html",
@@ -84,19 +87,19 @@ def homepage():
 
 @ app.route("/login/")
 def loginpageNoFollow():
-    #cache.set("username", "John Doe")
+  
 
     return render_template("Login.html",ID = 0,Follow = "home" )
 
 @ app.route("/login/<FollowAddress>")
 def loginPageWithFollow(FollowAddress):
-    #cache.set("username", "John Doe")
+   
     print(FollowAddress)
     return render_template("Login.html",ID = 0,Follow = FollowAddress )
 
 @ app.route("/login/<FollowAddress>/<Follow2>")
 def loginPageWithDoubleFollow(FollowAddress,Follow2):
-    #cache.set("username", "John Doe")
+   
     print(FollowAddress)
     return render_template("Login.html",ID = 0,Follow = f"{FollowAddress}/{Follow2}" )
 
@@ -113,7 +116,7 @@ def CheckLoginWithOneLink(FollowAddress):
 #         for i in TestUsers:
 #             if User == i.User:
 #                 if Pass == i.Pass:
-#                     cache.set("username", i.User)
+#                     
 #                     #print("LoggedIn")
 #                     return app.redirect("/home", 302)
 
@@ -132,14 +135,14 @@ def CheckLogin(User, Pass,FollowAddress):
     else:
         LogginSucsess, LoginDetails = DatabaseHandler.CheckLogin(User,Pass)
         if LogginSucsess:
-            cache.set("id", LoginDetails[0])
+            session["id"] = LoginDetails[0]
             return app.redirect("/"+FollowAddress,302)
         else:
             flash("Wrong Username Or Password")
     return app.redirect(f"/login/{FollowAddress}", 302)
 @app.route("/LogOut")
 def LogOut():
-    cache.clear()
+    session["id"] = 0
     return app.redirect("/home",302)
 @app.route("/createaccount/")
 def CreateAccountNoFollow():
@@ -153,7 +156,7 @@ def CreateAccountTwoFollow(Follow1,Follow2):
 
 @app.route("/users/<user>")
 def ShowUser(user):
-    Id = cache.get("id")
+    Id = session["id"]
     #print(user)
     userData = DatabaseHandler.GetPostsFromUser(user)
     userID = DatabaseHandler.GetIdFromUsername(user)
@@ -181,9 +184,9 @@ def ShowPost(post):
     #print(CommentData)
     if PostData is None:
         return app.redirect("/home",302)
-    Id = cache.get("id")
+    Id = session["id"]
     if Id is None:
-        cache.set("id", 0)
+        session["id"] = 0
         Id = 0
     return render_template("Post.html",ID = Id,
                             data = PostData,
@@ -196,10 +199,10 @@ def ShowPost(post):
 @app.route("/exercise/<ExId>")
 def ShowExersise(ExId):
     #print(DatabaseHandler.GetExcersiseData(id))
-    Id = cache.get("id")
+    Id = session["id"]
     if Id == None:
         Id = 0
-        cache.set("id",0)
+        session["id"] = 0
     return render_template("excersise.html",ID = Id,
                            Username=DatabaseHandler.GetUsernameFromID(Id),
                             ExcersiseData= DatabaseHandler.GetExcersiseData(ExId),
@@ -208,7 +211,7 @@ def ShowExersise(ExId):
 @app.route("/exercise/<ExId>/search", methods = ["GET"])
 def ExcersiseSearch(ExId):
     SearchInput = request.args.get('Search')
-    Id = cache.get("id")
+    Id = session["id"]
     if SearchInput is None or SearchInput == "":
         SearchDefault = ""
         return flask.redirect(f"/exercise/{ExId}",302)
@@ -226,7 +229,7 @@ def ExcersiseSearch(ExId):
 @app.route("/accountsettings")
 def GetSettings():
     #response.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
-    Id = cache.get("id")
+    Id = session["id"]
     if Id is None or Id == 0:
         return app.redirect("/login", 302)
     else:
@@ -299,7 +302,7 @@ def CreateAccountCheckTwoFollow(Follow1,Follow2):
 @app.route("/search", methods = ["GET"])
 def SearchPage():
     SearchInput = request.args.get('Search')
-    Id = cache.get("id")
+    Id = session["id"]
     if SearchInput is None or SearchInput == "":
         SearchDefault = ""
         return flask.redirect("/home",302)
@@ -339,7 +342,7 @@ def CreateAccount(Name,User,Pass,Pass2,Follow):
 
 @app.route("/newpost/<default>", methods = ["GET"])
 def NewPostPageWithDefault(default):
-    Id = cache.get("id")
+    Id = session["id"]
     if Id is None or Id == 0:
         return app.redirect(f"/login/newpost/{default}")
     #print(Data)
@@ -359,7 +362,7 @@ def NewPostPageWithDefault(default):
 
 @app.route("/newpost", methods = ["GET"])
 def NewPostPage():
-    Id = cache.get("id")
+    Id = session["id"]
     if Id is None or Id == 0:
         return app.redirect("/login/newpost")
     #print(Data)
@@ -380,7 +383,7 @@ def CreatePost():
         try:
             Request = request.form
             #print("Request:",Request)
-            Id = cache.get("id")
+            Id = session["id"]
             NewPostID = DatabaseHandler.CreatePost([Request["description"],
                                         int( Request["excersise"] ),
                                         int(Id),Request["title"]])
@@ -418,7 +421,7 @@ def newExcersise():
         data = ""
     else:
         data = ExInput
-    Id = cache.get("id")
+    Id = session["id"]
     if Id is None or Id == 0:
         return app.redirect(f"/login/newexcersise?Default={ExInput}")
     return render_template("CreateExcersise.html",
@@ -428,7 +431,7 @@ def newExcersise():
                             )
 @app.route("/CreateExcersiseList")
 def excersiseListCreation():
-    Id = cache.get("id")
+    Id = session["id"]
     if Id is None or Id == 0:
         return app.redirect("/login/CreateExcersiseList")
     #print(Data)
