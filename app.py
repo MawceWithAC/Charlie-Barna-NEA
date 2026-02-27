@@ -69,7 +69,11 @@ def onload():  # put application's code here
 @app.route("/home")
 def homepage():
     #flash("Testing")
-    userId = session["id"]
+    try:
+        userId = session["id"]
+    except:
+        flask.redirect("/", 302)
+
     print(userId)
     UserNameToShow = ""
     if userId is None:
@@ -156,7 +160,10 @@ def CreateAccountTwoFollow(Follow1,Follow2):
 
 @app.route("/users/<user>")
 def ShowUser(user):
-    Id = session["id"]
+    try:
+        Id = session["id"]
+    except:
+        Id = None
     #print(user)
     userData = DatabaseHandler.GetPostsFromUser(user)
     userID = DatabaseHandler.GetIdFromUsername(user)
@@ -184,7 +191,10 @@ def ShowPost(post):
     #print(CommentData)
     if PostData is None:
         return app.redirect("/home",302)
-    Id = session["id"]
+    try:
+        Id = session["id"]
+    except:
+        Id = None
     if Id is None:
         session["id"] = 0
         Id = 0
@@ -199,8 +209,11 @@ def ShowPost(post):
 @app.route("/exercise/<ExId>")
 def ShowExersise(ExId):
     #print(DatabaseHandler.GetExcersiseData(id))
-    Id = session["id"]
-    if Id == None:
+    try:
+        Id = session["id"]
+    except:
+        Id = None
+    if Id is None:
         Id = 0
         session["id"] = 0
     return render_template("excersise.html",ID = Id,
@@ -211,7 +224,10 @@ def ShowExersise(ExId):
 @app.route("/exercise/<ExId>/search", methods = ["GET"])
 def ExcersiseSearch(ExId):
     SearchInput = request.args.get('Search')
-    Id = session["id"]
+    try:
+        Id = session["id"]
+    except:
+        Id = None
     if SearchInput is None or SearchInput == "":
         SearchDefault = ""
         return flask.redirect(f"/exercise/{ExId}",302)
@@ -229,7 +245,10 @@ def ExcersiseSearch(ExId):
 @app.route("/accountsettings")
 def GetSettings():
     #response.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
-    Id = session["id"]
+    try:
+        Id = session["id"]
+    except:
+        Id = None
     if Id is None or Id == 0:
         return app.redirect("/login", 302)
     else:
@@ -302,7 +321,10 @@ def CreateAccountCheckTwoFollow(Follow1,Follow2):
 @app.route("/search", methods = ["GET"])
 def SearchPage():
     SearchInput = request.args.get('Search')
-    Id = session["id"]
+    try:
+        Id = session["id"]
+    except:
+        Id = None
     if SearchInput is None or SearchInput == "":
         SearchDefault = ""
         return flask.redirect("/home",302)
@@ -342,7 +364,10 @@ def CreateAccount(Name,User,Pass,Pass2,Follow):
 
 @app.route("/newpost/<default>", methods = ["GET"])
 def NewPostPageWithDefault(default):
-    Id = session["id"]
+    try:
+        Id = session["id"]
+    except:
+        Id = None
     if Id is None or Id == 0:
         return app.redirect(f"/login/newpost/{default}")
     #print(Data)
@@ -362,7 +387,10 @@ def NewPostPageWithDefault(default):
 
 @app.route("/newpost", methods = ["GET"])
 def NewPostPage():
-    Id = session["id"]
+    try:
+        Id = session["id"]
+    except:
+        Id = None
     if Id is None or Id == 0:
         return app.redirect("/login/newpost")
     #print(Data)
@@ -383,7 +411,10 @@ def CreatePost():
         try:
             Request = request.form
             #print("Request:",Request)
-            Id = session["id"]
+            try:
+                Id = session["id"]
+            except:
+                Id = None
             NewPostID = DatabaseHandler.CreatePost([Request["description"],
                                         int( Request["excersise"] ),
                                         int(Id),Request["title"]])
@@ -421,7 +452,10 @@ def newExcersise():
         data = ""
     else:
         data = ExInput
-    Id = session["id"]
+    try:
+        Id = session["id"]
+    except:
+        Id = None
     if Id is None or Id == 0:
         return app.redirect(f"/login/newexcersise?Default={ExInput}")
     return render_template("CreateExcersise.html",
@@ -431,7 +465,10 @@ def newExcersise():
                             )
 @app.route("/CreateExcersiseList")
 def excersiseListCreation():
-    Id = session["id"]
+    try:
+        Id = session["id"]
+    except:
+        Id = None
     if Id is None or Id == 0:
         return app.redirect("/login/CreateExcersiseList")
     #print(Data)
