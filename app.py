@@ -1,5 +1,5 @@
 import flask
-
+from datetime import timedelta
 
 from Database import DatabaseHandler
 
@@ -21,6 +21,7 @@ app = Flask(__name__, template_folder="templates", static_folder="templates/stat
 #app.register_blueprint(core, url_prefix='')
 app.config["SECRET_KEY"] = "mAWCEeLL"
 app.config["CACHE_TYPE"] = "SimpleCache"
+app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=1)
 #app.config["CACHE_DEFAULT_TIMEOUT"] = 300000 # timeout in seconds
 user = "John Doe"
 #cache = Cache(app)
