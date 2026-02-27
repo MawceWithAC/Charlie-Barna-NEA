@@ -72,7 +72,7 @@ def homepage():
     try:
         userId = session["id"]
     except:
-        flask.redirect("/", 302)
+        return flask.redirect("/", 302)
 
     print(userId)
     UserNameToShow = ""
