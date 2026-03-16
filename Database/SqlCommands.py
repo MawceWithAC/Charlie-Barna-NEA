@@ -1,12 +1,23 @@
 GetAllAccounts = "SELECT * FROM Account"
+"""
+This Contains All The SQL
+"""
 
-class Query():
+
+class Query:
+    """
+    Query Builder Returns A Formateed SQL Command
+    """
     def __init__(self, content: str, additions: list = []):
         self.Query = content
         self.Additions = additions
+
     def ReturnQuery(self,NewContent: list = []):
-        #print(self.Query.format(*NewContent))
-        #print("Building")
+        """
+        Builds A Query And Returns It With Inputted Details
+        :param NewContent:
+        :return:
+        """
         if type(NewContent) != list:
             NewContent = [NewContent]
         if len(NewContent) == len(self.Additions):
@@ -16,27 +27,35 @@ class Query():
             return "ERROR building Query"
 
 class SearchQuery(Query):
+    """
+    Child Of Query, Builds A Search For The Search Bars
+    """
     def __init__(self,content):
         super().__init__(content)
 
     def BuildQuery(self,SearchWords,Column):
+        """
+        Creates A Query
+        :param SearchWords:
+        :param Column:
+        :return: String containing part of the SQL
+        """
         Adding = f"{Column} LIKE '%{SearchWords[0]}%'"
-        for Value in SearchWords[1:]:
+        for Value in SearchWords[1:]: #Skips the first word
             Adding += f" \n AND {Column} LIKE '%{Value}%'"
-
         return self.Query + "WHERE " + Adding
 
     def ReturnQuery(self,SearchDetails: str = "",ExcersiseID: int = -1):
         SearchWords = SearchDetails.split()
         if SearchWords != []:
-            if ExcersiseID == -1:
+            if ExcersiseID == -1: #If No Excersise Has Been Selected
                 return (self.BuildQuery(SearchWords,"ExcersiseName")
                         + "  UNION  " + self.BuildQuery(SearchWords,"Title")+ "  UNION  "
                         + self.BuildQuery(SearchWords,"PostContent"))
-            else:
+            else: #If An Excersise has Been Selected
                 return (f"SELECT * FROM (" +self.BuildQuery(SearchWords,"Title")+ "  UNION  "
                         + self.BuildQuery(SearchWords,"PostContent") +f") WHERE ExcersiseID = '{ExcersiseID}'" )
-        else:
+        else: #Redturns a search of all
             return self.Query
 
 
@@ -83,6 +102,7 @@ WHERE l.LikeValue IS NULL AND a.AccountID = p.AccountID AND p.Parent = {}
 ORDER BY LikeSum desc,p.date desc ,p.time desc
 
 """,["ParentID","ParentID"])
+
 #Get Posts Based On likes:
 GetHomeExcersises = Query("""
 SELECT p.PostID,
@@ -117,11 +137,14 @@ WHERE l.LikeValue IS NULL AND e.ExcersiseID = p.ExcersiseID AND a.AccountID = p.
 ORDER BY LikeSum desc,p.date desc ,p.time desc
 limit {}
 """, ["Amount"])
+
 GetUsernameFromID = Query("""Select Username FROM Account WHERE AccountID = {}""",["ID"])
+
 GetIDFromUserName = Query("""Select AccountID FROM Account WHERE Username = '{}'""",["Username"])
+
 GetLastPostId = Query("SELECT Max(PostID) FROM Post")
 
-#This Needs Updating
+
 CreatePost = Query(""" 
 INSERT INTO Post
 VALUES({},'{}',{},{},'{}','{}','{}',0)

@@ -1,5 +1,7 @@
 import time
-#17-9-25 , 10:22
+"""
+Returns The Data On Time
+"""
 
 def GetTime():
     Time = time.strftime("%H:%M", time.gmtime())
@@ -10,5 +12,5 @@ def GetDate():
     return Date
 
 
-print(f"DATE: {GetDate()}")
-print(f"TIME: {GetTime()}")
+print(f"DATE: {GetDate()}") #Gets The Date On Startup
+print(f"TIME: {GetTime()}") #Gets The Time On Startup

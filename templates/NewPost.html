@@ -60,7 +60,7 @@ function DisableButton() {
     document.querySelectorAll('.select').forEach((el)=>{
         let settings = {};
         Select = new TomSelect(el,settings);
-        {%if Default != 0 %} Select.setValue({{Default}}); console.log({{Default}});  {%endif%}
+        {%if Default != 0 %} Select.setValue({{Default}}) console.log({{Default}})  {%endif%}
     });
 
 </script>

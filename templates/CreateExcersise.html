@@ -49,13 +49,10 @@
     document.querySelectorAll('.select').forEach((el)=>{
         let settings = {};
         Select = new TomSelect(el,settings);
-        {%if Default != 0 %} Select.setValue({{Default}}); console.log({{Default}});  {%endif%}
+        //{%if Default != 0 %} Select.setValue({{Default}}) console.log({{Default}})  {%endif%}
     });
 
-</script>
-
-<script>
-    {% if ExInput != None %}document.getElementById("NameBox").value = "{{ExInput}}" {%endif%}
+    {% if ExInput != "" %}document.getElementById("NameBox").value = "{{ExInput}}" {%endif%}
     console.log({{ExInput}})
 
 </script>
