@@ -19,8 +19,9 @@ def onload():
 
     :return: Redirect To Home
     """
-    UserID = request.cookies.get('id')
-    if UserID is None:
+    try:
+        UserID = session["id"]
+    except:
         session["id"] = 0
     
     return app.redirect("/home",302)
