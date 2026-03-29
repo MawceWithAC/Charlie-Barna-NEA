@@ -1,4 +1,3 @@
-import flask
 from datetime import timedelta
 from Database import DatabaseHandler
 from flask import Flask, render_template, request,flash,session
@@ -20,11 +19,11 @@ def onload():
     :return: Redirect To Home
     """
     try:
-        UserID = session["id"]
-    except:
-        session["id"] = 0
+        UserID = session["id"] #Takes the User ID
+    except: #If the User Isn't assigned
+        session["id"] = 0 #Set User To None
     
-    return app.redirect("/home",302)
+    return app.redirect("/home",302) #Send User To Home
 
 @app.route("/home")
 def homepage():
